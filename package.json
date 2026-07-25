@@ -5,10 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack serve --open --config webpack.dev.js"
-    "build": "webpack --config webpack.prod.js"
-    "predeploy": "git checkout -B gh-pages && git merge main --no-edit && npm run build"
-    "deploy": "git add dist -f && git commit -m 'deployment commit' && git subtree push --prefix dist origin gh-pages",
+    "start": "webpack serve --open --config webpack.dev.js",
+    "build": "webpack --config webpack.prod.js",
+    "predeploy": "git checkout -B gh-pages && git merge main --no-edit && npm run build",
+    "deploy": "git add dist -f && git commit -m 'deployment commit' && git subtree push --prefix dist origin gh-pages"
   },
   "repository": {
     "type": "git",
