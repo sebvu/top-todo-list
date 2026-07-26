@@ -1,0 +1,50 @@
+/* =============== */
+/* General Styles */
+/* =============== */
+
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+
+  display: grid;
+  grid:
+    "header" minmax(min-content, 100px)
+    "main" 1fr
+    "footer" minmax(min-content, 100px)
+    / 1fr;
+
+  background-color: var(--background-color);
+}
+
+/* =============== */
+/* Header Styles */
+/* =============== */
+
+#header {
+  grid-area: header;
+
+  background-color: green;
+}
+
+/* =============== */
+/* Main Styles */
+/* =============== */
+
+#main {
+  grid-area: main;
+
+  background-color: green;
+}
+
+/* =============== */
+/* Footer Styles */
+/* =============== */
+
+#footer {
+  grid-area: footer;
+
+  background-color: blue;
+}
