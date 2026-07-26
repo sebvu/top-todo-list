@@ -11,12 +11,29 @@ body {
 
   display: grid;
   grid:
-    "header" minmax(min-content, 100px)
-    "main" 1fr
-    "footer" minmax(min-content, 100px)
-    / 1fr;
+    "aside header" minmax(min-content, 100px)
+    "aside main" 1fr
+    "footer footer" minmax(min-content, 100px)
+    / min-content 1fr;
 
   background-color: var(--background-color);
+}
+
+#aside,
+#header,
+#main,
+#footer {
+  padding: 1rem;
+}
+
+/* =============== */
+/* Header Styles */
+/* =============== */
+
+#aside {
+  grid-area: aside;
+
+  background-color: orange;
 }
 
 /* =============== */
@@ -26,7 +43,7 @@ body {
 #header {
   grid-area: header;
 
-  background-color: green;
+  background-color: red;
 }
 
 /* =============== */
