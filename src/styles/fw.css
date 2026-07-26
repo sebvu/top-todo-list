@@ -188,20 +188,29 @@
 
 /* === TEXT HELPERS === */
 
-/* 
 @font-face {
-  font-family: "foo";
+  font-family: "Bricolage Grotesque 96pt";
   src:
-    url("") format("woff2"),
-    url("") format("woff");
+    url("../assets/fonts/BricolageGrotesque-96ptExtraBold.woff2")
+      format("woff2"),
+    url("../assets/fonts/BricolageGrotesque-96ptExtraBold.woff") format("woff");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Martian Mono SemiExpanded";
+  src:
+    url("../assets/fonts/MartianMono-SemiExpandedRegular.woff2") format("woff2"),
+    url("../assets/fonts/MartianMono-SemiExpandedRegular.woff") format("woff");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
-*/
 
 ._text {
-  --font-family: "foo";
+  --font-family: "Martian Mono SemiExpanded";
 
   font-family:
     var(--font-family), system-ui, "Segoe UI", Roboto, Helvetica, Arial,
@@ -210,15 +219,15 @@
   font-weight: normal;
 }
 
-/*
-._text._text--bar-font {
-	--font-family: "bar"
+._text._text--header-font {
+  --font-family: "Bricolage Grotesque 96pt";
 }
 
-._text ._text--bar-font {
-  font-family: "bar", inherit
+._text ._text--header-font {
+  font-family: "Bricolage Grotesque 96pt", inherit;
+  font-size: inherit;
+  font-weight: inherit;
 }
-*/
 
 ._text._text--bold,
 ._text ._text--bold {
