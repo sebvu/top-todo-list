@@ -56,22 +56,48 @@
   --size-xxxl-static: calc(var(--size-xxl-static) * var(--size-scale-up-ratio));
 
   /* === COLOR SCHEMES === */
-  /* generated through: https://www.realtimecolors.com/ */
+  /* Catppuccin Color Schemes, Macchiato & Latte */
 
   /* light theme (default) */
-  --text-color: #050316;
-  --background-color: #fbfbfe;
-  --primary-color: #2f27ce;
-  --secondary-color: #dddbff;
-  --accent-color: #443dff;
+  --text-color: #4c4f69;
+  --subtext-color: #5c5f77;
+  --background-color: #eff1f5;
+  --subbackground-color: #ccd0da;
+  --primary-color: #dc8a78;
+  --secondary-color: #e64553;
+  --accent-color: #8839ef;
+
+  --pink-color: #ea76cb;
+  --red-color: #d20f39;
+  --peach-color: #fe640b;
+  --yellow-color: #df8e1d;
+  --green-color: #40a02b;
+  --teal-color: #179299;
+  --sky-color: #04a5e5;
+  --sapphire-color: #209fb5;
+  --blue-color: #1e66f5;
+  --lavender-color: #7287fd;
 }
 
 :root[data-theme="dark"] {
   --text-color: #eae9fc;
-  --background-color: #010104;
-  --primary-color: #3a31d8;
-  --secondary-color: #020024;
-  --accent-color: #0600c2;
+  --subtext-color: #b8c0e0;
+  --background-color: #24273a;
+  --subbackground-color: #363a4f;
+  --primary-color: #f4dbd6;
+  --secondary-color: #ee99a0;
+  --accent-color: #c6a0f6;
+
+  --pink-color: #f5bde6;
+  --red-color: #ed8796;
+  --peach-color: #f5a97f;
+  --yellow-color: #eed49f;
+  --green-color: #a6da95;
+  --teal-color: #8bd5ca;
+  --sky-color: #91d7e3;
+  --sapphire-color: #7dc4e4;
+  --blue-color: #8aadf4;
+  --lavender-color: #b7bdf8;
 }
 
 /* === SIZE CONTEXT ACCESSORS */
