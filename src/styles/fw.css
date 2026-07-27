@@ -219,6 +219,17 @@
   font-weight: normal;
 }
 
+._text h1,
+._text h2,
+._text h3,
+._text h4,
+._text h5,
+._text h6 {
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+}
+
 ._text._text--header-font {
   --font-family: "Bricolage Grotesque 96pt";
 }
