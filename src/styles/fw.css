@@ -57,18 +57,15 @@
 
   /* === COLOR SCHEMES === */
   /* Catppuccin Color Schemes, Macchiato & Latte */
+  /* referred to style guides https://github.com/catppuccin/catppuccin/blob/main/docs/style-guide.md*/
 
   /* light theme (default) */
-  --text-color: #4c4f69;
-  --subtext-color: #5c5f77;
-  --background-color: #eff1f5;
-  --subbackground-color: #ccd0da;
-  --primary-color: #dc8a78;
-  --secondary-color: #e64553;
-  --accent-color: #8839ef;
-
+  --rosewater-color: #dc8a78;
+  --flamingo-color: #dd7878;
   --pink-color: #ea76cb;
+  --mauve-color: #8839ef;
   --red-color: #d20f39;
+  --maroon-color: #e64553;
   --peach-color: #fe640b;
   --yellow-color: #df8e1d;
   --green-color: #40a02b;
@@ -77,19 +74,27 @@
   --sapphire-color: #209fb5;
   --blue-color: #1e66f5;
   --lavender-color: #7287fd;
+  --text-color: #4c4f69;
+  --subtext1-color: #5c5f77;
+  --subtext0-color: #6c6f85;
+  --overlay2-color: #7c7f93;
+  --overlay1-color: #8c8fa1;
+  --overlay0-color: #9ca0b0;
+  --surface2-color: #acb0be;
+  --surface1-color: #bcc0cc;
+  --surface0-color: #ccd0da;
+  --base-color: #eff1f5;
+  --mantle-color: #e6e9ef;
+  --crust-color: #dce0e8;
 }
 
 :root[data-theme="dark"] {
-  --text-color: #eae9fc;
-  --subtext-color: #b8c0e0;
-  --background-color: #24273a;
-  --subbackground-color: #363a4f;
-  --primary-color: #f4dbd6;
-  --secondary-color: #ee99a0;
-  --accent-color: #c6a0f6;
-
+  --rosewater-color: #f4dbd6;
+  --flamingo-water: #f0c6c6;
   --pink-color: #f5bde6;
+  --mauve-color: #c6a0f6;
   --red-color: #ed8796;
+  --maroon-color: #ee99a0;
   --peach-color: #f5a97f;
   --yellow-color: #eed49f;
   --green-color: #a6da95;
@@ -98,6 +103,18 @@
   --sapphire-color: #7dc4e4;
   --blue-color: #8aadf4;
   --lavender-color: #b7bdf8;
+  --text-color: #cad3f5;
+  --subtext1-color: #b8c0e0;
+  --subtext0-color: #a5adcb;
+  --overlay2-color: #939ab7;
+  --overlay1-color: #8087a2;
+  --overlay0-color: #6e738d;
+  --surface2-color: #5b6078;
+  --surface1-color: #494d64;
+  --surface0-color: #363a4f;
+  --base-color: #24273a;
+  --mantle-color: #1e2030;
+  --crust-color: #181926;
 }
 
 /* === SIZE CONTEXT ACCESSORS */
