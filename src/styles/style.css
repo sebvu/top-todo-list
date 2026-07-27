@@ -23,7 +23,7 @@ body {
 #header,
 #main,
 #footer {
-  padding: 1rem;
+  padding: 2rem;
 }
 
 /* =============== */
@@ -36,7 +36,9 @@ body {
   flex-direction: column;
   gap: calc(var(--size) * 2);
 
-  background-color: orange;
+  background-color: var(--base-color);
+
+  box-shadow: rgb(from var(--text-color) R G B / 0.35) 0px -2px 6px 5px inset;
 
   --icon-spacing: calc(var(--size) * 1.8);
 
@@ -48,8 +50,10 @@ body {
 
   .header {
     display: flex;
-    gap: 1rem;
     align-items: center;
+    gap: 1rem;
+
+    padding: 0.5rem;
   }
 
   .header__icon {
@@ -57,11 +61,15 @@ body {
 
     width: var(--icon-spacing);
 
+    fill: var(--text-color);
+
     aspect-ratio: 1 / 1;
   }
 
   .header__title {
     flex: auto;
+
+    color: var(--text-color);
   }
 
   /* === sidebar projects === */
@@ -83,17 +91,37 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
+    gap: calc(var(--size) * 1.2);
 
     padding: 0;
   }
 
   .projects__item {
-    width: 100%;
-
     display: flex;
     justify-content: flex-start;
     align-items: center;
     gap: 1rem;
+
+    width: 100%;
+    padding: 0.5rem;
+    padding-right: 1.5rem;
+
+    background-color: var(--crust-color);
+    border-radius: 1rem;
+    box-shadow: rgb(from var(--text-color) r g b / 0.24) 0px 0px 8px;
+
+    transition-duration: 0.2s;
+
+    &:hover {
+      transform: scale(1.05);
+
+      padding-top: 0.6rem;
+      padding-bottom: 0.6rem;
+
+      box-shadow:
+        rgb(from var(--text-color) r g b / 0.24) 0px 0px 8px 3px,
+        inset rgb(from var(--text-color) r g b / 0.1) 0px 0px 2px 5px;
+    }
   }
 
   .projects__icon-wrapper {
@@ -108,6 +136,8 @@ body {
   .projects__icon {
     width: calc(var(--size) * 1.5);
 
+    fill: var(--subtext1-color);
+
     aspect-ratio: 1 / 1;
   }
 
@@ -115,6 +145,33 @@ body {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+
+    color: var(--subtext1-color);
+
+    width: 16ch;
+  }
+
+  .projects__seperator {
+    margin: calc(var(--size) * 1);
+
+    color: var(--text-color);
+  }
+
+  .projects__add-button {
+    align-self: center;
+
+    padding: 0.5rem 1rem;
+
+    color: var(--cross-dark-text);
+    background-color: var(--lavender-color);
+    border-radius: 1rem;
+    box-shadow: rgb(from var(--text-color) r g b / 1) 0 0 15px;
+
+    transition-duration: 0.2s;
+
+    &:hover {
+      transform: scale(1.08);
+    }
   }
 }
 
