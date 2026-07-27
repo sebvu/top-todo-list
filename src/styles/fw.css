@@ -59,6 +59,9 @@
   /* Catppuccin Color Schemes, Macchiato & Latte */
   /* referred to style guides https://github.com/catppuccin/catppuccin/blob/main/docs/style-guide.md*/
 
+  /* cross colors */
+  --cross-dark-text: #181926;
+
   /* light theme (default) */
   --rosewater-color: #dc8a78;
   --flamingo-color: #dd7878;
