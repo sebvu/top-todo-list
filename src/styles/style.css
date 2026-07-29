@@ -195,7 +195,7 @@ body {
 #main-container {
   display: grid;
   grid:
-    "header" minmax(min-content, 150px)
+    "header" minmax(min-content, 100px)
     "main" 1fr
     / 1fr;
   gap: 4rem;
@@ -210,6 +210,28 @@ body {
 
 #header {
   grid-area: header;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .sidebar-icon {
+    height: calc(var(--size) * 1.2);
+    width: auto;
+
+    aspect-ratio: 1 / 1;
+
+    border: 1px solid #0000;
+
+    /* converted svgs with https://www.svgbackgrounds.com/tools/svg-to-css/ */
+
+    background: center / cover no-repeat
+      url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="%23e3e3e3"><path d="M500-640v320l160-160-160-160ZM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm120-80v-560H200v560h120Zm80 0h360v-560H400v560Zm-80 0H200h120Z"/></svg>');
+
+    &[data-status="open"] {
+      background: center / cover no-repeat
+        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="%23e3e3e3"><path d="M660-320v-320L500-480l160 160ZM200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h560q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm120-80v-560H200v560h120Zm80 0h360v-560H400v560Zm-80 0H200h120Z"/></svg>');
+    }
+  }
 }
 
 /* =============== */
