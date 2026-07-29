@@ -12,7 +12,7 @@ body {
   display: grid;
   grid:
     "aside main-container" 1fr
-    "footer footer" minmax(min-content, 100px)
+    "footer footer" minmax(min-content, 300px)
     / minmax(max-content, min(15%, 400px)) 1fr;
 
   background: center / cover var(--base-color)
@@ -33,6 +33,14 @@ body {
   padding: 2rem;
 }
 
+#header,
+#main {
+  background-color: rgb(from var(--base-color) r g b / 0.95);
+  box-shadow: rgb(from var(--crust-color) R G B / 0.85) 0px 0px 6px 8px inset;
+
+  border-radius: 1rem;
+}
+
 /* =============== */
 /* Sidebar Styles */
 /* =============== */
@@ -43,9 +51,7 @@ body {
   flex-direction: column;
   gap: calc(var(--size) * 2);
 
-  background-color: var(--base-color);
-
-  box-shadow: rgb(from var(--text-color) R G B / 0.35) 0px -2px 6px 5px inset;
+  background-color: rgb(from var(--mantle-color) r g b / 0.6);
 
   --icon-spacing: calc(var(--size) * 1.8);
 
@@ -192,6 +198,10 @@ body {
     "header" minmax(min-content, 150px)
     "main" 1fr
     / 1fr;
+  gap: 4rem;
+
+  min-height: 100svh;
+  padding: 1rem 4rem 4rem;
 }
 
 /* =============== */
@@ -218,6 +228,4 @@ body {
   grid-area: footer;
 
   background-color: var(--mantle-color);
-
-  background-image: linear-gradient(var(--mantle-color), var(--crust-color));
 }
