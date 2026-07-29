@@ -37,8 +37,6 @@ body {
 #main {
   background-color: rgb(from var(--base-color) r g b / 0.95);
   box-shadow: rgb(from var(--crust-color) R G B / 0.85) 0px 0px 6px 8px inset;
-
-  border-radius: 1rem;
 }
 
 /* =============== */
@@ -214,9 +212,22 @@ body {
   justify-content: space-between;
   align-items: center;
 
+  border-radius: 500px;
+
   color: var(--text-color);
 
-  .header__sidebar-button {
+  .header__left {
+    flex: none;
+  }
+
+  .left {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .left__sidebar-button {
     flex: none;
   }
 
@@ -246,6 +257,10 @@ body {
 
     pointer-events: none;
   }
+
+  .left__project-name {
+    flex: none;
+  }
 }
 
 /* =============== */
@@ -254,6 +269,8 @@ body {
 
 #main {
   grid-area: main;
+
+  border-radius: 1rem;
 }
 
 /* =============== */
