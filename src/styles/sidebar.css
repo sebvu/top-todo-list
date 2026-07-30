@@ -1,0 +1,145 @@
+#sidebar {
+  grid-area: aside;
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--size) * 2);
+
+  background: linear-gradient(
+    rgb(from var(--base-color) r g b / 0.6) 90%,
+    var(--base-color)
+  );
+
+  --icon-spacing: calc(var(--size) * 1.8);
+
+  /* === sidebar header === */
+
+  .sidebar__header {
+    flex: none;
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    padding: 0.5rem;
+  }
+
+  .header__icon {
+    flex: none;
+
+    width: var(--icon-spacing);
+
+    fill: var(--text-color);
+
+    aspect-ratio: 1 / 1;
+  }
+
+  .header__title {
+    flex: auto;
+
+    color: var(--text-color);
+  }
+
+  /* === sidebar projects === */
+
+  .sidebar__projects {
+    flex: none;
+  }
+
+  .projects {
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .projects__list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: calc(var(--size) * 1.2);
+
+    padding: 0;
+  }
+
+  .projects__item {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1rem;
+
+    width: 100%;
+    padding: 0.5rem;
+    padding-right: 1.5rem;
+
+    background-color: var(--crust-color);
+    border-radius: 1rem;
+    box-shadow: rgb(from var(--text-color) r g b / 0.24) 0px 0px 8px;
+
+    transition-duration: 0.2s;
+
+    &:hover {
+      transform: scale(1.05);
+
+      padding-top: 0.6rem;
+      padding-bottom: 0.6rem;
+
+      box-shadow:
+        rgb(from var(--text-color) r g b / 0.24) 0px 0px 8px 3px,
+        inset rgb(from var(--text-color) r g b / 0.1) 0px 0px 2px 5px;
+    }
+  }
+
+  .projects__icon-wrapper {
+    flex: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: var(--icon-spacing);
+  }
+
+  .projects__icon {
+    width: calc(var(--size) * 1.5);
+
+    fill: var(--subtext1-color);
+
+    aspect-ratio: 1 / 1;
+  }
+
+  .projects__name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    color: var(--subtext1-color);
+
+    width: 20ch;
+  }
+
+  .projects__seperator {
+    margin: calc(var(--size) * 1);
+
+    color: var(--text-color);
+  }
+
+  .projects__add-button {
+    align-self: center;
+
+    padding: 0.5rem 1rem;
+
+    color: var(--cross-dark-text);
+    background-color: var(--lavender-color);
+    border-radius: 1rem;
+    box-shadow: rgb(from var(--text-color) r g b / 1) 0 0 15px;
+
+    transition-duration: 0.2s;
+
+    &:hover {
+      transform: scale(1.08);
+    }
+  }
+}

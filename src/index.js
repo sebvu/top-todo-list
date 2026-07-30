@@ -1,6 +1,4 @@
-import "./styles/fw.css";
-import "./styles/reset.css";
-import "./styles/style.css";
+import * as _ from "./style-exporter.js";
 
 function main() {}
 
