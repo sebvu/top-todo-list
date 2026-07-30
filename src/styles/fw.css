@@ -209,11 +209,10 @@
 /* === TEXT HELPERS === */
 
 @font-face {
-  font-family: "Bricolage Grotesque 96pt";
+  font-family: "Arvo Bold";
   src:
-    url("../assets/fonts/BricolageGrotesque-96ptExtraBold.woff2")
-      format("woff2"),
-    url("../assets/fonts/BricolageGrotesque-96ptExtraBold.woff") format("woff");
+    url("../assets/fonts/Arvo-Bold.woff2") format("woff2"),
+    url("../assets/fonts/Arvo-Bold.woff") format("woff");
   font-weight: bold;
   font-style: normal;
   font-display: swap;
@@ -250,12 +249,13 @@
   font-weight: inherit;
 }
 
+/* needs to be removed from actual fw */
 ._text._text--header-font {
-  --font-family: "Bricolage Grotesque 96pt";
+  --font-family: "Arvo Bold";
 }
 
 ._text ._text--header-font {
-  font-family: "Bricolage Grotesque 96pt", inherit;
+  font-family: "Arvo Bold";
   font-size: inherit;
   font-weight: inherit;
 }
