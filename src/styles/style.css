@@ -12,7 +12,7 @@ body {
   display: grid;
   grid:
     "aside main-container" 1fr
-    "footer footer" minmax(min-content, 300px)
+    "footer footer" 5svh
     / minmax(max-content, min(15%, 400px)) 1fr;
 
   background: center / cover var(--base-color)
@@ -33,12 +33,6 @@ body {
   padding: 2rem;
 }
 
-#header,
-#main {
-  background-color: rgb(from var(--base-color) r g b / 0.95);
-  box-shadow: rgb(from var(--crust-color) R G B / 0.85) 0px 0px 6px 8px inset;
-}
-
 /* =============== */
 /* Sidebar Styles */
 /* =============== */
@@ -49,7 +43,10 @@ body {
   flex-direction: column;
   gap: calc(var(--size) * 2);
 
-  background-color: rgb(from var(--base-color) r g b / 0.6);
+  background: linear-gradient(
+    rgb(from var(--base-color) r g b / 0.6) 90%,
+    var(--base-color)
+  );
 
   --icon-spacing: calc(var(--size) * 1.8);
 
@@ -198,7 +195,7 @@ body {
     / 1fr;
   gap: 4rem;
 
-  min-height: 100svh;
+  height: 95svh;
   padding: 1rem 4rem 4rem;
 }
 
@@ -213,19 +210,29 @@ body {
   align-items: center;
   gap: 1rem;
 
-  border-radius: 500px;
-
   color: var(--text-color);
+  background-color: rgb(from var(--base-color) r g b / 0.95);
+
+  border-radius: 500px;
+  box-shadow: rgb(from var(--crust-color) R G B / 0.85) 0px 0px 6px 8px inset;
 
   .header__left {
     flex: none;
   }
 
-  .header__sidebar-button {
+  .header__buttons {
     flex: none;
   }
 
-  .sidebar-button {
+  .buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .sidebar-button,
+  .theme-button {
     height: calc(var(--size) * 1.5);
     width: auto;
 
@@ -245,7 +252,8 @@ body {
     }
   }
 
-  .sidebar-button__icon {
+  .sidebar-button__icon,
+  .theme-button__icon {
     fill: var(--text-color);
     border: 1px solid #0000;
 
@@ -292,7 +300,7 @@ body {
 #main {
   grid-area: main;
 
-  border-radius: 1rem;
+  border-radius: 5rem;
 }
 
 /* =============== */
@@ -301,6 +309,24 @@ body {
 
 #footer {
   grid-area: footer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
 
   background-color: var(--base-color);
+
+  .footer__cite {
+    color: var(--text-color);
+  }
+
+  .footer__link {
+    &:link {
+      color: var(--blue-color);
+    }
+
+    &:visited {
+      color: rgb(from var(--blue-color) r g b / 0.6);
+    }
+  }
 }
