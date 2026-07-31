@@ -23,15 +23,9 @@ body {
 }
 
 #sidebar,
-#header,
-#main,
-#footer {
+#header {
   padding: 2rem;
 }
-
-/* =============== */
-/* Main Container Styles */
-/* =============== */
 
 #main-container {
   display: grid;
@@ -39,8 +33,7 @@ body {
     "header" minmax(min-content, 100px)
     "main" 1fr
     / 1fr;
-  gap: 4rem;
+  gap: 3rem;
 
   height: 95svh;
-  padding: 1rem 4rem 4rem;
 }
