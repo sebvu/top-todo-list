@@ -13,9 +13,13 @@
     flex: none;
 
     width: clamp(250px, 25%, 350px);
+    padding: 1rem;
 
     color: var(--text-color);
     background-color: var(--base-color);
+    box-shadow: rgb(from var(--crust-color) R G B / 0.85) 0px 0px 6px 8px inset;
+
+    border-radius: 1rem;
 
     .todo__name {
       padding: 1rem;
@@ -31,5 +35,25 @@
       list-style-type: "- ";
       padding: 0;
     }
+  }
+
+  .item__name {
+    /* framework needs adjustment if this is forced */
+    font-size: calc(var(--size) * 1.2);
+  }
+
+  .item__name,
+  .item__due-date {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  .item__description {
+    display: -webkit-box;
+    line-clamp: 3;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 }
