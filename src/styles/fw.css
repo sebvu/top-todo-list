@@ -238,12 +238,13 @@
   font-weight: normal;
 }
 
-._text h1,
-._text h2,
-._text h3,
-._text h4,
-._text h5,
-._text h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+button {
   font-family: inherit;
   font-size: inherit;
   font-weight: inherit;

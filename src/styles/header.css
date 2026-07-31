@@ -89,4 +89,21 @@
   .curr-project__name {
     flex: none;
   }
+
+  .header__add-todo {
+    align-self: center;
+
+    padding: 0.5rem 1rem;
+
+    color: var(--cross-dark-text);
+    background-color: var(--lavender-color);
+    border-radius: 1rem;
+    box-shadow: rgb(from var(--text-color) r g b / 1) 0 0 15px;
+
+    transition-duration: 0.2s;
+
+    &:hover {
+      transform: scale(1.08);
+    }
+  }
 }
