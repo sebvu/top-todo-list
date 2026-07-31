@@ -1,5 +1,6 @@
 #main {
   grid-area: main;
+  display: flex;
 
   border-radius: 5rem;
 }
