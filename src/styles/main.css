@@ -4,8 +4,7 @@
   align-items: flex-start;
   gap: 5%;
 
-  padding-left: 3rem;
-  padding-right: 3rem;
+  padding: 0 3rem 3rem;
 
   overflow-x: scroll;
 
@@ -16,7 +15,7 @@
     padding: 1rem;
 
     color: var(--text-color);
-    background-color: var(--base-color);
+    background-color: rgb(from var(--base-color) r g b / 0.85);
     box-shadow: rgb(from var(--crust-color) R G B / 0.85) 0px 0px 6px 8px inset;
 
     border-radius: 1rem;
@@ -29,6 +28,21 @@
   .item {
     padding: 1rem;
     padding-left: 4ch;
+    position: relative;
+
+    &:not(:last-child):before {
+      display: block;
+      content: "";
+
+      width: 80%;
+
+      border-bottom: 2px solid var(--overlay1-color);
+
+      position: absolute;
+      left: 10%;
+      top: 0;
+      bottom: 0;
+    }
 
     .item__list {
       list-style-type: "- ";
@@ -62,8 +76,8 @@
 
   .item__description {
     display: -webkit-box;
-    line-clamp: 3;
-    -webkit-line-clamp: 3;
+    line-clamp: 4;
+    -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
