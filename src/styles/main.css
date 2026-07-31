@@ -12,13 +12,14 @@
     flex: none;
 
     width: clamp(250px, 25%, 350px);
-    padding: 1rem;
 
     color: var(--text-color);
     background-color: rgb(from var(--base-color) r g b / 0.85);
     box-shadow: rgb(from var(--crust-color) R G B / 0.85) 0px 0px 6px 8px inset;
 
     border-radius: 1rem;
+
+    overflow: hidden;
 
     .todo__name {
       padding: 1rem;
