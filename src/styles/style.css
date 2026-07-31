@@ -22,11 +22,6 @@ body {
   background-blend-mode: hard-light;
 }
 
-#sidebar,
-#header {
-  padding: 2rem;
-}
-
 #main-container {
   display: grid;
   grid:

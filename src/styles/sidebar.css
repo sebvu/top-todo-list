@@ -4,6 +4,8 @@
   flex-direction: column;
   gap: calc(var(--size) * 2);
 
+  padding: 2rem;
+
   background: linear-gradient(
     rgb(from var(--base-color) r g b / 0.6) 90%,
     var(--base-color)
