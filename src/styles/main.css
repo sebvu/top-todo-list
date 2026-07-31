@@ -11,7 +11,7 @@
   .todo {
     flex: none;
 
-    width: clamp(250px, 25%, 350px);
+    width: clamp(200px, 25%, 300px);
 
     color: var(--text-color);
     background-color: rgb(from var(--base-color) r g b / 0.85);
@@ -46,7 +46,7 @@
     }
 
     .item__list {
-      list-style-type: "- ";
+      list-style-type: "• ";
       padding: 0;
     }
   }
