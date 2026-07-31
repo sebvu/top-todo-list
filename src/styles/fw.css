@@ -1,11 +1,11 @@
-/* Jester's CSS Framework File v2 */
+/* Jester's CSS F8amework File v2 */
 
 :root {
   /* === SIZE CONTEXT TUNER VARIABLES === */
 
   /* base variables 
   - static variables all sizes are based off of */
-  --base-size: 1rem;
+  --base-size: 0.75rem;
   --base-response: 1vw;
   --base-static-multiplier: 2.5; /* increase static regular base */
 
