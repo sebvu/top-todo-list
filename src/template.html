@@ -116,14 +116,19 @@
       <main id="main" class="_text --context-sm">
         <section class="todo">
           <h1 class="todo__name | _text _text--header-font">Buy list</h1>
-          <section class="item | todo__item | _text --context-xxxs">
+          <section
+            class="item | item--priority-high | todo__item | _text --context-xxxs"
+          >
             <ul class="item__list">
               <li>
                 <h2 class="item__name">Fabuloso</h2>
               </li>
               <li>
                 <p class="item__due-date">
-                  Due <time datetime="2026-07-07">2026 July 7th</time>
+                  Due
+                  <time class="_text _text--bold" datetime="2026-07-07"
+                    >2026 July 7th</time
+                  >
                 </p>
               </li>
               <li>
@@ -131,17 +136,44 @@
               </li>
             </ul>
           </section>
+          <section
+            class="item | item--priority-low | todo__item | _text --context-xxxs"
+          >
+            <ul class="item__list">
+              <li>
+                <h2 class="item__name">Burger</h2>
+              </li>
+              <li>
+                <p class="item__due-date">
+                  Due
+                  <time class="_text _text--bold" datetime="2026-07-07"
+                    >2026 July 8th</time
+                  >
+                </p>
+              </li>
+              <li>
+                <p class="item__description">
+                  Burgers, I love burgers but it isn't really a priority.
+                </p>
+              </li>
+            </ul>
+          </section>
         </section>
         <section class="todo">
           <h1 class="todo__name | _text _text--header-font">Clean list</h1>
-          <section class="item | todo__item | _text --context-xxxs">
+          <section
+            class="item | item--priority-high | todo__item | _text --context-xxxs"
+          >
             <ul class="item__list">
               <li>
                 <h2 class="item__name | _text">Floors</h2>
               </li>
               <li>
                 <p class="item__due-date">
-                  Due <time datetime="2026-08-07">2026 August 7th</time>
+                  Due
+                  <time class="_text _text--bold" datetime="2026-08-07"
+                    >2026 August 7th</time
+                  >
                 </p>
               </li>
               <li>
@@ -149,6 +181,29 @@
                   The floors are so complicated, like I gotta deal with tile,
                   wood, not letting liquid get into the wood like my dog's piss,
                   carpet.. And there's so much floor! Godammit.
+                </p>
+              </li>
+            </ul>
+          </section>
+          <section
+            class="item | item--priority-medium | todo__item | _text --context-xxxs"
+          >
+            <ul class="item__list">
+              <li>
+                <h2 class="item__name | _text">Walls</h2>
+              </li>
+              <li>
+                <p class="item__due-date">
+                  Due
+                  <time class="_text _text--bold" datetime="2026-08-07"
+                    >2026 August 7th</time
+                  >
+                </p>
+              </li>
+              <li>
+                <p class="item__description">
+                  Dude, why the walls? I fucking hate walls. Walls suck.
+                  Godammit.
                 </p>
               </li>
             </ul>

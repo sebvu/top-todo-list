@@ -27,7 +27,6 @@
   }
 
   .item {
-    box-shadow: inset 10px 0px 0 0 var(--red-color);
     padding: 1rem;
     padding-left: 4ch;
 
@@ -35,6 +34,18 @@
       list-style-type: "- ";
       padding: 0;
     }
+  }
+
+  .item--priority-high {
+    box-shadow: inset 10px 0px 0 0 var(--maroon-color);
+  }
+
+  .item--priority-medium {
+    box-shadow: inset 10px 0px 0 0 var(--yellow-color);
+  }
+
+  .item--priority-low {
+    box-shadow: inset 10px 0px 0 0 var(--lavender-color);
   }
 
   .item__name {
