@@ -7,7 +7,13 @@ class TodoList {
     const sidebarToggleButton = document.querySelector(".sidebar-button");
 
     const elementHandlerPairs = [
-      [themeToggleButton, new UI.themeToggler().toggle],
+      [
+        themeToggleButton,
+        (() => {
+          const newThemeToggler = new UI.themeToggler();
+          return newThemeToggler.toggle.bind(newThemeToggler);
+        })(),
+      ],
     ];
 
     for (const [element, handler] of elementHandlerPairs) {
