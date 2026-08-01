@@ -25,7 +25,6 @@ export class themeToggler extends elementBase {
 
   toggle() {
     const currentTheme = this.#ROOT_ELEMENT.getAttribute(this.#ATTR_NAME);
-    console.log(this.#ROOT_ELEMENT);
     const newTheme = currentTheme === "light" ? "dark" : "light";
 
     this.#ROOT_ELEMENT.setAttribute(this.#ATTR_NAME, newTheme);
