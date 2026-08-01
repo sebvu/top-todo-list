@@ -2,7 +2,7 @@ import { default as StorageController } from "./StorageController.js";
 import { default as LogController } from "./LogController.js";
 
 export default new (class UIController {
-  toggle(handler) {
+  invoke(handler) {
     handler();
   }
 })();

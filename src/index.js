@@ -18,7 +18,7 @@ class TodoList {
 
     for (const [element, handler] of elementHandlerPairs) {
       element.addEventListener("click", () => {
-        UIController.toggle(handler);
+        UIController.invoke(handler);
       });
     }
   }
