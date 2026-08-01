@@ -20,17 +20,39 @@ export class themeToggler extends elementBase {
     super();
   }
 
-  #ATTR_NAME = "data-theme";
-  #ROOT_ELEMENT = document.documentElement;
-
   toggle() {
-    const currentTheme = this.#ROOT_ELEMENT.getAttribute(this.#ATTR_NAME);
+    const attributeName = "data-theme";
+    const rootElement = document.documentElement;
+
+    const currentTheme = rootElement.getAttribute(attributeName);
     const newTheme = currentTheme === "light" ? "dark" : "light";
 
-    this.#ROOT_ELEMENT.setAttribute(this.#ATTR_NAME, newTheme);
+    rootElement.setAttribute(attributeName, newTheme);
 
-    StorageController.setItem(this.#ATTR_NAME, newTheme);
+    StorageController.setItem(attributeName, newTheme);
 
     LogController.log(this, `Toggling theme to ${newTheme}`);
+  }
+}
+
+export class sidebarToggler extends elementBase {
+  constructor() {
+    super();
+  }
+
+  toggle() {
+    const sidebarElement = document.querySelector("#sidebar");
+    const sidebarCloseClass = "sidebar--close";
+
+    if (sidebarElement.classList.contains(sidebarCloseClass)) {
+      // open
+      sidebarElement.classList.remove(sidebarCloseClass);
+      sidebarElement.style.width = "auto";
+    } else {
+      // open
+      sidebarElement.classList.add(sidebarCloseClass);
+      sidebarElement.style.width = "0";
+      // close
+    }
   }
 }

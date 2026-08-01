@@ -6,14 +6,14 @@ class TodoList {
     const themeToggleButton = document.querySelector(".theme-button");
     const sidebarToggleButton = document.querySelector(".sidebar-button");
 
+    const bindTogglerWithClass = (togglerClass) => {
+      const newToggler = new togglerClass();
+      return newToggler.toggle.bind(newToggler);
+    };
+
     const elementHandlerPairs = [
-      [
-        themeToggleButton,
-        (() => {
-          const newThemeToggler = new UI.themeToggler();
-          return newThemeToggler.toggle.bind(newThemeToggler);
-        })(),
-      ],
+      [themeToggleButton, bindTogglerWithClass(UI.themeToggler)],
+      [sidebarToggleButton, bindTogglerWithClass(UI.sidebarToggler)],
     ];
 
     for (const [element, handler] of elementHandlerPairs) {
@@ -22,10 +22,13 @@ class TodoList {
       });
     }
   }
+
+  setSavedData() {}
 }
 
 function main() {
   const todoList = new TodoList();
+  todoList.setSavedData();
 }
 
 main();

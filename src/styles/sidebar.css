@@ -11,6 +11,12 @@
     var(--base-color)
   );
 
+  transition: 0.5s;
+
+  & * {
+    transition: 0.5s;
+  }
+
   --icon-spacing: calc(var(--size) * 1.8);
 
   /* === sidebar header === */
