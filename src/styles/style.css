@@ -7,9 +7,9 @@ body {
 
   display: grid;
   grid:
-    "aside main-container" 1fr
-    "footer footer" 5svh
-    / minmax(max-content, min(15%, 400px)) 1fr;
+    "main-content" 1fr
+    "footer" 5svh
+    / 1fr;
 
   background: center / cover var(--base-color)
     url("../assets/images/light-background.jpg");
@@ -22,7 +22,13 @@ body {
   background-blend-mode: hard-light;
 }
 
+#main-content {
+  grid-area: main-content;
+  display: flex;
+}
+
 #main-container {
+  flex: auto;
   display: grid;
   grid:
     "header" minmax(min-content, 100px)
