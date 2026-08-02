@@ -6,19 +6,23 @@
   gap: calc(var(--size) * 2);
 
   padding: 2rem;
+  width: 20ch;
 
   background: linear-gradient(
     rgb(from var(--base-color) r g b / 0.6) 90%,
     var(--base-color)
   );
 
-  transition: 0.5s;
+  transition-duration: 0.5s;
 
-  & * {
-    transition: 0.5s;
-  }
+  overflow: hidden;
 
   --icon-spacing: calc(var(--size) * 1.8);
+
+  &.sidebar--close {
+    width: 0;
+    padding: 0;
+  }
 
   /* === sidebar header === */
 

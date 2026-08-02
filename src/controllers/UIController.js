@@ -47,12 +47,9 @@ export class sidebarToggler extends elementBase {
     if (sidebarElement.classList.contains(sidebarCloseClass)) {
       // open
       sidebarElement.classList.remove(sidebarCloseClass);
-      sidebarElement.style.width = "auto";
     } else {
-      // open
-      sidebarElement.classList.add(sidebarCloseClass);
-      sidebarElement.style.width = "0";
       // close
+      sidebarElement.classList.add(sidebarCloseClass);
     }
   }
 }
