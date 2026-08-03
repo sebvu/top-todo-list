@@ -1,11 +1,18 @@
 import { default as StorageController } from "./StorageController.js";
 import { default as LogController } from "./LogController.js";
+import { default as Loader } from "../helpers/elLoader.js";
 
 class UIController {
   constructor() {
     // pull dialog container from dom (temporary)
     this.dialogContainer = document.querySelector("#dialog");
-    this.dialogContainer.remove();
+    // this.dialogContainer.remove();
+    this.dialogContainer.addEventListener("close", () => {
+      setTimeout(() => {
+        this.dialogContainer.remove();
+      }, 400);
+    });
+    this.dialogContainer.showModal();
   }
 
   invoke(handler) {
@@ -13,11 +20,13 @@ class UIController {
   }
 
   getDialogBox() {
-    this.dialogContainer.addEventListener("close", () => {
-      setTimeout(() => {
-        this.dialogContainer.remove();
-      }, 400);
-    });
+    // const dialogContainer = Loader.loadElements(
+    //   Loader.newEl("dialog", {
+    //     id: "dialog",
+    //     attrsList: { popover: "" },
+    //   }),
+    // ).pop();
+    // return dialogContainer;
 
     return this.dialogContainer;
   }

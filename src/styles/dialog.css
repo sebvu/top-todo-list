@@ -1,5 +1,6 @@
 #dialog {
   display: flex;
+  justify-content: center;
 
   width: min(500px, 90%);
   height: max-content;
@@ -7,9 +8,25 @@
 
   color: var(--text-color);
   background-color: var(--base-color);
-  border-radius: 1rem;
   box-shadow: 0 0px 16px var(--lavender-color);
+
+  border-radius: 1rem;
   border: 5px solid var(--crust-color);
+
+  .dialog__header {
+    flex: none;
+  }
+
+  .header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .header__subtext > span {
+    color: var(--red-color);
+  }
 
   &::backdrop {
     background-color: rgb(from var(--base-color) r g b / 0.1);
