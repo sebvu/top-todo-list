@@ -38,18 +38,43 @@
     }
   }
 
+  .form__hr {
+    color: rgb(from var(--text-color) r g b / 0.5);
+  }
+
   .dialog__form {
     flex: auto;
   }
 
   .form {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 2rem;
+  }
+
+  .form__submit-button {
+    padding: 0.5rem 1rem;
+
+    background-color: var(--lavender-color);
+    border-radius: 1rem;
+
+    transition-duration: 0.2s;
+
+    &:hover {
+      transform: scale(1.1);
+
+      box-shadow: 0 0 5px var(--lavender-color);
+    }
   }
 
   .form__field {
     position: relative;
+
+    & > span::before {
+      position: absolute;
+    }
 
     & > input {
       color: var(--text-color);
@@ -63,12 +88,20 @@
       border-radius: 1rem;
     }
 
+    & > input:user-invalid {
+      box-shadow: 0 0 4px var(--red-color);
+    }
+
+    & > input:user-valid {
+      box-shadow: 0 0 4px var(--green-color);
+    }
+
     & > input:user-invalid + span::before {
       content: "✖";
 
       color: var(--red-color);
 
-      right: -10%;
+      right: -20px;
     }
 
     & > input:user-valid + span::before {
@@ -76,7 +109,7 @@
 
       color: var(--green-color);
 
-      right: -12%;
+      right: -20px;
     }
 
     & > label:has(+ input[required])::before {
