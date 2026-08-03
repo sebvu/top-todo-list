@@ -3,32 +3,54 @@ import { default as LogController } from "./LogController.js";
 import { default as Loader } from "../helpers/elLoader.js";
 
 class UIController {
-  constructor() {
-    // pull dialog container from dom (temporary)
-    this.dialogContainer = document.querySelector("#dialog");
-    // this.dialogContainer.remove();
-    this.dialogContainer.addEventListener("close", () => {
-      setTimeout(() => {
-        this.dialogContainer.remove();
-      }, 400);
-    });
-    this.dialogContainer.showModal();
-  }
+  constructor() {}
 
   invoke(handler) {
     handler();
   }
 
-  getDialogBox() {
-    // const dialogContainer = Loader.loadElements(
-    //   Loader.newEl("dialog", {
-    //     id: "dialog",
-    //     attrsList: { popover: "" },
-    //   }),
-    // ).pop();
-    // return dialogContainer;
+  getDialogBox(headerText = "N/A") {
+    const dialogContainer = Loader.loadElements(
+      Loader.newEl("dialog", {
+        id: "dialog",
+        classList: "--context-xs",
+        attrsList: { popover: "" },
+        children: [
+          Loader.newEl("hgroup", {
+            classList: ["dialog__header", "header", "--context-sm"],
+            children: [
+              Loader.newEl("h1", {
+                classList: [
+                  "header__title",
+                  "_text",
+                  "_text--header-font",
+                  "--context-md",
+                ],
+                text: headerText,
+              }),
+              Loader.newEl("h2", {
+                classList: ["header__subtext", "_text", "--context-xs"],
+                children: [
+                  Loader.newTextNode("Fill all required ("),
+                  Loader.newEl("span", { text: " * " }),
+                  Loader.newTextNode(") fields."),
+                ],
+              }),
+            ],
+          }),
+          Loader.newEl("hr", { class: "form__hr" }),
+        ],
+      }),
+    ).pop();
 
-    return this.dialogContainer;
+    // ensure element is removed from DOM
+    dialogContainer.addEventListener("close", () => {
+      setTimeout(() => {
+        dialogContainer.remove();
+      }, 400);
+    });
+
+    return dialogContainer;
   }
 }
 
@@ -89,7 +111,7 @@ export class addTodoItem extends elementBase {
   }
 
   action() {
-    const dialog = UIControl.getDialogBox();
+    const dialog = UIControl.getDialogBox("Add Todo List");
 
     document.body.appendChild(dialog);
 
