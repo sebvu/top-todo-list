@@ -322,7 +322,25 @@
           Fill all required (<span> * </span>) fields.
         </h2>
       </hgroup>
-      <section class="dialog__"></section>
+      <form
+        class="dialog__form form _text --context-xs"
+        action=""
+        method="post"
+      >
+        <p class="form__field">
+          <label for="name-one">List Name:</label>
+          <input
+            type="text"
+            id="name-one"
+            name="name_one"
+            minlength="1"
+            maxlength="12"
+            value="New List"
+            required
+          />
+          <span></span>
+        </p>
+      </form>
     </dialog>
   </body>
 </html>
