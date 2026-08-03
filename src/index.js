@@ -31,8 +31,6 @@ class TodoList {
 function main() {
   const todoList = new TodoList();
   todoList.setSavedData();
-
-  const tempDialog = document.querySelector("#dialog");
 }
 
 main();

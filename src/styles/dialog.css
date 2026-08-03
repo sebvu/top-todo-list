@@ -1,9 +1,15 @@
 #dialog {
   display: flex;
-  width: 500px;
-  height: 500px;
 
-  background-color: red;
+  width: min(500px, 90%);
+  height: max-content;
+  padding: 1rem 2rem;
+
+  color: var(--text-color);
+  background-color: var(--base-color);
+  border-radius: 1rem;
+  box-shadow: 0 0px 16px var(--lavender-color);
+  border: 5px solid var(--crust-color);
 
   &::backdrop {
     background-color: rgb(from var(--base-color) r g b / 0.1);

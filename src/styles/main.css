@@ -76,9 +76,11 @@
   }
 
   .item__description {
+    --line-length: 3;
+
     display: -webkit-box;
-    line-clamp: 2;
-    -webkit-line-clamp: 2;
+    line-clamp: var(--line-length);
+    -webkit-line-clamp: var(--line-length);
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
