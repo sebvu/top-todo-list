@@ -15,6 +15,28 @@
   border-radius: 1rem;
   border: 5px solid var(--crust-color);
 
+  position: fixed;
+
+  .dialog__exit-button {
+    width: calc(var(--size) * 4);
+    height: auto;
+
+    background-color: #0000;
+    border: #0000;
+
+    aspect-ratio: 1 / 1;
+
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+
+  .dialog__exit-button-icon {
+    fill: var(--red-color);
+
+    pointer-events: none;
+  }
+
   .dialog__header {
     flex: none;
   }

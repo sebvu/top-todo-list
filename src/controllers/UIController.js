@@ -16,6 +16,24 @@ class UIController {
         classList: "--context-xs",
         attrsList: { popover: "" },
         children: [
+          Loader.newEl("button", {
+            classList: "dialog__exit-button",
+            children: [
+              Loader.newEl("svg", {
+                classList: "dialog__exit-button-icon",
+                isNS: true,
+                attrsList: { viewBox: "0 0 24 24" },
+                children: [
+                  Loader.newEl("path", {
+                    isNS: true,
+                    attrsList: {
+                      d: "M9,7L11,12L9,17H11L12,14.5L13,17H15L13,12L15,7H13L12,9.5L11,7H9Z",
+                    },
+                  }),
+                ],
+              }),
+            ],
+          }),
           Loader.newEl("hgroup", {
             classList: ["dialog__header", "header", "--context-sm"],
             children: [
@@ -43,8 +61,17 @@ class UIController {
       }),
     ).pop();
 
+    // close dialog normally w/exit button
+    dialogContainer
+      .querySelector(".dialog__exit-button")
+      .addEventListener("click", () => {
+        dialogContainer.close();
+      });
+
     // ensure element is removed from DOM
-    dialogContainer.addEventListener("close", () => {
+    dialogContainer.addEventListener("close", (e) => {
+      e.preventDefault();
+
       setTimeout(() => {
         dialogContainer.remove();
       }, 400);
