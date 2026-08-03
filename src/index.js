@@ -5,15 +5,17 @@ class TodoList {
   constructor() {
     const themeToggleButton = document.querySelector(".theme-button");
     const sidebarToggleButton = document.querySelector(".sidebar-button");
+    const todoListAddButton = document.querySelector(".header__add-todo");
 
     const bindTogglerWithClass = (togglerClass) => {
       const newToggler = new togglerClass();
-      return newToggler.toggle.bind(newToggler);
+      return newToggler.action.bind(newToggler);
     };
 
     const elementHandlerPairs = [
       [themeToggleButton, bindTogglerWithClass(UI.themeToggler)],
       [sidebarToggleButton, bindTogglerWithClass(UI.sidebarToggler)],
+      [todoListAddButton, bindTogglerWithClass(UI.addTodoItem)],
     ];
 
     for (const [element, handler] of elementHandlerPairs) {
@@ -29,6 +31,8 @@ class TodoList {
 function main() {
   const todoList = new TodoList();
   todoList.setSavedData();
+
+  const tempDialog = document.querySelector("#dialog");
 }
 
 main();

@@ -1,16 +1,36 @@
 import { default as StorageController } from "./StorageController.js";
 import { default as LogController } from "./LogController.js";
 
-export default new (class UIController {
+class UIController {
+  constructor() {
+    // pull dialog container from dom (temporary)
+    this.dialogContainer = document.querySelector("#dialog");
+    this.dialogContainer.remove();
+  }
+
   invoke(handler) {
     handler();
   }
-})();
+
+  getDialogBox() {
+    this.dialogContainer.addEventListener("close", () => {
+      setTimeout(() => {
+        this.dialogContainer.remove();
+      }, 400);
+    });
+
+    return this.dialogContainer;
+  }
+}
+
+const UIControl = new UIController();
+
+export default UIControl;
 
 // class handlers for toggle
 
 class elementBase {
-  toggle() {
+  action() {
     LogController.errLog(this, "toggle() method not implemented");
   }
 }
@@ -20,7 +40,7 @@ export class themeToggler extends elementBase {
     super();
   }
 
-  toggle() {
+  action() {
     const attributeName = "data-theme";
     const rootElement = document.documentElement;
 
@@ -40,7 +60,7 @@ export class sidebarToggler extends elementBase {
     super();
   }
 
-  toggle() {
+  action() {
     const sidebarElement = document.querySelector("#sidebar");
     const sidebarCloseClass = "sidebar--close";
 
@@ -51,5 +71,19 @@ export class sidebarToggler extends elementBase {
       // close
       sidebarElement.classList.add(sidebarCloseClass);
     }
+  }
+}
+
+export class addTodoItem extends elementBase {
+  constructor() {
+    super();
+  }
+
+  action() {
+    const dialog = UIControl.getDialogBox();
+
+    document.body.appendChild(dialog);
+
+    dialog.showModal();
   }
 }

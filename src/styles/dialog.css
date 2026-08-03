@@ -1,0 +1,48 @@
+#dialog {
+  display: flex;
+  width: 500px;
+  height: 500px;
+
+  background-color: red;
+
+  &::backdrop {
+    background-color: rgb(from var(--base-color) r g b / 0.1);
+    animation: gradualBlur 0.5s ease-in-out;
+    animation-fill-mode: forwards;
+  }
+
+  &[open] {
+    animation: openModal 0.5s ease-in-out;
+  }
+
+  &:not([open]) {
+    animation: closeModal 0.5s ease-in-out;
+  }
+}
+
+@keyframes closeModal {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(0);
+  }
+}
+
+@keyframes openModal {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes gradualBlur {
+  from {
+    backdrop-filter: blur();
+  }
+  to {
+    backdrop-filter: blur(2px);
+  }
+}

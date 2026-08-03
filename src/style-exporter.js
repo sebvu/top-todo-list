@@ -7,3 +7,4 @@ export * from "./styles/header.css";
 export * from "./styles/main.css";
 export * from "./styles/sidebar.css";
 export * from "./styles/footer.css";
+export * from "./styles/dialog.css";
