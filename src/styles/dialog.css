@@ -70,6 +70,9 @@
   }
 
   .form__field {
+    display: flex;
+    gap: 1rem;
+
     position: relative;
 
     & > span::before {
@@ -81,6 +84,8 @@
     }
 
     & > input[type="text"] {
+      flex: auto;
+
       padding: 0 1rem;
 
       background-color: var(--mantle-color);

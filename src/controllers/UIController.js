@@ -38,7 +38,7 @@ class UIController {
               }),
             ],
           }),
-          Loader.newEl("hr", { class: "form__hr" }),
+          Loader.newEl("hr", { classList: "form__hr" }),
         ],
       }),
     ).pop();
@@ -112,6 +112,45 @@ export class addTodoItem extends elementBase {
 
   action() {
     const dialog = UIControl.getDialogBox("Add Todo List");
+
+    const addTodoItemElements = Loader.loadElements(
+      Loader.newEl("form", {
+        classList: ["dialog__form", "form", "_text", "--context-xs"],
+        attrsList: { action: "", method: "post" },
+        children: [
+          Loader.newEl("p", {
+            classList: "form__field",
+            children: [
+              Loader.newEl("label", {
+                attrsList: { for: "list-name" },
+                text: "List Name:",
+              }),
+              Loader.newEl("input", {
+                attrsList: {
+                  type: "text",
+                  id: "list-name",
+                  name: "list_name",
+                  minlength: "3",
+                  maxlength: "20",
+                  value: "New List",
+                  required: "",
+                },
+              }),
+              Loader.newEl("span"),
+            ],
+          }),
+          Loader.newEl("button", {
+            classList: "form__submit-button",
+            attrsList: { submit: "" },
+            text: "Submit",
+          }),
+        ],
+      }),
+    );
+
+    for (const el of addTodoItemElements) {
+      dialog.appendChild(el);
+    }
 
     document.body.appendChild(dialog);
 
