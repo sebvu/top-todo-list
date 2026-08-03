@@ -5,11 +5,30 @@ import { default as Loader } from "../helpers/elLoader.js";
 class UIController {
   constructor() {}
 
+  #currDialog;
+
   invoke(handler) {
     handler();
   }
 
-  getDialogBox(headerText = "N/A") {
+  // will take in a submit handler future update
+  openDialogBox() {
+    const submitButton = Loader.loadElements(
+      Loader.newEl("button", {
+        classList: "form__submit-button",
+        attrsList: { submit: "" },
+        text: "Submit",
+      }),
+    ).pop();
+
+    this.#currDialog.querySelector(".form").appendChild(submitButton);
+
+    document.body.append(this.#currDialog);
+
+    this.#currDialog.showModal();
+  }
+
+  getDialogBoxForm(headerText = "N/A") {
     const dialogContainer = Loader.loadElements(
       Loader.newEl("dialog", {
         id: "dialog",
@@ -57,27 +76,42 @@ class UIController {
             ],
           }),
           Loader.newEl("hr", { classList: "form__hr" }),
+          Loader.newEl("form", {
+            classList: ["dialog__form", "form", "_text", "--context-xs"],
+            attrsList: { action: "", method: "post" },
+          }),
         ],
       }),
     ).pop();
 
-    // close dialog normally w/exit button
-    dialogContainer
-      .querySelector(".dialog__exit-button")
-      .addEventListener("click", () => {
-        dialogContainer.close();
-      });
+    const dialogExitButton = document.querySelector(".dialog__exit-button");
+    const dialogSubmitButton = document.querySelector(".form__submit-button");
 
-    // ensure element is removed from DOM
-    dialogContainer.addEventListener("close", (e) => {
+    // close dialog normally w/exit button
+    dialogExitButton.addEventListener("click", () => {
+      dialogContainer.close();
+    });
+
+    // handle submit
+    dialogSubmitButton.addEventListener("click", (e) => {
       e.preventDefault();
 
+      console.log("submit attempt");
+    });
+
+    // ensure element is removed from DOM
+    dialogContainer.addEventListener("close", () => {
       setTimeout(() => {
         dialogContainer.remove();
       }, 400);
     });
 
-    return dialogContainer;
+    // update new 'open dialog' reference
+    this.#currDialog = dialogContainer;
+
+    const dialogContainerForm = dialogContainer.querySelector(".form");
+
+    return dialogContainerForm;
   }
 }
 
@@ -137,50 +171,43 @@ export class addTodoItem extends elementBase {
     super();
   }
 
-  action() {
-    const dialog = UIControl.getDialogBox("Add Todo List");
+  // submit handler for dialog
+  // submit() {
+  //
+  // }
 
-    const addTodoItemElements = Loader.loadElements(
-      Loader.newEl("form", {
-        classList: ["dialog__form", "form", "_text", "--context-xs"],
-        attrsList: { action: "", method: "post" },
+  action() {
+    const dialogForm = UIControl.getDialogBoxForm("Add Todo List");
+
+    const addTodoItemsElements = Loader.loadElements(
+      Loader.newEl("p", {
+        classList: "form__field",
         children: [
-          Loader.newEl("p", {
-            classList: "form__field",
-            children: [
-              Loader.newEl("label", {
-                attrsList: { for: "list-name" },
-                text: "List Name:",
-              }),
-              Loader.newEl("input", {
-                attrsList: {
-                  type: "text",
-                  id: "list-name",
-                  name: "list_name",
-                  minlength: "3",
-                  maxlength: "20",
-                  value: "New List",
-                  required: "",
-                },
-              }),
-              Loader.newEl("span"),
-            ],
+          Loader.newEl("label", {
+            attrsList: { for: "list-name" },
+            text: "List Name:",
           }),
-          Loader.newEl("button", {
-            classList: "form__submit-button",
-            attrsList: { submit: "" },
-            text: "Submit",
+          Loader.newEl("input", {
+            attrsList: {
+              type: "text",
+              id: "list-name",
+              name: "list_name",
+              minlength: "3",
+              maxlength: "20",
+              value: "New List",
+              required: "",
+            },
           }),
+          Loader.newEl("span"),
         ],
       }),
     );
 
-    for (const el of addTodoItemElements) {
-      dialog.appendChild(el);
+    for (const el of addTodoItemsElements) {
+      dialogForm.appendChild(el);
     }
 
-    document.body.appendChild(dialog);
-
-    dialog.showModal();
+    // will submit handler for dialog future
+    UIControl.openDialogBox();
   }
 }
