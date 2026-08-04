@@ -6,6 +6,7 @@ class TodoList {
     const themeToggleButton = document.querySelector(".theme-button");
     const sidebarToggleButton = document.querySelector(".sidebar-button");
     const todoListAddButton = document.querySelector(".header__add-todo");
+    const projectAddButton = document.querySelector(".projects__add-button");
 
     const bindTogglerWithClass = (togglerClass) => {
       const newToggler = new togglerClass();
@@ -13,9 +14,10 @@ class TodoList {
     };
 
     const elementHandlerPairs = [
-      [themeToggleButton, bindTogglerWithClass(UI.themeToggler)],
-      [sidebarToggleButton, bindTogglerWithClass(UI.sidebarToggler)],
+      [themeToggleButton, bindTogglerWithClass(UI.toggleTheme)],
+      [sidebarToggleButton, bindTogglerWithClass(UI.toggleSidebar)],
       [todoListAddButton, bindTogglerWithClass(UI.addTodoItem)],
+      [projectAddButton, bindTogglerWithClass(UI.addProject)],
     ];
 
     for (const [element, handler] of elementHandlerPairs) {

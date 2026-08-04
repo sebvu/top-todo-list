@@ -3,8 +3,6 @@ import { default as LogController } from "./LogController.js";
 import { default as Loader } from "../helpers/elLoader.js";
 
 class UIController {
-  constructor() {}
-
   #currDialog;
 
   invoke(handler) {
@@ -20,6 +18,13 @@ class UIController {
         text: "Submit",
       }),
     ).pop();
+
+    // handle submit
+    submitButton.addEventListener("click", (e) => {
+      e.preventDefault();
+
+      console.log("submit attempt");
+    });
 
     this.#currDialog.querySelector(".form").appendChild(submitButton);
 
@@ -84,19 +89,18 @@ class UIController {
       }),
     ).pop();
 
-    const dialogExitButton = document.querySelector(".dialog__exit-button");
-    const dialogSubmitButton = document.querySelector(".form__submit-button");
+    const dialogExitButton = dialogContainer.querySelector(
+      ".dialog__exit-button",
+    );
+
+    const dialogSubmitButton = dialogContainer.querySelector(
+      ".form__submit-button",
+    );
 
     // close dialog normally w/exit button
     dialogExitButton.addEventListener("click", () => {
+      console.log("close invoked");
       dialogContainer.close();
-    });
-
-    // handle submit
-    dialogSubmitButton.addEventListener("click", (e) => {
-      e.preventDefault();
-
-      console.log("submit attempt");
     });
 
     // ensure element is removed from DOM
@@ -127,7 +131,7 @@ class elementBase {
   }
 }
 
-export class themeToggler extends elementBase {
+export class toggleTheme extends elementBase {
   constructor() {
     super();
   }
@@ -147,7 +151,7 @@ export class themeToggler extends elementBase {
   }
 }
 
-export class sidebarToggler extends elementBase {
+export class toggleSidebar extends elementBase {
   constructor() {
     super();
   }
@@ -172,14 +176,12 @@ export class addTodoItem extends elementBase {
   }
 
   // submit handler for dialog
-  // submit() {
-  //
-  // }
+  submit() {}
 
   action() {
     const dialogForm = UIControl.getDialogBoxForm("Add Todo List");
 
-    const addTodoItemsElements = Loader.loadElements(
+    const addTodoFormElements = Loader.loadElements(
       Loader.newEl("p", {
         classList: "form__field",
         children: [
@@ -187,27 +189,77 @@ export class addTodoItem extends elementBase {
             attrsList: { for: "list-name" },
             text: "List Name:",
           }),
-          Loader.newEl("input", {
-            attrsList: {
-              type: "text",
-              id: "list-name",
-              name: "list_name",
-              minlength: "3",
-              maxlength: "20",
-              value: "New List",
-              required: "",
-            },
+          Loader.newEl("span", {
+            children: [
+              Loader.newEl("input", {
+                attrsList: {
+                  type: "text",
+                  id: "list-name",
+                  name: "list_name",
+                  minlength: "3",
+                  maxlength: "20",
+                  value: "New List",
+                  required: "",
+                },
+              }),
+              Loader.newEl("span"),
+            ],
           }),
-          Loader.newEl("span"),
         ],
       }),
     );
 
-    for (const el of addTodoItemsElements) {
+    for (const el of addTodoFormElements) {
       dialogForm.appendChild(el);
     }
 
-    // will submit handler for dialog future
+    UIControl.openDialogBox();
+  }
+}
+
+export class addProject extends elementBase {
+  constructor() {
+    super();
+  }
+
+  // submit handler for add project
+  submit() {}
+
+  action() {
+    const dialogForm = UIControl.getDialogBoxForm("Add Project");
+
+    const addProjectFormElements = Loader.loadElements(
+      Loader.newEl("p", {
+        classList: "form__field",
+        children: [
+          Loader.newEl("label", {
+            attrsList: { for: "project-name" },
+            text: "Project Name:",
+          }),
+          Loader.newEl("span", {
+            children: [
+              Loader.newEl("input", {
+                attrsList: {
+                  type: "text",
+                  id: "project-name",
+                  name: "project_name",
+                  minlength: "3",
+                  maxlength: "20",
+                  value: "New Project",
+                  required: "",
+                },
+              }),
+              Loader.newEl("span"),
+            ],
+          }),
+        ],
+      }),
+    );
+
+    for (const el of addProjectFormElements) {
+      dialogForm.appendChild(el);
+    }
+
     UIControl.openDialogBox();
   }
 }

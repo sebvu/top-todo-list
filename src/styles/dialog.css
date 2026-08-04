@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 2rem;
+  gap: 1rem;
 
   width: min(500px, 90%);
   height: max-content;
@@ -93,19 +93,24 @@
 
   .form__field {
     display: flex;
+    flex-direction: column;
+    align-items: center;
     gap: 1rem;
 
     position: relative;
 
-    & > span::before {
+    & input + span::before {
       position: absolute;
+
+      right: -20px;
     }
 
-    & > input {
+    & input {
       color: var(--text-color);
+      text-align: center;
     }
 
-    & > input[type="text"] {
+    & input[type="text"] {
       flex: auto;
 
       padding: 0 1rem;
@@ -115,37 +120,33 @@
       border-radius: 1rem;
     }
 
-    & > input:user-invalid {
+    & input:user-invalid {
       box-shadow: 0 0 4px var(--red-color);
     }
 
-    & > input:user-valid {
+    & input:user-valid {
       box-shadow: 0 0 4px var(--green-color);
     }
 
-    & > input:user-invalid + span::before {
+    & input:user-invalid + span::before {
       content: "✖";
 
       color: var(--red-color);
-
-      right: -20px;
     }
 
-    & > input:user-valid + span::before {
+    & input:user-valid + span::before {
       content: "✓";
 
       color: var(--green-color);
-
-      right: -20px;
     }
 
-    & > label:has(+ input[required])::before {
+    & > label:has(+ span > input[required])::before {
       content: "*";
       color: var(--red-color);
 
       position: absolute;
-      top: 5%;
-      left: -15px;
+      left: auto;
+      transform: translateX(-20px);
     }
   }
 
