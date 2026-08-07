@@ -1,6 +1,7 @@
 import StorageController from "./StorageController.js";
 import LogController from "./LogController.js";
 import Loader from "../helpers/elLoader.js";
+import ProjectController from "./ProjectController.js";
 
 class UIController {
   #currDialog;
@@ -20,13 +21,6 @@ class UIController {
         text: "Submit",
       }),
     ).pop();
-
-    // handle submit
-    submitButton.addEventListener("click", (e) => {
-      e.preventDefault();
-
-      console.log("submit attempt");
-    });
 
     this.#currDialog.querySelector(".form").appendChild(submitButton);
 
@@ -174,7 +168,7 @@ export class addTodoItem extends elementBase {
   }
 
   // submit handler for dialog
-  submit() {}
+  #submit() {}
 
   action() {
     const dialogForm = UIControl.getDialogBoxForm("Add Todo List");
@@ -220,8 +214,9 @@ export class addProject extends elementBase {
     super();
   }
 
-  // submit handler for add project
-  submit() {}
+  #submit(e) {
+    e.preventDefault();
+  }
 
   action() {
     const dialogForm = UIControl.getDialogBoxForm("Add Project");
@@ -257,6 +252,8 @@ export class addProject extends elementBase {
     for (const el of addProjectFormElements) {
       dialogForm.appendChild(el);
     }
+
+    dialogForm.addEventListener("submit", this.#submit);
 
     UIControl.openDialogBox();
   }
