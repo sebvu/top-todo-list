@@ -46,12 +46,17 @@ class ProjectController {
     return projectObjects;
   }
 
-  createProject(name) {
+  createProject(name, color) {
     if (this.#hasProjectCopy(name)) {
+      LogController.errLog(
+        this,
+        `Project was not initialized due to project name copy: ${name}`,
+      );
       return undefined;
     } else {
-      const newProject = new Project(name);
+      const newProject = new Project(name, color);
       this.#projectArray.push(newProject);
+      LogController.log(this, `Project ${name} successfully initialized.`);
       return newProject;
     }
   }
@@ -66,8 +71,9 @@ class ProjectController {
 export default new ProjectController();
 
 class Project {
-  constructor(name) {
+  constructor(name, color) {
     this.#name = name;
+    this.#color = color;
   }
   #name;
   #color;
@@ -85,10 +91,15 @@ class Project {
 
   createTodoList(name) {
     if (this.#hasTodoListCopy(name)) {
+      LogController.errLog(
+        this,
+        `TodoList was not initialized due to TodoList name copy: ${name}`,
+      );
       return undefined;
     } else {
       const newTodoList = new TodoList(name);
       this.#todoListArray.push(newTodoList);
+      LogController.log(this, `TodoList ${name} successfully initialized.`);
       return newTodoList;
     }
   }
@@ -143,6 +154,10 @@ class TodoList {
 
   createListItem(name, dueDate, description, priorityLevel, checkList = []) {
     if (this.#hasListItemCopy(name)) {
+      LogController.errLog(
+        this,
+        `ListItem was not initialized due to ListItem name copy: ${name}`,
+      );
       return undefined;
     } else {
       const newListItem = new ListItem(
@@ -153,6 +168,7 @@ class TodoList {
         checkList,
       );
       this.#listItemArray.push(newListItem);
+      LogController.log(this, `ListItem ${name} successfully initialized.`);
       return newListItem;
     }
   }

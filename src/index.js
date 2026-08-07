@@ -63,11 +63,11 @@ function main() {
       ["fabuloso", "stuff"],
     );
 
-  console.log(fuckProject);
-  console.log(houseCleaningProject);
-
-  const structure = ProjectController.getStructureJSON();
-  console.log(structure);
+  // console.log(fuckProject);
+  // console.log(houseCleaningProject);
+  //
+  // const structure = ProjectController.getStructureJSON();
+  // console.log(structure);
 }
 
 main();

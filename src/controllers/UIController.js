@@ -1,4 +1,3 @@
-import StorageController from "./StorageController.js";
 import LogController from "./LogController.js";
 import Loader from "../helpers/elLoader.js";
 import ProjectController from "./ProjectController.js";
@@ -217,6 +216,12 @@ export class addProject extends elementBase {
 
   #submit(e) {
     e.preventDefault();
+
+    const dialogForm = e.target;
+    const projectName = dialogForm.querySelector("#project-name").value;
+    const projectColor = dialogForm.querySelector("#project-color").value;
+
+    ProjectController.createProject(projectName, projectColor);
   }
 
   action() {
