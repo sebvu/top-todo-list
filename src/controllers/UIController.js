@@ -1,6 +1,6 @@
-import { default as StorageController } from "./StorageController.js";
-import { default as LogController } from "./LogController.js";
-import { default as Loader } from "../helpers/elLoader.js";
+import StorageController from "./StorageController.js";
+import LogController from "./LogController.js";
+import Loader from "../helpers/elLoader.js";
 
 class UIController {
   #currDialog;
@@ -8,6 +8,8 @@ class UIController {
   invoke(handler) {
     handler();
   }
+
+  loadCurrentData() {}
 
   // will take in a submit handler future update
   openDialogBox() {
@@ -93,10 +95,6 @@ class UIController {
       ".dialog__exit-button",
     );
 
-    const dialogSubmitButton = dialogContainer.querySelector(
-      ".form__submit-button",
-    );
-
     // close dialog normally w/exit button
     dialogExitButton.addEventListener("click", () => {
       console.log("close invoked");
@@ -145,7 +143,7 @@ export class toggleTheme extends elementBase {
 
     rootElement.setAttribute(attributeName, newTheme);
 
-    StorageController.setItem(attributeName, newTheme);
+    // StorageController.setItem(attributeName, newTheme);
 
     LogController.log(this, `Toggling theme to ${newTheme}`);
   }
