@@ -5,22 +5,64 @@ class ProjectController {
 
   #hasProjectCopy(projectName) {
     return this.#projectArray.some(
-      (el) => el.toLowerCase() === projectName.toLowerCase(),
+      (el) => el.name.toLowerCase() === projectName.toLowerCase(),
     );
+  }
+
+  getStructureJSON() {
+    let projectObjects = [];
+
+    for (const proj of this.#projectArray) {
+      projectObjects.push({
+        projectName: proj.name,
+        todoLists: (() => {
+          const todoListObjects = [];
+          for (const todoList of proj.todoListArray) {
+            const todoListObject = {
+              name: todoList.name,
+              listItems: (() => {
+                const listItemObjects = [];
+                for (const listItem of todoList.listItemArray) {
+                  const listItemObject = {
+                    name: listItem.name,
+                    dueDate: listItem.dueDate,
+                    description: listItem.description,
+                    priorityLevel: listItem.priorityLevel,
+                    checkList: listItem.checkList,
+                  };
+                  listItemObjects.push(listItemObject);
+                }
+                return listItemObjects;
+              })(),
+            };
+            todoListObjects.push(todoListObject);
+          }
+          return todoListObjects;
+        })(),
+      });
+    }
+
+    return projectObjects;
   }
 
   createProject(name) {
     if (this.#hasProjectCopy(name)) {
-      return false;
+      return undefined;
     } else {
       const newProject = new Project(name);
       this.#projectArray.push(newProject);
-      return true;
+      return newProject;
     }
+  }
+
+  getProjectByName(projectName) {
+    return this.#projectArray.find(
+      (el) => el.name.toLowerCase() === projectName.toLowerCase(),
+    );
   }
 }
 
-export default ProjectController();
+export default new ProjectController();
 
 class Project {
   constructor(name) {
@@ -31,18 +73,28 @@ class Project {
 
   #hasTodoListCopy(todoListName) {
     return this.#todoListArray.some(
-      (el) => el.toLowerCase() === todoListName.toLowerCase(),
+      (el) => el.name.toLowerCase() === todoListName.toLowerCase(),
     );
+  }
+
+  get todoListArray() {
+    return this.#todoListArray;
   }
 
   createTodoList(name) {
     if (this.#hasTodoListCopy(name)) {
-      return false;
+      return undefined;
     } else {
       const newTodoList = new TodoList(name);
       this.#todoListArray.push(newTodoList);
-      return true;
+      return newTodoList;
     }
+  }
+
+  getTodoListByName(todoListName) {
+    return this.#todoListArray.find(
+      (el) => el.name.toLowerCase() === todoListName.toLowerCase(),
+    );
   }
 
   get name() {
@@ -67,16 +119,19 @@ class TodoList {
 
   #hasListItemCopy(listItemName) {
     return this.#listItemArray.some(
-      (el) => el.toLowerCase() === listItemName.toLowerCase(),
+      (el) => el.name.toLowerCase() === listItemName.toLowerCase(),
     );
   }
 
-  createListItem(name, dueDate, description, priorityLevel, checkList) {
+  get listItemArray() {
+    return this.#listItemArray;
+  }
+
+  createListItem(name, dueDate, description, priorityLevel, checkList = []) {
     if (this.#hasListItemCopy(name)) {
-      return false;
+      return undefined;
     } else {
       const newListItem = new ListItem(
-        this,
         name,
         dueDate,
         description,
@@ -84,8 +139,14 @@ class TodoList {
         checkList,
       );
       this.#listItemArray.push(newListItem);
-      return true;
+      return newListItem;
     }
+  }
+
+  getListItemByName(listItemName) {
+    return this.#listItemArray.find(
+      (el) => el.name.toLowerCase() === listItemName.toLowerCase(),
+    );
   }
 
   get name() {
@@ -117,18 +178,20 @@ class ListItem {
   #checkList;
 
   #ensureValidPriorityLevel(priorityLevel) {
+    const lowerCasePriorityLevel = priorityLevel.toLowerCase();
+
     if (
-      priorityLevel !== "low" ||
-      priorityLevel !== "medium" ||
-      priorityLevel !== "high"
+      lowerCasePriorityLevel !== "low" &&
+      lowerCasePriorityLevel !== "medium" &&
+      lowerCasePriorityLevel !== "high"
     ) {
       LogController.errLog(
         this,
-        `priorityLevel "${priorityLevel}" does not match a valid priorityLevel. Defaulting to "low".`,
+        `priorityLevel "${lowerCasePriorityLevel}" does not match a valid priorityLevel. Defaulting to "low".`,
       );
       return "low";
     } else {
-      return priorityLevel;
+      return lowerCasePriorityLevel;
     }
   }
 
@@ -189,5 +252,13 @@ class ListItem {
     );
   }
 
-  // checklist implementation later
+  get checklist() {
+    return this.#checkList;
+  }
+
+  addToCheckList(checkListItem) {
+    this.#checkList.push(checkListItem);
+
+    LogController(this, `${checkListItem} added to ListItem ${this.#name}`);
+  }
 }
