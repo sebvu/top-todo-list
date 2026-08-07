@@ -6,7 +6,7 @@ export default new (class CSSPropertyController {
   #styleSheet;
 
   requestProperty(propertyName) {
-    this.#styleSheet.getPropertyValue(propertyName);
+    return this.#styleSheet.getPropertyValue(propertyName);
   }
 
   setVariable(newPropertyName, property) {

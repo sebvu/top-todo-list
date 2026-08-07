@@ -2,6 +2,7 @@ import StorageController from "./StorageController.js";
 import LogController from "./LogController.js";
 import Loader from "../helpers/elLoader.js";
 import ProjectController from "./ProjectController.js";
+import CSSPropertyController from "./CSSPropertyController.js";
 
 class UIController {
   #currDialog;
@@ -240,6 +241,29 @@ export class addProject extends elementBase {
                   maxlength: "20",
                   value: "New Project",
                   required: "",
+                },
+              }),
+              Loader.newEl("span"),
+            ],
+          }),
+        ],
+      }),
+      Loader.newEl("p", {
+        classList: "form__field",
+        children: [
+          Loader.newEl("label", {
+            attrsList: { for: "project-color" },
+            text: "Project Color",
+          }),
+          Loader.newEl("span", {
+            children: [
+              Loader.newEl("input", {
+                attrsList: {
+                  type: "color",
+                  id: "project-color",
+                  name: "project_color",
+                  list: "project-color-presets",
+                  value: CSSPropertyController.requestProperty("--red-color"),
                 },
               }),
               Loader.newEl("span"),

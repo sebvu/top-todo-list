@@ -15,6 +15,7 @@ class ProjectController {
     for (const proj of this.#projectArray) {
       projectObjects.push({
         projectName: proj.name,
+        projectColor: proj.color,
         todoLists: (() => {
           const todoListObjects = [];
           for (const todoList of proj.todoListArray) {
@@ -69,6 +70,7 @@ class Project {
     this.#name = name;
   }
   #name;
+  #color;
   #todoListArray = [];
 
   #hasTodoListCopy(todoListName) {
@@ -107,6 +109,18 @@ class Project {
     this.#name = newName;
 
     LogController(this, `${oldName} project renamed to ${this.#name}`);
+  }
+
+  get color() {
+    return this.#color;
+  }
+
+  set color(newColor) {
+    const oldColor = this.#color;
+
+    this.#color = newColor;
+
+    LogController(this, `${oldColor} project color changed to ${this.#color}`);
   }
 }
 
