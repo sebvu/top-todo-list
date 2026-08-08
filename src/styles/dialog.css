@@ -120,6 +120,11 @@
       border-radius: 1rem;
     }
 
+    & input[type="color"] {
+      background-color: var(--mantle-color);
+      border-color: var(--crust-color);
+    }
+
     & input:user-invalid {
       box-shadow: 0 0 4px var(--red-color);
     }
@@ -147,6 +152,28 @@
       position: absolute;
       left: auto;
       transform: translateX(-20px);
+    }
+  }
+
+  .dialog__errors {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    list-style-type: none;
+  }
+
+  .errors_item {
+    color: var(--red-color);
+    position: relative;
+
+    span {
+      position: absolute;
+      left: -20px;
+    }
+
+    span::before {
+      content: "✖";
     }
   }
 

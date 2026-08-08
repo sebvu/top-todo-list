@@ -1,5 +1,27 @@
 import LogController from "./LogController.js";
 
+// [...{input (element), verifier, errMsg}] an array of pairs
+// returns [{input (element), errMsg}] (only error ones)
+const verifyInput = (verifyPairs) => {
+  const falsePairResults = [];
+
+  for (const pair of verifyPairs) {
+    if (pair.verifier(resolveString(pair.input)) === true) {
+      falsePairResults.push({ input: pair.input, errMsg: pair.errMsg });
+    }
+  }
+
+  // status checker for checking if errors exists
+  const anyErrorsExists = falsePairResults.length !== 0;
+  return { errorExists: anyErrorsExists, res: falsePairResults };
+};
+
+// elements could either be submitted via dialog or through command line,
+// this is just a resovler so it's always a FUCKING STRING
+const resolveString = (element) => {
+  return typeof element === "string" ? element : element.value;
+};
+
 class ProjectController {
   #projectArray = [];
 
@@ -46,18 +68,32 @@ class ProjectController {
     return projectObjects;
   }
 
-  createProject(name, color) {
-    if (this.#hasProjectCopy(name)) {
-      LogController.errLog(
-        this,
-        `Project was not initialized due to project name copy: ${name}`,
-      );
-      return undefined;
+  #createProject(name, color) {
+    const newProject = new Project(name, color);
+    this.#projectArray.push(newProject);
+    return newProject;
+  }
+
+  tryCreateProject(name, color) {
+    const verifyPairs = [
+      {
+        input: name,
+        verifier: this.#hasProjectCopy.bind(this),
+        // always guarantee a string is sent (this fucking sucks)
+        errMsg: `"${resolveString(name)}" project name already taken.`,
+      },
+    ];
+
+    const verifyInputResult = verifyInput(verifyPairs);
+
+    if (verifyInputResult.errorExists === true) {
+      return verifyInputResult;
     } else {
-      const newProject = new Project(name, color);
-      this.#projectArray.push(newProject);
-      LogController.log(this, `Project ${name} successfully initialized.`);
-      return newProject;
+      verifyInputResult.res = this.#createProject(
+        resolveString(name),
+        resolveString(color),
+      );
+      return verifyInputResult;
     }
   }
 
@@ -91,10 +127,10 @@ class Project {
 
   createTodoList(name) {
     if (this.#hasTodoListCopy(name)) {
-      LogController.errLog(
-        this,
-        `TodoList was not initialized due to TodoList name copy: ${name}`,
-      );
+      // LogController.errLog(
+      //   this,
+      //   `TodoList was not initialized due to TodoList name copy: ${name}`,
+      // );
       return undefined;
     } else {
       const newTodoList = new TodoList(name);
@@ -154,10 +190,10 @@ class TodoList {
 
   createListItem(name, dueDate, description, priorityLevel, checkList = []) {
     if (this.#hasListItemCopy(name)) {
-      LogController.errLog(
-        this,
-        `ListItem was not initialized due to ListItem name copy: ${name}`,
-      );
+      // LogController.errLog(
+      //   this,
+      //   `ListItem was not initialized due to ListItem name copy: ${name}`,
+      // );
       return undefined;
     } else {
       const newListItem = new ListItem(
@@ -215,10 +251,10 @@ class ListItem {
       lowerCasePriorityLevel !== "medium" &&
       lowerCasePriorityLevel !== "high"
     ) {
-      LogController.errLog(
-        this,
-        `priorityLevel "${lowerCasePriorityLevel}" does not match a valid priorityLevel. Defaulting to "low".`,
-      );
+      // LogController.errLog(
+      //   this,
+      //   `priorityLevel "${lowerCasePriorityLevel}" does not match a valid priorityLevel. Defaulting to "low".`,
+      // );
       return "low";
     } else {
       return lowerCasePriorityLevel;

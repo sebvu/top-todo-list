@@ -32,9 +32,11 @@ class TodoList {
 function main() {
   const todoList = new TodoList();
 
-  const fuckProject = ProjectController.createProject("fuck");
-  const houseCleaningProject =
-    ProjectController.createProject("House Cleaning");
+  const fuckProject = ProjectController.tryCreateProject("fuck", "red").res;
+  const houseCleaningProject = ProjectController.tryCreateProject(
+    "House Cleaning",
+    "blue",
+  ).res;
 
   fuckProject
     .createTodoList("fucking list")
@@ -66,8 +68,8 @@ function main() {
   // console.log(fuckProject);
   // console.log(houseCleaningProject);
   //
-  // const structure = ProjectController.getStructureJSON();
-  // console.log(structure);
+  const structure = ProjectController.getStructureJSON();
+  console.log(structure);
 }
 
 main();

@@ -13,7 +13,7 @@ class UIController {
   loadCurrentData() {}
 
   // will take in a submit handler future update
-  openDialogBox() {
+  openDialogBox(submitHandler) {
     const submitButton = Loader.loadElements(
       Loader.newEl("button", {
         classList: "form__submit-button",
@@ -21,6 +21,11 @@ class UIController {
         text: "Submit",
       }),
     ).pop();
+
+    submitButton.addEventListener("click", () => {
+      console.log("hello");
+      submitHandler();
+    });
 
     this.#currDialog.querySelector(".form").appendChild(submitButton);
 
@@ -81,6 +86,9 @@ class UIController {
             classList: ["dialog__form", "form", "_text", "--context-xs"],
             attrsList: { action: "", method: "post" },
           }),
+          Loader.newEl("ul", {
+            classList: "dialog__errors",
+          }),
         ],
       }),
     ).pop();
@@ -106,6 +114,11 @@ class UIController {
     this.#currDialog = dialogContainer;
 
     const dialogContainerForm = dialogContainer.querySelector(".form");
+
+    dialogContainerForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      console.log("attempt submit");
+    });
 
     return dialogContainerForm;
   }
@@ -214,18 +227,52 @@ export class addProject extends elementBase {
     super();
   }
 
-  #submit(e) {
-    e.preventDefault();
+  #submit() {
+    const dialogForm = document.querySelector(".dialog__form");
 
-    const dialogForm = e.target;
-    const projectName = dialogForm.querySelector("#project-name").value;
-    const projectColor = dialogForm.querySelector("#project-color").value;
+    const projectName = dialogForm.querySelector("#project-name");
+    const projectColor = dialogForm.querySelector("#project-color");
 
-    ProjectController.createProject(projectName, projectColor);
+    projectName.setCustomValidity("");
+
+    const errorListElement = document.querySelector(".dialog__errors");
+
+    while (errorListElement.firstChild) {
+      errorListElement.removeChild(errorListElement.lastChild);
+    }
+
+    if (!dialogForm.reportValidity()) return;
+
+    const createProjectRes = ProjectController.tryCreateProject(
+      projectName,
+      projectColor,
+    );
+
+    if (createProjectRes.errorExists) {
+      for (const elementErrorPair of createProjectRes.res) {
+        elementErrorPair.input.setCustomValidity(elementErrorPair.errMsg);
+        const newErrorListItem = Loader.loadElements(
+          Loader.newEl("li", {
+            classList: "errors_item",
+            children: [Loader.newEl("span")],
+            text: elementErrorPair.errMsg,
+          }),
+        ).pop();
+        errorListElement.appendChild(newErrorListItem);
+      }
+    } else {
+      const dialog = document.querySelector("#dialog");
+      dialog.close();
+    }
+
+    console.log(ProjectController.getStructureJSON());
   }
 
   action() {
-    const dialogForm = UIControl.getDialogBoxForm("Add Project");
+    const dialogForm = UIControl.getDialogBoxForm(
+      "Add Project",
+      this.#submit.bind(this),
+    );
 
     const addProjectFormElements = Loader.loadElements(
       Loader.newEl("p", {
@@ -282,8 +329,6 @@ export class addProject extends elementBase {
       dialogForm.appendChild(el);
     }
 
-    dialogForm.addEventListener("submit", this.#submit);
-
-    UIControl.openDialogBox();
+    UIControl.openDialogBox(this.#submit.bind(this));
   }
 }
