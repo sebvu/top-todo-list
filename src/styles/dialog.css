@@ -4,7 +4,7 @@
   justify-content: center;
   gap: 1rem;
 
-  width: min(500px, 90%);
+  width: min(max-content, 90%);
   height: max-content;
   padding: 1rem 2rem;
 
@@ -160,10 +160,20 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    padding: 1rem 2rem;
+
+    border-radius: 1rem;
+    background-color: rgb(from var(--red-color) r g b / 0.2);
+
     list-style-type: none;
+
+    &:empty {
+      padding: 0;
+    }
   }
 
-  .errors_item {
+  .errors__item {
     color: var(--red-color);
     position: relative;
 
