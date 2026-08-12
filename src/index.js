@@ -17,7 +17,7 @@ class TodoList {
     const elementHandlerPairs = [
       [themeToggleButton, bindTogglerWithClass(UI.toggleTheme)],
       [sidebarToggleButton, bindTogglerWithClass(UI.toggleSidebar)],
-      [todoListAddButton, bindTogglerWithClass(UI.addTodoItem)],
+      [todoListAddButton, bindTogglerWithClass(UI.addTodoList)],
       [projectAddButton, bindTogglerWithClass(UI.addProject)],
     ];
 

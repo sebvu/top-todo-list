@@ -32,10 +32,10 @@ class ProjectController {
   }
 
   getStructureJSON() {
-    let projectObjects = [];
+    let projectJSON = [];
 
     for (const proj of this.#projectArray) {
-      projectObjects.push({
+      projectJSON.push({
         projectName: proj.name,
         projectColor: proj.color,
         todoLists: (() => {
@@ -65,7 +65,7 @@ class ProjectController {
       });
     }
 
-    return projectObjects;
+    return projectJSON;
   }
 
   #createProject(name, color) {
@@ -121,23 +121,34 @@ class Project {
     );
   }
 
+  #createTodoList(name) {
+    const newTodoList = new TodoList(name);
+    this.#todoListArray.push(newTodoList);
+    return newTodoList;
+  }
+
   get todoListArray() {
     return this.#todoListArray;
   }
 
-  createTodoList(name) {
-    if (this.#hasTodoListCopy(name)) {
-      // LogController.errLog(
-      //   this,
-      //   `TodoList was not initialized due to TodoList name copy: ${name}`,
-      // );
-      return undefined;
+  tryCreateTodoList(name) {
+    const verifyPairs = [
+      {
+        input: name,
+        verifier: this.#hasTodoListCopy.bind(this),
+        errMsg: `"${resolveString(name)}" project name already taken.`,
+      },
+    ];
+
+    const verifyInputResult = verifyInput(verifyPairs);
+
+    if (verifyInputResult.errorExists === true) {
+      return verifyInputResult;
     } else {
-      const newTodoList = new TodoList(name);
-      this.#todoListArray.push(newTodoList);
-      LogController.log(this, `TodoList ${name} successfully initialized.`);
-      return newTodoList;
+      verifyInputResult.res = this.#createTodoList(resolveString(name));
+      return verifyInputResult;
     }
+    // need to change implementation for UI control as well
   }
 
   getTodoListByName(todoListName) {

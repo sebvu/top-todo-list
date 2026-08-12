@@ -20,9 +20,37 @@
     border-radius: 1rem;
 
     overflow: hidden;
+  }
 
-    .todo__name {
-      padding: 1rem;
+  .todo__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+
+    padding: 1rem;
+  }
+
+  .todo__name {
+    flex: auto;
+  }
+
+  .todo__add-item-button {
+    flex: none;
+    font-size: calc(var(--size) * 0.6);
+
+    padding: 0.2rem 0.5rem;
+
+    color: var(--cross-dark-text);
+    background-color: var(--lavender-color);
+    border-radius: 1rem;
+    box-shadow: rgb(from var(--text-color) r g b / 1) 0 0 15px;
+
+    transition-duration: 0.2s;
+
+    &:hover {
+      transform: scale(1.08);
     }
   }
 
