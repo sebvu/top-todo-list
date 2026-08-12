@@ -59,6 +59,18 @@
     padding-left: 4ch;
     position: relative;
 
+    transition-duration: 0.2s;
+
+    .item__list {
+      list-style-type: "• ";
+      padding: 0;
+    }
+
+    &:hover,
+    &:focus {
+      background-color: rgb(from var(--lavender-color) r g b / 0.5);
+    }
+
     &:not(:last-child):before {
       display: block;
       content: "";
@@ -71,11 +83,6 @@
       left: 10%;
       top: 0;
       bottom: 0;
-    }
-
-    .item__list {
-      list-style-type: "• ";
-      padding: 0;
     }
   }
 
