@@ -71,7 +71,7 @@ function main() {
   // const structure = ProjectController.getStructureJSON();
   // console.log(structure);
 
-  UIController.reloadPageData();
+  UIController.reloadPage();
 }
 
 main();

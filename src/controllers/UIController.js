@@ -6,14 +6,64 @@ import CSSPropertyController from "./CSSPropertyController.js";
 class UIController {
   #currDialog;
 
+  #createProjectUI(projectName, projectColor) {
+    return Loader.loadElements(
+      Loader.newEl("li", {
+        classList: "projects__item",
+        children: [
+          Loader.newEl("div", {
+            classList: "projects__icon-wrapper",
+            children: [
+              Loader.newEl("svg", {
+                isNS: true,
+                classList: "projects__icon",
+                attrsList: { viewBox: "0 0 24 24" },
+                children: [
+                  Loader.newEl("path", {
+                    isNS: true,
+                    attrsList: {
+                      d: "M19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.9 20.1 3 19 3M7 7H9V9H7V7M7 11H9V13H7V11M7 15H9V17H7V15M17 17H11V15H17V17M17 13H11V11H17V13M17 9H11V7H17V9Z",
+                      fill: projectColor,
+                    },
+                  }),
+                ],
+              }),
+            ],
+          }),
+          Loader.newEl("h2", {
+            classList: "projects__name",
+            text: projectName,
+          }),
+        ],
+      }),
+    );
+  }
+
   invoke(handler) {
     handler();
   }
 
   reloadPage() {
     const projectJSON = ProjectController.getStructureJSON();
+    const projectsList = document.querySelector(".projects__list");
+    const mainContainer = document.querySelector("#main");
 
-    console.log(projectJSON);
+    while (projectsList.firstChild) {
+      projectsList.removeChild(projectsList.lastChild);
+    }
+    //
+    // while (mainContainer.firstChild) {
+    //   mainContainer.removeChild(mainContainer.lastChild);
+    // }
+
+    for (const proj of projectJSON) {
+      console.log(proj);
+      const projectListElement = this.#createProjectUI(
+        proj.projectName,
+        proj.projectColor,
+      ).pop();
+      projectsList.appendChild(projectListElement);
+    }
   }
 
   // will take in a submit handler future update
