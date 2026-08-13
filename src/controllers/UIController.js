@@ -10,8 +10,10 @@ class UIController {
     handler();
   }
 
-  reloadPageData() {
+  reloadPage() {
     const projectJSON = ProjectController.getStructureJSON();
+
+    console.log(projectJSON);
   }
 
   // will take in a submit handler future update
@@ -141,9 +143,9 @@ class elementBase {
     LogController.errLog(this, "toggle() method not implemented");
   }
 
-  handleTryCreateRes(res, errorListElement) {
-    if (res.errorExists) {
-      for (const res of createProjectRes.res) {
+  handleTryCreateRes(createRes, errorListElement) {
+    if (createRes.errorExists) {
+      for (const res of createRes.res) {
         res.input.setCustomValidity(res.errMsg);
         const newErrorListItem = Loader.loadElements(
           Loader.newEl("li", {
@@ -155,7 +157,7 @@ class elementBase {
         errorListElement.appendChild(newErrorListItem);
       }
     } else {
-      ProjectController.closeDialogBox();
+      UIControl.closeDialogBox();
     }
   }
 
@@ -164,7 +166,7 @@ class elementBase {
       el.setCustomValidity("");
     }
 
-    const errorListElement = document.querySelector(".dialog__erors");
+    const errorListElement = document.querySelector(".dialog__errors");
 
     while (errorListElement.firstChild) {
       errorListElement.removeChild(errorListElement.lastChild);
@@ -238,7 +240,7 @@ export class addProject extends elementBase {
 
     this.handleTryCreateRes(createProjectRes, errorListElement);
 
-    UI.reloadPage();
+    UIControl.reloadPage();
   }
 
   action() {
@@ -325,7 +327,7 @@ export class addTodoList extends elementBase {
 
     this.handleTryCreateRes(createTodoListRes, errorListElement);
 
-    UI.reloadPage();
+    UIControl.reloadPage();
   }
 
   action() {

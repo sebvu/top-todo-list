@@ -38,38 +38,40 @@ function main() {
     "blue",
   ).res;
 
-  fuckProject
-    .createTodoList("fucking list")
-    .createListItem(
-      "my girlfriend",
-      "03/7/2026",
-      "she's my girlfriend?? idk what to say",
-      "low",
-      ["capture her", "FUCK!"],
-    );
-  houseCleaningProject
-    .createTodoList("Who to Invite")
-    .createListItem(
-      "Cristal",
-      "07/804423/2456",
-      "girlfriend, once again. like, she gotta HELP ME!",
-      "medium",
-    );
-  houseCleaningProject
-    .createTodoList("Buy List")
-    .createListItem(
-      "fabuloso",
-      "A DATE",
-      "i need fabuloso to go clean ugh",
-      "low",
-      ["fabuloso", "stuff"],
-    );
+  // fuckProject
+  //   .createTodoList("fucking list")
+  //   .createListItem(
+  //     "my girlfriend",
+  //     "03/7/2026",
+  //     "she's my girlfriend?? idk what to say",
+  //     "low",
+  //     ["capture her", "FUCK!"],
+  //   );
+  // houseCleaningProject
+  //   .createTodoList("Who to Invite")
+  //   .createListItem(
+  //     "Cristal",
+  //     "07/804423/2456",
+  //     "girlfriend, once again. like, she gotta HELP ME!",
+  //     "medium",
+  //   );
+  // houseCleaningProject
+  //   .createTodoList("Buy List")
+  //   .createListItem(
+  //     "fabuloso",
+  //     "A DATE",
+  //     "i need fabuloso to go clean ugh",
+  //     "low",
+  //     ["fabuloso", "stuff"],
+  //   );
 
   // console.log(fuckProject);
   // console.log(houseCleaningProject);
   //
-  const structure = ProjectController.getStructureJSON();
-  console.log(structure);
+  // const structure = ProjectController.getStructureJSON();
+  // console.log(structure);
+
+  UIController.reloadPageData();
 }
 
 main();
