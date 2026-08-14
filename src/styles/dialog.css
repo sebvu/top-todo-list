@@ -99,7 +99,9 @@
 
     position: relative;
 
-    & input + span::before {
+    & input + span::before,
+    & select + span::before,
+    & textarea + span::before {
       position: absolute;
 
       right: -20px;
