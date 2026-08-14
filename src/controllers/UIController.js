@@ -449,4 +449,134 @@ export class addTodoListItem extends elementBase {
 
     UIControl.reloadPage();
   }
+
+  action() {
+    const dialogForm = UIControl.getDialogBoxForm("Add List Item");
+
+    const formListItemName = Loader.newEl("p", {
+      classList: "form__field",
+      children: [
+        Loader.newEl("label", {
+          attrsList: { for: "list-item-name" },
+          text: "List Item Name:",
+        }),
+        Loader.newEl("span", {
+          children: [
+            Loader.newEl("input", {
+              attrsList: {
+                type: "text",
+                id: "list-item-name",
+                name: "list_item_name",
+                minlength: "3",
+                maxlength: "20",
+                value: "New List Item",
+                required: "",
+              },
+            }),
+            Loader.newEl("span"),
+          ],
+        }),
+      ],
+    });
+
+    const formListItemDueDate = Loader.newEl("p", {
+      classList: "form__field",
+      children: [
+        Loader.newEl("label", {
+          attrsList: { for: "list-item-duedate" },
+          text: "Item Due Date:",
+        }),
+        Loader.newEl("span", {
+          children: [
+            Loader.newEl("input", {
+              attrsList: {
+                type: "date",
+                id: "list-item-duedate",
+                name: "list_item_duedate",
+                value: new Date(),
+                required: "",
+              },
+            }),
+            Loader.newEl("span"),
+          ],
+        }),
+      ],
+    });
+
+    const formListItemPriority = Loader.newEl("p", {
+      classList: "form__field",
+      children: [
+        Loader.newEl("label", {
+          attrsList: { for: "list-item-priority" },
+          text: "Item Priority:",
+        }),
+        Loader.newEl("span", {
+          children: [
+            Loader.newEl("select", {
+              attrsList: {
+                id: "list-item-priority",
+                name: "list_item_priority",
+                required: "",
+              },
+              children: [
+                Loader.newEl("option", {
+                  attrsList: { value: "" },
+                  text: "Select priority",
+                }),
+                Loader.newEl("option", {
+                  attrsList: { value: "low" },
+                  text: "Low",
+                }),
+                Loader.newEl("option", {
+                  attrsList: { value: "medium" },
+                  text: "Medium",
+                }),
+                Loader.newEl("option", {
+                  attrsList: { value: "high" },
+                  text: "High",
+                }),
+              ],
+            }),
+            Loader.newEl("span"),
+          ],
+        }),
+      ],
+    });
+
+    const formListItemDescription = Loader.newEl("p", {
+      classList: "form__field",
+      children: [
+        Loader.newEl("label", {
+          attrsList: { for: "list-item-description" },
+          text: "Item Description:",
+        }),
+        Loader.newEl("span", {
+          children: [
+            Loader.newEl("textarea", {
+              attrsList: {
+                id: "list-item-duedate",
+                name: "list_item_duedate",
+                rows: "8",
+                text: "A new item that I have to complete, yay...",
+              },
+            }),
+            Loader.newEl("span"),
+          ],
+        }),
+      ],
+    });
+
+    const addTodoFormElements = Loader.loadElements(
+      formListItemName,
+      formListItemDueDate,
+      formListItemPriority,
+      formListItemDescription,
+    );
+
+    for (const el of addTodoFormElements) {
+      dialogForm.appendChild(el);
+    }
+
+    UIControl.openDialogBox();
+  }
 }
