@@ -106,7 +106,8 @@
     }
 
     & input,
-    & textarea {
+    & textarea,
+    & select {
       color: var(--text-color);
       text-align: center;
 
@@ -125,27 +126,32 @@
       border-radius: 0.5rem;
     }
 
-    & input:user-invalid {
+    & input:user-invalid,
+    & select:user-invalid {
       box-shadow: 0 0 4px var(--red-color);
     }
 
-    & input:user-valid {
+    & input:user-valid,
+    & select:user-valid {
       box-shadow: 0 0 4px var(--green-color);
     }
 
-    & input:user-invalid + span::before {
+    & input:user-invalid + span::before,
+    & select:user-invalid + span::before {
       content: "✖";
 
       color: var(--red-color);
     }
 
-    & input:user-valid + span::before {
+    & input:user-valid + span::before,
+    & select:user-valid + span::before {
       content: "✓";
 
       color: var(--green-color);
     }
 
-    & > label:has(+ span > input[required])::before {
+    & > label:has(+ span > input[required])::before,
+    & > label:has(+ span > select[required])::before {
       content: "*";
       color: var(--red-color);
 
