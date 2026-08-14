@@ -51,7 +51,7 @@ class UIController {
     while (projectsList.firstChild) {
       projectsList.removeChild(projectsList.lastChild);
     }
-    //
+
     // while (mainContainer.firstChild) {
     //   mainContainer.removeChild(mainContainer.lastChild);
     // }

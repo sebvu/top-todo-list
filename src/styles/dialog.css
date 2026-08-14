@@ -105,13 +105,10 @@
       right: -20px;
     }
 
-    & input {
+    & input,
+    & textarea {
       color: var(--text-color);
       text-align: center;
-    }
-
-    & input[type="text"] {
-      flex: auto;
 
       padding: 0 1rem;
 
@@ -120,9 +117,12 @@
       border-radius: 1rem;
     }
 
+    & textarea {
+      text-align: left;
+    }
+
     & input[type="color"] {
-      background-color: var(--mantle-color);
-      border-color: var(--crust-color);
+      border-radius: 0.5rem;
     }
 
     & input:user-invalid {
