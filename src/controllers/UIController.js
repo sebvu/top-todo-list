@@ -420,13 +420,33 @@ export class addTodoList extends elementBase {
 }
 
 export class addTodoListItem extends elementBase {
-  // constructor() {
-  // 	super()
-  // }
-  //
-  // #submit(thisTodoList) {
-  // 	const dialogForm = document.querySelector(".dialog__form");
-  //
-  // 	const listName = dialogForm.querySelector("")
-  // }
+  constructor() {
+    super();
+  }
+
+  #submit(thisTodoList) {
+    const dialogForm = document.querySelector(".dialog__form");
+
+    const itemName = dialogForm.querySelector("#list-item-name");
+    const itemDueDate = dialogForm.querySelector("#list-item-duedate");
+    const itemDescription = dialogForm.querySelector("#list-item-description");
+
+    const errorListElement = this.getErrorListAndClearedFormValidity(
+      itemName,
+      itemDueDate,
+      itemDescription,
+    );
+
+    if (!dialogForm.reportValidity()) return;
+
+    const createTodoItemRes = thisTodoList.tryCreateTodoItem(
+      itemName,
+      itemDueDate,
+      itemDescription,
+    );
+
+    this.handleTryCreateRes(createTodoItemRes, errorListElement);
+
+    UIControl.reloadPage();
+  }
 }

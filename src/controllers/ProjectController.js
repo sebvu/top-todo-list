@@ -195,30 +195,82 @@ class TodoList {
     );
   }
 
+  #isValidDueDate(dueDate) {
+    const currDateObj = new Date();
+    const dueDateObj = new Date(dueDate);
+
+    return currDateObj > dueDateObj;
+  }
+
+  #isValidPriorityLevel(priorityLevel) {
+    const lowerCasePriorityLevel = priorityLevel.toLowerCase();
+
+    return (
+      lowerCasePriorityLevel !== "low" &&
+      lowerCasePriorityLevel !== "medium" &&
+      lowerCasePriorityLevel !== "high"
+    );
+  }
+
+  #createListItem(name, dueDate, description, priorityLevel) {}
+
   get listItemArray() {
     return this.#listItemArray;
   }
 
-  createListItem(name, dueDate, description, priorityLevel, checkList = []) {
-    if (this.#hasListItemCopy(name)) {
-      // LogController.errLog(
-      //   this,
-      //   `ListItem was not initialized due to ListItem name copy: ${name}`,
-      // );
-      return undefined;
+  tryCreateListItem(name, dueDate, description, priorityLevel) {
+    const verifyPairs = [
+      {
+        input: name,
+        verifier: this.#hasListItemCopy.bind(this),
+        errMsg: `"${resolveString(name)}" list item name already taken.`,
+      },
+      {
+        input: dueDate,
+        verifier: this.#isValidDueDate.bind(this),
+        errMsg: `"${resolveString(dueDate)}" due date cannot be before current date.`,
+      },
+      {
+        input: dueDate,
+        verifier: this.#isValidPriorityLevel.bind(this),
+        errMsg: `"${resolveString(priorityLevel)}" does not match a valid priority level value.`,
+      },
+    ];
+
+    const verifyInputResult = verifyInput(verifyPairs);
+
+    if (verifyInputResult.errorExists === true) {
+      return verifyInputResult;
     } else {
-      const newListItem = new ListItem(
-        name,
-        dueDate,
-        description,
-        priorityLevel,
-        checkList,
+      verifyInputResult.res = this.#createListItem(
+        resolveString(name),
+        resolveString(dueDate),
+        resolveString(description),
+        resolveString(priorityLevel),
       );
-      this.#listItemArray.push(newListItem);
-      LogController.log(this, `ListItem ${name} successfully initialized.`);
-      return newListItem;
+      return verifyInputResult;
     }
   }
+
+  // createListItem(name, dueDate, description, priorityLevel) {
+  //   if (this.#hasListItemCopy(name)) {
+  //     // LogController.errLog(
+  //     //   this,
+  //     //   `ListItem was not initialized due to ListItem name copy: ${name}`,
+  //     // );
+  //     return undefined;
+  //   } else {
+  //     const newListItem = new ListItem(
+  //       name,
+  //       dueDate,
+  //       description,
+  //       priorityLevel,
+  //     );
+  //     this.#listItemArray.push(newListItem);
+  //     LogController.log(this, `ListItem ${name} successfully initialized.`);
+  //     return newListItem;
+  //   }
+  // }
 
   getListItemByName(listItemName) {
     return this.#listItemArray.find(
@@ -240,37 +292,17 @@ class TodoList {
 }
 
 class ListItem {
-  constructor(name, dueDate, description, priorityLevel, checkList = []) {
+  constructor(name, dueDate, description, priorityLevel) {
     this.#name = name;
     this.#dueDate = dueDate;
     this.#description = description;
-    this.#priorityLevel = this.#ensureValidPriorityLevel(priorityLevel);
-    this.#checkList = checkList;
+    this.#priorityLevel = priorityLevel;
   }
 
   #name;
   #dueDate;
   #description;
   #priorityLevel;
-  #checkList;
-
-  #ensureValidPriorityLevel(priorityLevel) {
-    const lowerCasePriorityLevel = priorityLevel.toLowerCase();
-
-    if (
-      lowerCasePriorityLevel !== "low" &&
-      lowerCasePriorityLevel !== "medium" &&
-      lowerCasePriorityLevel !== "high"
-    ) {
-      // LogController.errLog(
-      //   this,
-      //   `priorityLevel "${lowerCasePriorityLevel}" does not match a valid priorityLevel. Defaulting to "low".`,
-      // );
-      return "low";
-    } else {
-      return lowerCasePriorityLevel;
-    }
-  }
 
   get name() {
     return this.#name;
@@ -321,21 +353,11 @@ class ListItem {
   set priorityLevel(newPriorityLevel) {
     const oldPriorityLevel = this.#priorityLevel;
 
-    this.#priorityLevel = this.#ensureValidPriorityLevel(newPriorityLevel);
+    this.#priorityLevel = newPriorityLevel;
 
     LogController(
       this,
       `${oldPriorityLevel} ListItem priority level changed to ${this.#description}`,
     );
-  }
-
-  get checklist() {
-    return this.#checkList;
-  }
-
-  addToCheckList(checkListItem) {
-    this.#checkList.push(checkListItem);
-
-    LogController(this, `${checkListItem} added to ListItem ${this.#name}`);
   }
 }
