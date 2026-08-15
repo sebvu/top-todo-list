@@ -6,6 +6,7 @@ export default new (class StorageController {
 
   #THEME_NAME = "theme";
   #DATA_NAME = "saved_data";
+  #CURRENT_PROJECT = "saved_data";
 
   set theme(theme) {
     if (theme !== "dark" || theme !== "light") {
@@ -22,6 +23,14 @@ export default new (class StorageController {
     const currSavedTheme = localStorage.getItem(this.#THEME_NAME);
 
     return currSavedTheme;
+  }
+
+  set project(projectName) {
+    this.#CURRENT_PROJECT = projectName;
+  }
+
+  get project() {
+    return this.#CURRENT_PROJECT;
   }
 
   saveCurrentData() {

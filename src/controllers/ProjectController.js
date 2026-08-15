@@ -17,18 +17,40 @@ const verifyInput = (verifyPairs) => {
 };
 
 // elements could either be submitted via dialog or through command line,
-// this is just a resovler so it's always a FUCKING STRING
+// this is just a resolver so it's always a FUCKING STRING
 const resolveString = (element) => {
   return typeof element === "string" ? element : element.value;
 };
 
 class ProjectController {
   #projectArray = [];
+  #currentProject = undefined;
 
   #hasProjectCopy(projectName) {
     return this.#projectArray.some(
       (el) => el.name.toLowerCase() === projectName.toLowerCase(),
     );
+  }
+
+  getProjectEventHandler(projectName) {
+    const currentProjectSelected = this.#projectArray.find(
+      (proj) => proj.name === projectName,
+    );
+
+    if (currentProjectSelected === undefined) {
+      LogController.errLog(
+        this,
+        `finding ${projectName} in project Array is undefined when attempting addEventListener. This should not happen.`,
+      );
+    }
+
+    return function _() {
+      this.#currentProject = currentProjectSelected;
+    }.bind(this);
+  }
+
+  getCurrentProject() {
+    return this.#currentProject;
   }
 
   getStructureJSON() {

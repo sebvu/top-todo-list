@@ -6,6 +6,14 @@ import CSSPropertyController from "./CSSPropertyController.js";
 class UIController {
   #currDialog;
 
+  #setCurrentProjectTitle(projectName, projectColor) {
+    const currentProjectTitle = document.querySelector(".curr-project__name");
+    const currentProjectColor = document.querySelector(".curr-project__icon");
+
+    currentProjectTitle.textContent = projectName;
+    currentProjectColor.style.fill = projectColor;
+  }
+
   #createProjectUI(projectName, projectColor) {
     return Loader.loadElements(
       Loader.newEl("li", {
@@ -39,6 +47,10 @@ class UIController {
     );
   }
 
+  #setProjectTodoLists(projectTodoLists) {
+    console.log(projectTodoLists);
+  }
+
   invoke(handler) {
     handler();
   }
@@ -52,17 +64,42 @@ class UIController {
       projectsList.removeChild(projectsList.lastChild);
     }
 
-    // while (mainContainer.firstChild) {
-    //   mainContainer.removeChild(mainContainer.lastChild);
-    // }
+    while (mainContainer.firstChild) {
+      mainContainer.removeChild(mainContainer.lastChild);
+    }
+
+    let selectedProject = undefined;
 
     for (const proj of projectJSON) {
-      console.log(proj);
       const projectListElement = this.#createProjectUI(
         proj.projectName,
         proj.projectColor,
       ).pop();
+      projectListElement.addEventListener("click", () => {
+        ProjectController.getProjectEventHandler(proj.projectName)();
+        this.reloadPage();
+      });
       projectsList.appendChild(projectListElement);
+
+      const currentProject = ProjectController.getCurrentProject();
+      const projectName =
+        currentProject === undefined ? undefined : currentProject.name;
+      if (proj.projectName === projectName) {
+        selectedProject = proj;
+      }
+    }
+
+    if (selectedProject !== undefined) {
+      this.#setCurrentProjectTitle(
+        selectedProject.projectName,
+        selectedProject.projectColor,
+      );
+
+      this.#setProjectTodoLists(selectedProject.todoLists);
+
+      LogController.log(this, `${selectedProject.projectName} project is set.`);
+    } else {
+      LogController.log(this, "No selected project, main not populated.");
     }
   }
 
@@ -272,9 +309,12 @@ export class addProject extends elementBase {
 
   #submit() {
     const dialogForm = document.querySelector(".dialog__form");
-
     const projectName = dialogForm.querySelector("#project-name");
     const projectColor = dialogForm.querySelector("#project-color");
+
+    console.log(dialogForm);
+    console.log(projectName);
+    console.log(projectColor);
 
     const errorListElement = this.getErrorListAndClearedFormValidity(
       projectName,
