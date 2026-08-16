@@ -47,8 +47,109 @@ class UIController {
     );
   }
 
+  #resolvePriorityClass(priorityLevel) {
+    const lowerCasePriorityLevel = priorityLevel.toLowerCase();
+
+    switch (lowerCasePriorityLevel) {
+      case "low":
+        return "item--priority-low";
+      case "medium":
+        return "item--priority-medium";
+      case "high":
+        return "item--priority-high";
+      default:
+        LogController.log(
+          this,
+          `${lowerCasePriorityLevel} is not a registered priority level. This is a logical error, this should not happen.`,
+        );
+    }
+  }
+
   #setProjectTodoLists(projectTodoLists) {
     console.log(projectTodoLists);
+
+    const projectTodoListsElArray = [];
+
+    for (const todoList of projectTodoLists) {
+      // console.log(todoList.listItems);
+      const newTodoListEl = Loader.newEl("section", {
+        classList: "todo",
+        children: [
+          Loader.newEl("hgroup", {
+            classList: "todo__header",
+            children: [
+              Loader.newEl("h1", {
+                classList: ["todo__name", "_text", "_text--header-font"],
+                text: todoList.name,
+              }),
+              Loader.newEl("button", {
+                classList: ["todo__add-item-button", "_text"],
+                text: "Add Item",
+              }),
+            ],
+          }),
+          ...(() => {
+            const todoListItems = [];
+
+            for (const listItem of todoList.listItems) {
+              const listItemLoaderEl = Loader.newEl("section", {
+                classList: [
+                  "item",
+                  "todo__item",
+                  "_text",
+                  "--context-xxxs",
+                  this.#resolvePriorityClass(listItem.priorityLevel),
+                ],
+                children: [
+                  Loader.newEl("ul", {
+                    classList: "item__list",
+                    children: [
+                      Loader.newEl("li", {
+                        children: [
+                          Loader.newEl("h2", {
+                            classList: "item__name",
+                            text: listItem.name,
+                          }),
+                        ],
+                      }),
+                      Loader.newEl("li", {
+                        children: [
+                          Loader.newEl("p", {
+                            classList: "item__due-date",
+                            text: "Due ",
+                            children: [
+                              Loader.newEl("time", {
+                                classList: ["_text", "_text-bold"],
+                                attrsList: { datetime: listItem.dueDate },
+                                text: listItem.dueDate, // need to format with date-fns
+                              }),
+                            ],
+                          }),
+                        ],
+                      }),
+                      Loader.newEl("p", {
+                        classList: "item__description",
+                        text: listItem.description,
+                      }),
+                    ],
+                  }),
+                ],
+              });
+              todoListItems.push(listItemLoaderEl);
+            }
+
+            return todoListItems;
+          })(),
+        ],
+      });
+
+      const newLoadedTodoListEl = Loader.loadElements(newTodoListEl).pop();
+
+      // logic to select button and add event listener etc fuck
+
+      projectTodoListsElArray.push(newLoadedTodoListEl);
+    }
+    return projectTodoListsElArray;
   }
 
   invoke(handler) {
@@ -60,13 +161,13 @@ class UIController {
     const projectsList = document.querySelector(".projects__list");
     const mainContainer = document.querySelector("#main");
 
-    while (projectsList.firstChild) {
-      projectsList.removeChild(projectsList.lastChild);
-    }
-
-    while (mainContainer.firstChild) {
-      mainContainer.removeChild(mainContainer.lastChild);
-    }
+    // while (projectsList.firstChild) {
+    //   projectsList.removeChild(projectsList.lastChild);
+    // }
+    //
+    // while (mainContainer.firstChild) {
+    //   mainContainer.removeChild(mainContainer.lastChild);
+    // }
 
     let selectedProject = undefined;
 
@@ -95,7 +196,15 @@ class UIController {
         selectedProject.projectColor,
       );
 
-      this.#setProjectTodoLists(selectedProject.todoLists);
+      const projectTodoListsElArray = this.#setProjectTodoLists(
+        selectedProject.todoLists,
+      );
+
+      console.log(projectTodoListsElArray);
+
+      for (const todoListEl of projectTodoListsElArray) {
+        mainContainer.appendChild(todoListEl);
+      }
 
       LogController.log(this, `${selectedProject.projectName} project is set.`);
     } else {

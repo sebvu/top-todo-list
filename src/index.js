@@ -42,7 +42,7 @@ function main() {
     "lavender",
   ).res;
 
-  fuckProject.tryCreateTodoList("nothing").res;
+  // fuckProject.tryCreateTodoList("nothing").res;
   const fuckProjectSomething = fuckProject.tryCreateTodoList("something").res;
 
   console.log(
@@ -54,40 +54,46 @@ function main() {
     ),
   );
 
-  // fuckProject
-  //   .createTodoList("fucking list")
-  //   .createListItem(
-  //     "my girlfriend",
-  //     "03/7/2026",
-  //     "she's my girlfriend?? idk what to say",
-  //     "low",
-  //     ["capture her", "FUCK!"],
-  //   );
-  // houseCleaningProject
-  //   .createTodoList("Who to Invite")
-  //   .createListItem(
-  //     "Cristal",
-  //     "07/804423/2456",
-  //     "girlfriend, once again. like, she gotta HELP ME!",
-  //     "medium",
-  //   );
-  // houseCleaningProject
-  //   .createTodoList("Buy List")
-  //   .createListItem(
-  //     "fabuloso",
-  //     "A DATE",
-  //     "i need fabuloso to go clean ugh",
-  //     "low",
-  //     ["fabuloso", "stuff"],
-  //   );
+  (fuckProjectSomething.tryCreateListItem(
+    "no",
+    "11/24/2028",
+    "hello! im trying my hardest here PLEASE HELP ME AHSDLFKJSDALFSLDAKFJLSAEJFLOSEIj",
+    "high",
+  ),
+    // fuckProject
+    //   .createTodoList("fucking list")
+    //   .createListItem(
+    //     "my girlfriend",
+    //     "03/7/2026",
+    //     "she's my girlfriend?? idk what to say",
+    //     "low",
+    //     ["capture her", "FUCK!"],
+    //   );
+    // houseCleaningProject
+    //   .createTodoList("Who to Invite")
+    //   .createListItem(
+    //     "Cristal",
+    //     "07/804423/2456",
+    //     "girlfriend, once again. like, she gotta HELP ME!",
+    //     "medium",
+    //   );
+    // houseCleaningProject
+    //   .createTodoList("Buy List")
+    //   .createListItem(
+    //     "fabuloso",
+    //     "A DATE",
+    //     "i need fabuloso to go clean ugh",
+    //     "low",
+    //     ["fabuloso", "stuff"],
+    //   );
 
-  // console.log(fuckProject);
-  // console.log(houseCleaningProject);
-  //
-  // const structure = ProjectController.getStructureJSON();
-  // console.log(structure);
+    // console.log(fuckProject);
+    // console.log(houseCleaningProject);
+    //
+    // const structure = ProjectController.getStructureJSON();
+    // console.log(structure);
 
-  UIController.reloadPage();
+    UIController.reloadPage());
 }
 
 main();
