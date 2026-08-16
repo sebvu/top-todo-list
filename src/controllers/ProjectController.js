@@ -73,7 +73,6 @@ class ProjectController {
                     dueDate: listItem.dueDate,
                     description: listItem.description,
                     priorityLevel: listItem.priorityLevel,
-                    checkList: listItem.checkList,
                   };
                   listItemObjects.push(listItemObject);
                 }
@@ -234,7 +233,11 @@ class TodoList {
     );
   }
 
-  #createListItem(name, dueDate, description, priorityLevel) {}
+  #createListItem(name, dueDate, description, priorityLevel) {
+    const newListItem = new ListItem(name, dueDate, description, priorityLevel);
+    this.#listItemArray.push(newListItem);
+    return newListItem;
+  }
 
   get listItemArray() {
     return this.#listItemArray;
@@ -253,7 +256,7 @@ class TodoList {
         errMsg: `"${resolveString(dueDate)}" due date cannot be before current date.`,
       },
       {
-        input: dueDate,
+        input: priorityLevel,
         verifier: this.#isValidPriorityLevel.bind(this),
         errMsg: `"${resolveString(priorityLevel)}" does not match a valid priority level value.`,
       },

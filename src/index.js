@@ -37,6 +37,22 @@ function main() {
     "House Cleaning",
     "blue",
   ).res;
+  const marriageStuff = ProjectController.tryCreateProject(
+    "mariageStuff",
+    "lavender",
+  ).res;
+
+  fuckProject.tryCreateTodoList("nothing").res;
+  const fuckProjectSomething = fuckProject.tryCreateTodoList("something").res;
+
+  console.log(
+    fuckProjectSomething.tryCreateListItem(
+      "yes",
+      "11/24/2028",
+      "hello! im trying my hardest here PLEASE HELP ME AHSDLFKJSDALFSLDAKFJLSAEJFLOSEIj",
+      "low",
+    ),
+  );
 
   // fuckProject
   //   .createTodoList("fucking list")
