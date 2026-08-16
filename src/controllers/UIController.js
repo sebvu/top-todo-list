@@ -127,9 +127,13 @@ class UIController {
                           }),
                         ],
                       }),
-                      Loader.newEl("p", {
-                        classList: "item__description",
-                        text: listItem.description,
+                      Loader.newEl("li", {
+                        children: [
+                          Loader.newEl("p", {
+                            classList: "item__description",
+                            text: listItem.description,
+                          }),
+                        ],
                       }),
                     ],
                   }),
@@ -161,13 +165,13 @@ class UIController {
     const projectsList = document.querySelector(".projects__list");
     const mainContainer = document.querySelector("#main");
 
-    // while (projectsList.firstChild) {
-    //   projectsList.removeChild(projectsList.lastChild);
-    // }
-    //
-    // while (mainContainer.firstChild) {
-    //   mainContainer.removeChild(mainContainer.lastChild);
-    // }
+    while (projectsList.firstChild) {
+      projectsList.removeChild(projectsList.lastChild);
+    }
+
+    while (mainContainer.firstChild) {
+      mainContainer.removeChild(mainContainer.lastChild);
+    }
 
     let selectedProject = undefined;
 

@@ -236,6 +236,37 @@ class TodoList {
   #createListItem(name, dueDate, description, priorityLevel) {
     const newListItem = new ListItem(name, dueDate, description, priorityLevel);
     this.#listItemArray.push(newListItem);
+
+    // sort decreasing by priority level, due date then name
+
+    this.#listItemArray.sort((a, b) => {
+      if (a.priorityLevel === b.priorityLevel) return 0;
+      if (a.priorityLevel === "low") return 1;
+      if (a.priorityLevel === "medium")
+        return b.priorityLevel === "high" ? 1 : -1;
+      if (a.priorityLevel === "high") return -1;
+    });
+
+    this.#listItemArray.sort((a, b) => {
+      if (a.priorityLevel !== b.priorityLevel) return 0;
+
+      const aDate = new Date(a.dueDate);
+      const bDate = new Date(b.dueDate);
+
+      return aDate > bDate ? -1 : 1;
+    });
+
+    this.#listItemArray.sort((a, b) => {
+      const aDateYear = new Date(a.dueDate).getFullYear();
+      const bDateYear = new Date(b.dueDate).getFullYear();
+
+      if (aDateYear !== bDateYear) return 0;
+
+      console.log(b.name.localeCompare(a.name));
+
+      return a.name.localeCompare(b.name);
+    });
+
     return newListItem;
   }
 

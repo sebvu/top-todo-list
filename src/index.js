@@ -42,57 +42,75 @@ function main() {
     "lavender",
   ).res;
 
-  // fuckProject.tryCreateTodoList("nothing").res;
+  fuckProject.tryCreateTodoList("nothing").res;
   const fuckProjectSomething = fuckProject.tryCreateTodoList("something").res;
 
-  console.log(
+  (fuckProjectSomething.tryCreateListItem(
+    "yes",
+    "11/24/2033",
+    "hello! im trying my hardest here PLEASE HELP ME AHSDLFKJSDALFSLDAKFJLSAEJFLOSEIj",
+    "low",
+  ),
     fuckProjectSomething.tryCreateListItem(
-      "yes",
-      "11/24/2028",
+      "no",
+      "11/24/2032",
+      "hello! im trying my hardest here PLEASE HELP ME AHSDLFKJSDALFSLDAKFJLSAEJFLOSEIj",
+      "high",
+    ),
+    fuckProjectSomething.tryCreateListItem(
+      "okay?",
+      "11/24/2037",
+      "hello! im trying my hardest here PLEASE HELP ME AHSDLFKJSDALFSLDAKFJLSAEJFLOSEIj",
+      "medium",
+    ),
+    fuckProjectSomething.tryCreateListItem(
+      "sure",
+      "11/24/2027",
+      "hello! im trying my hardest here PLEASE HELP ME AHSDLFKJSDALFSLDAKFJLSAEJFLOSEIj",
+      "high",
+    ),
+    fuckProjectSomething.tryCreateListItem(
+      "maybe",
+      "11/24/2030",
       "hello! im trying my hardest here PLEASE HELP ME AHSDLFKJSDALFSLDAKFJLSAEJFLOSEIj",
       "low",
     ),
-  );
-
-  (fuckProjectSomething.tryCreateListItem(
-    "no",
-    "11/24/2028",
-    "hello! im trying my hardest here PLEASE HELP ME AHSDLFKJSDALFSLDAKFJLSAEJFLOSEIj",
-    "high",
-  ),
-    // fuckProject
-    //   .createTodoList("fucking list")
-    //   .createListItem(
-    //     "my girlfriend",
-    //     "03/7/2026",
-    //     "she's my girlfriend?? idk what to say",
-    //     "low",
-    //     ["capture her", "FUCK!"],
-    //   );
-    // houseCleaningProject
-    //   .createTodoList("Who to Invite")
-    //   .createListItem(
-    //     "Cristal",
-    //     "07/804423/2456",
-    //     "girlfriend, once again. like, she gotta HELP ME!",
-    //     "medium",
-    //   );
-    // houseCleaningProject
-    //   .createTodoList("Buy List")
-    //   .createListItem(
-    //     "fabuloso",
-    //     "A DATE",
-    //     "i need fabuloso to go clean ugh",
-    //     "low",
-    //     ["fabuloso", "stuff"],
-    //   );
-
-    // console.log(fuckProject);
-    // console.log(houseCleaningProject);
-    //
-    // const structure = ProjectController.getStructureJSON();
-    // console.log(structure);
-
+    fuckProjectSomething.tryCreateListItem(
+      "dskjfds",
+      "11/24/2030",
+      "hello! im trying my hardest here PLEASE HELP ME AHSDLFKJSDALFSLDAKFJLSAEJFLOSEIj",
+      "medium",
+    ),
+    fuckProjectSomething.tryCreateListItem(
+      "sdjfsedf",
+      "11/24/2035",
+      "hello! im trying my hardest here PLEASE HELP ME AHSDLFKJSDALFSLDAKFJLSAEJFLOSEIj",
+      "medium",
+    ),
+    fuckProjectSomething.tryCreateListItem(
+      "a",
+      "11/24/2032",
+      "hello! im trying my hardest here PLEASE HELP ME AHSDLFKJSDALFSLDAKFJLSAEJFLOSEIj",
+      "high",
+    ),
+    fuckProjectSomething.tryCreateListItem(
+      "ddd",
+      "11/24/2032",
+      "hello! im trying my hardest here PLEASE HELP ME AHSDLFKJSDALFSLDAKFJLSAEJFLOSEIj",
+      "high",
+    ),
+    fuckProjectSomething.tryCreateListItem(
+      "b",
+      "11/24/2032",
+      "hello! im trying my hardest here PLEASE HELP ME AHSDLFKJSDALFSLDAKFJLSAEJFLOSEIj",
+      "high",
+    ),
+    fuckProjectSomething.tryCreateListItem(
+      "c",
+      "11/24/2032",
+      "hello! im trying my hardest here PLEASE HELP ME AHSDLFKJSDALFSLDAKFJLSAEJFLOSEIj",
+      "high",
+    ),
     UIController.reloadPage());
 }
 
