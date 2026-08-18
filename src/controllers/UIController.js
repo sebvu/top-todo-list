@@ -148,8 +148,20 @@ class UIController {
       });
 
       const newLoadedTodoListEl = Loader.loadElements(newTodoListEl).pop();
+      const todoListButtonEl = newLoadedTodoListEl.querySelector(
+        ".todo__add-item-button",
+      );
+
+      todoListButtonEl.addEventListener("click", addTodoListItemControl.action);
 
       // logic to select button and add event listener etc fuck
+
+      // projectListElement.addEventListener("click", () => {
+      //   ProjectController.getProjectEventHandler(proj.projectName)();
+      //   this.reloadPage();
+      // });
+
+      console.log(todoList);
 
       projectTodoListsElArray.push(newLoadedTodoListEl);
     }
@@ -226,10 +238,7 @@ class UIController {
       }),
     ).pop();
 
-    submitButton.addEventListener("click", () => {
-      console.log("hello");
-      submitHandler();
-    });
+    submitButton.addEventListener("click", submitHandler);
 
     this.#currDialog.querySelector(".form").appendChild(submitButton);
 
@@ -572,7 +581,7 @@ export class addTodoList extends elementBase {
   }
 }
 
-export class addTodoListItem extends elementBase {
+class addTodoListItem extends elementBase {
   constructor() {
     super();
   }
@@ -733,3 +742,6 @@ export class addTodoListItem extends elementBase {
     UIControl.openDialogBox();
   }
 }
+
+// internally used only
+const addTodoListItemControl = new addTodoListItem();
