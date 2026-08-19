@@ -248,34 +248,46 @@ class addTodoListItem extends elementBase {
     super();
   }
 
-  #submit(thisTodoList) {
+  static currentTodoListObject;
+
+  static submit() {
     const dialogForm = document.querySelector(".dialog__form");
 
     const itemName = dialogForm.querySelector("#list-item-name");
     const itemDueDate = dialogForm.querySelector("#list-item-duedate");
     const itemDescription = dialogForm.querySelector("#list-item-description");
+    const itemPriorityLevel = dialogForm.querySelector("#list-item-priority");
 
     const errorListElement = addTodoListItem.getErrorListAndClearedFormValidity(
       itemName,
       itemDueDate,
       itemDescription,
+      itemPriorityLevel,
     );
 
     if (!dialogForm.reportValidity()) return;
 
-    const createTodoItemRes = thisTodoList.tryCreateTodoItem(
-      itemName,
-      itemDueDate,
-      itemDescription,
-    );
+    const createTodoItemRes =
+      addTodoListItem.currentTodoListObject.tryCreateListItem(
+        itemName,
+        itemDueDate,
+        itemDescription,
+        itemPriorityLevel,
+      );
 
     addTodoListItem.handleTryCreateRes(createTodoItemRes, errorListElement);
 
     UIControl.reloadPage();
   }
 
-  action() {
+  action(listItemName) {
     const dialogForm = UIControl.getDialogBoxForm("Add List Item");
+    const listItemObj = ProjectController.getTodoListObj(
+      ProjectController.getCurrentProject().name,
+      listItemName,
+    );
+
+    addTodoListItem.currentTodoListObject = listItemObj;
 
     const formListItemName = Loader.newEl("p", {
       classList: "form__field",
@@ -378,8 +390,8 @@ class addTodoListItem extends elementBase {
           children: [
             Loader.newEl("textarea", {
               attrsList: {
-                id: "list-item-duedate",
-                name: "list_item_duedate",
+                id: "list-item-description",
+                name: "list_item_description",
                 rows: "8",
                 text: "A new item that I have to complete, yay...",
               },
@@ -401,7 +413,7 @@ class addTodoListItem extends elementBase {
       dialogForm.appendChild(el);
     }
 
-    UIControl.openDialogBox();
+    UIControl.openDialogBox(addTodoListItem.submit);
   }
 }
 
@@ -410,12 +422,18 @@ class UIController {
     const themeToggleButton = document.querySelector(".theme-button");
     const sidebarToggleButton = document.querySelector(".sidebar-button");
     const projectAddButton = document.querySelector(".projects__add-button");
+    const addTodoListButton = document.querySelector(".header__add-todo");
 
     this.toggleThemeControl = new toggleTheme();
     this.toggleSidebarControl = new toggleSidebar();
     this.addProjectControl = new addProject();
     this.addTodoListControl = new addTodoList();
     this.addTodoListItemControl = new addTodoListItem();
+
+    // addTodoListButton.addEventListener(
+    //   "click",
+    //   this.addTodoListControl.action,
+    // );
 
     const bindTogglerWithClass = (togglerClassObj) => {
       return togglerClassObj.action.bind(togglerClassObj);
@@ -424,6 +442,7 @@ class UIController {
     const elementHandlerPairs = [
       [themeToggleButton, bindTogglerWithClass(this.toggleThemeControl)],
       [sidebarToggleButton, bindTogglerWithClass(this.toggleSidebarControl)],
+      [addTodoListButton, bindTogglerWithClass(this.addTodoListControl)],
       [projectAddButton, bindTogglerWithClass(this.addProjectControl)],
     ];
 
@@ -578,16 +597,15 @@ class UIController {
       });
 
       const newLoadedTodoListEl = Loader.loadElements(newTodoListEl).pop();
-      const todoListButtonEl = newLoadedTodoListEl.querySelector(
+      const todoListAddItemButtonEl = newLoadedTodoListEl.querySelector(
         ".todo__add-item-button",
       );
 
       // logic to select button and add event listener etc fuck
 
-      todoListButtonEl.addEventListener(
-        "click",
-        this.addTodoListItemControl.action,
-      );
+      todoListAddItemButtonEl.addEventListener("click", () => {
+        this.addTodoListItemControl.action(todoList.name);
+      });
 
       console.log(todoList);
 
@@ -638,13 +656,6 @@ class UIController {
       this.#setCurrentProjectTitle(
         selectedProject.projectName,
         selectedProject.projectColor,
-      );
-
-      const addTodoListButton = document.querySelector(".header__add-todo");
-
-      addTodoListButton.addEventListener(
-        "click",
-        this.addTodoListControl.action,
       );
 
       const projectTodoListsElArray = this.#setProjectTodoLists(

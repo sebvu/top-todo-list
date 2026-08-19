@@ -53,6 +53,38 @@ class ProjectController {
     return this.#currentProject;
   }
 
+  getTodoListObj(projectName, todoListName) {
+    try {
+      if (projectName === undefined) {
+        throw new Error(
+          `project name is undefined when attempting to get todo list ${todoListName}`,
+        );
+      }
+
+      const currentProjectObj = this.#projectArray.find(
+        (projObj) => projObj.name === projectName,
+      );
+
+      if (currentProjectObj === undefined) {
+        throw new Error(
+          `searching for ${projectName} did not yield a project object.`,
+        );
+      }
+
+      const todoListObj = currentProjectObj.getTodoListByName(todoListName);
+
+      if (todoListObj === undefined) {
+        throw new Error(
+          `searching for ${todoListName} todo list in ${projectName} project object yielded no results`,
+        );
+      }
+
+      return todoListObj;
+    } catch (e) {
+      LogController.errLog(this, e);
+    }
+  }
+
   getStructureJSON() {
     let projectJSON = [];
 
