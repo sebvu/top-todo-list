@@ -285,18 +285,7 @@ class TodoList {
       const aDate = new Date(a.dueDate);
       const bDate = new Date(b.dueDate);
 
-      return aDate > bDate ? -1 : 1;
-    });
-
-    this.#listItemArray.sort((a, b) => {
-      const aDateYear = new Date(a.dueDate).getFullYear();
-      const bDateYear = new Date(b.dueDate).getFullYear();
-
-      if (aDateYear !== bDateYear) return 0;
-
-      console.log(b.name.localeCompare(a.name));
-
-      return a.name.localeCompare(b.name);
+      return aDate > bDate ? 1 : -1;
     });
 
     return newListItem;
@@ -340,26 +329,6 @@ class TodoList {
     }
   }
 
-  // createListItem(name, dueDate, description, priorityLevel) {
-  //   if (this.#hasListItemCopy(name)) {
-  //     // LogController.errLog(
-  //     //   this,
-  //     //   `ListItem was not initialized due to ListItem name copy: ${name}`,
-  //     // );
-  //     return undefined;
-  //   } else {
-  //     const newListItem = new ListItem(
-  //       name,
-  //       dueDate,
-  //       description,
-  //       priorityLevel,
-  //     );
-  //     this.#listItemArray.push(newListItem);
-  //     LogController.log(this, `ListItem ${name} successfully initialized.`);
-  //     return newListItem;
-  //   }
-  // }
-
   getListItemByName(listItemName) {
     return this.#listItemArray.find(
       (el) => el.name.toLowerCase() === listItemName.toLowerCase(),
@@ -382,7 +351,7 @@ class TodoList {
 class ListItem {
   constructor(name, dueDate, description, priorityLevel) {
     this.#name = name;
-    this.#dueDate = new Date(dueDate);
+    this.#dueDate = dueDate;
     this.#description = description;
     this.#priorityLevel = priorityLevel;
   }

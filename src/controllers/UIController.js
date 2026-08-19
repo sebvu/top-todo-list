@@ -431,11 +431,6 @@ class UIController {
     this.addTodoListControl = new addTodoList();
     this.addTodoListItemControl = new addTodoListItem();
 
-    // addTodoListButton.addEventListener(
-    //   "click",
-    //   this.addTodoListControl.action,
-    // );
-
     const bindTogglerWithClass = (togglerClassObj) => {
       return togglerClassObj.action.bind(togglerClassObj);
     };
