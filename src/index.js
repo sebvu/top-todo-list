@@ -1,37 +1,8 @@
 import * as _ from "./style-exporter.js";
-import UIController, * as UI from "./controllers/UIController.js";
+import UIController from "./controllers/UIController.js";
 import ProjectController from "./controllers/ProjectController.js";
 
-class TodoList {
-  constructor() {
-    const themeToggleButton = document.querySelector(".theme-button");
-    const sidebarToggleButton = document.querySelector(".sidebar-button");
-    const todoListAddButton = document.querySelector(".header__add-todo");
-    const projectAddButton = document.querySelector(".projects__add-button");
-
-    const bindTogglerWithClass = (togglerClass) => {
-      const newToggler = new togglerClass();
-      return newToggler.action.bind(newToggler);
-    };
-
-    const elementHandlerPairs = [
-      [themeToggleButton, bindTogglerWithClass(UI.toggleTheme)],
-      [sidebarToggleButton, bindTogglerWithClass(UI.toggleSidebar)],
-      [todoListAddButton, bindTogglerWithClass(UI.addTodoList)],
-      [projectAddButton, bindTogglerWithClass(UI.addProject)],
-    ];
-
-    for (const [element, handler] of elementHandlerPairs) {
-      element.addEventListener("click", () => {
-        UIController.invoke(handler);
-      });
-    }
-  }
-}
-
 function main() {
-  const todoList = new TodoList();
-
   const fuckProject = ProjectController.tryCreateProject("fuck", "red").res;
   const houseCleaningProject = ProjectController.tryCreateProject(
     "House Cleaning",

@@ -3,7 +3,437 @@ import Loader from "../helpers/elLoader.js";
 import ProjectController from "./ProjectController.js";
 import CSSPropertyController from "./CSSPropertyController.js";
 
+// class handlers for toggle
+
+class elementBase {
+  action() {
+    LogController.errLog(this, "toggle() method not implemented");
+  }
+
+  static handleTryCreateRes(createRes, errorListElement) {
+    if (createRes.errorExists) {
+      for (const res of createRes.res) {
+        res.input.setCustomValidity(res.errMsg);
+        const newErrorListItem = Loader.loadElements(
+          Loader.newEl("li", {
+            classList: "errors__item",
+            children: [Loader.newEl("span")],
+            text: res.errMsg,
+          }),
+        ).pop();
+        errorListElement.appendChild(newErrorListItem);
+      }
+    } else {
+      UIControl.closeDialogBox();
+    }
+  }
+
+  static getErrorListAndClearedFormValidity(...fieldElements) {
+    for (const el of fieldElements) {
+      el.setCustomValidity("");
+    }
+
+    const errorListElement = document.querySelector(".dialog__errors");
+
+    while (errorListElement.firstChild) {
+      errorListElement.removeChild(errorListElement.lastChild);
+    }
+
+    return errorListElement;
+  }
+}
+
+class toggleTheme extends elementBase {
+  constructor() {
+    super();
+  }
+
+  action() {
+    const attributeName = "data-theme";
+    const rootElement = document.documentElement;
+
+    const currentTheme = rootElement.getAttribute(attributeName);
+    const newTheme = currentTheme === "light" ? "dark" : "light";
+
+    rootElement.setAttribute(attributeName, newTheme);
+
+    // StorageController.setItem(attributeName, newTheme);
+
+    LogController.log(this, `Toggling theme to ${newTheme}`);
+  }
+}
+
+class toggleSidebar extends elementBase {
+  constructor() {
+    super();
+  }
+
+  action() {
+    const sidebarElement = document.querySelector("#sidebar");
+    const sidebarCloseClass = "sidebar--close";
+
+    if (sidebarElement.classList.contains(sidebarCloseClass)) {
+      // open
+      sidebarElement.classList.remove(sidebarCloseClass);
+    } else {
+      // close
+      sidebarElement.classList.add(sidebarCloseClass);
+    }
+  }
+}
+
+class addProject extends elementBase {
+  constructor() {
+    super();
+  }
+
+  static submit() {
+    const dialogForm = document.querySelector(".dialog__form");
+    const projectName = dialogForm.querySelector("#project-name");
+    const projectColor = dialogForm.querySelector("#project-color");
+
+    console.log(dialogForm);
+    console.log(projectName);
+    console.log(projectColor);
+
+    const errorListElement = addProject.getErrorListAndClearedFormValidity(
+      projectName,
+      projectColor,
+    );
+
+    if (!dialogForm.reportValidity()) return;
+
+    const createProjectRes = ProjectController.tryCreateProject(
+      projectName,
+      projectColor,
+    );
+
+    addProject.handleTryCreateRes(createProjectRes, errorListElement);
+
+    UIControl.reloadPage();
+  }
+
+  action() {
+    const dialogForm = UIControl.getDialogBoxForm(
+      "Add Project",
+      addProject.submit,
+    );
+
+    const addProjectFormElements = Loader.loadElements(
+      Loader.newEl("p", {
+        classList: "form__field",
+        children: [
+          Loader.newEl("label", {
+            attrsList: { for: "project-name" },
+            text: "Project Name:",
+          }),
+          Loader.newEl("span", {
+            children: [
+              Loader.newEl("input", {
+                attrsList: {
+                  type: "text",
+                  id: "project-name",
+                  name: "project_name",
+                  minlength: "3",
+                  maxlength: "20",
+                  value: "New Project",
+                  required: "",
+                },
+              }),
+              Loader.newEl("span"),
+            ],
+          }),
+        ],
+      }),
+      Loader.newEl("p", {
+        classList: "form__field",
+        children: [
+          Loader.newEl("label", {
+            attrsList: { for: "project-color" },
+            text: "Project Color",
+          }),
+          Loader.newEl("span", {
+            children: [
+              Loader.newEl("input", {
+                attrsList: {
+                  type: "color",
+                  id: "project-color",
+                  name: "project_color",
+                  list: "project-color-presets",
+                  value: CSSPropertyController.requestProperty("--red-color"),
+                },
+              }),
+              Loader.newEl("span"),
+            ],
+          }),
+        ],
+      }),
+    );
+
+    for (const el of addProjectFormElements) {
+      dialogForm.appendChild(el);
+    }
+
+    UIControl.openDialogBox(addProject.submit);
+  }
+}
+
+class addTodoList extends elementBase {
+  constructor() {
+    super();
+  }
+
+  // submit handler for dialog
+  static submit() {
+    const dialogForm = document.querySelector(".dialog__form");
+
+    const listName = dialogForm.querySelector("#list-name");
+
+    const errorListElement =
+      addTodoList.getErrorListAndClearedFormValidity(listName);
+
+    if (!dialogForm.reportValidity()) return;
+
+    const currProj = ProjectController.getCurrentProject();
+    console.log(currProj);
+
+    const createTodoListRes = currProj.tryCreateTodoList(listName);
+
+    addTodoList.handleTryCreateRes(createTodoListRes, errorListElement);
+
+    UIControl.reloadPage();
+  }
+
+  action() {
+    const dialogForm = UIControl.getDialogBoxForm("Add Todo List");
+
+    const addTodoFormElements = Loader.loadElements(
+      Loader.newEl("p", {
+        classList: "form__field",
+        children: [
+          Loader.newEl("label", {
+            attrsList: { for: "list-name" },
+            text: "List Name:",
+          }),
+          Loader.newEl("span", {
+            children: [
+              Loader.newEl("input", {
+                attrsList: {
+                  type: "text",
+                  id: "list-name",
+                  name: "list_name",
+                  minlength: "3",
+                  maxlength: "20",
+                  value: "New List",
+                  required: "",
+                },
+              }),
+              Loader.newEl("span"),
+            ],
+          }),
+        ],
+      }),
+    );
+
+    for (const el of addTodoFormElements) {
+      dialogForm.appendChild(el);
+    }
+
+    UIControl.openDialogBox(addTodoList.submit);
+  }
+}
+
+class addTodoListItem extends elementBase {
+  constructor() {
+    super();
+  }
+
+  #submit(thisTodoList) {
+    const dialogForm = document.querySelector(".dialog__form");
+
+    const itemName = dialogForm.querySelector("#list-item-name");
+    const itemDueDate = dialogForm.querySelector("#list-item-duedate");
+    const itemDescription = dialogForm.querySelector("#list-item-description");
+
+    const errorListElement = addTodoListItem.getErrorListAndClearedFormValidity(
+      itemName,
+      itemDueDate,
+      itemDescription,
+    );
+
+    if (!dialogForm.reportValidity()) return;
+
+    const createTodoItemRes = thisTodoList.tryCreateTodoItem(
+      itemName,
+      itemDueDate,
+      itemDescription,
+    );
+
+    addTodoListItem.handleTryCreateRes(createTodoItemRes, errorListElement);
+
+    UIControl.reloadPage();
+  }
+
+  action() {
+    const dialogForm = UIControl.getDialogBoxForm("Add List Item");
+
+    const formListItemName = Loader.newEl("p", {
+      classList: "form__field",
+      children: [
+        Loader.newEl("label", {
+          attrsList: { for: "list-item-name" },
+          text: "List Item Name:",
+        }),
+        Loader.newEl("span", {
+          children: [
+            Loader.newEl("input", {
+              attrsList: {
+                type: "text",
+                id: "list-item-name",
+                name: "list_item_name",
+                minlength: "3",
+                maxlength: "20",
+                value: "New List Item",
+                required: "",
+              },
+            }),
+            Loader.newEl("span"),
+          ],
+        }),
+      ],
+    });
+
+    const formListItemDueDate = Loader.newEl("p", {
+      classList: "form__field",
+      children: [
+        Loader.newEl("label", {
+          attrsList: { for: "list-item-duedate" },
+          text: "Item Due Date:",
+        }),
+        Loader.newEl("span", {
+          children: [
+            Loader.newEl("input", {
+              attrsList: {
+                type: "date",
+                id: "list-item-duedate",
+                name: "list_item_duedate",
+                value: new Date(),
+                required: "",
+              },
+            }),
+            Loader.newEl("span"),
+          ],
+        }),
+      ],
+    });
+
+    const formListItemPriority = Loader.newEl("p", {
+      classList: "form__field",
+      children: [
+        Loader.newEl("label", {
+          attrsList: { for: "list-item-priority" },
+          text: "Item Priority:",
+        }),
+        Loader.newEl("span", {
+          children: [
+            Loader.newEl("select", {
+              attrsList: {
+                id: "list-item-priority",
+                name: "list_item_priority",
+                required: "",
+              },
+              children: [
+                Loader.newEl("option", {
+                  attrsList: { value: "" },
+                  text: "Select priority",
+                }),
+                Loader.newEl("option", {
+                  attrsList: { value: "low" },
+                  text: "Low",
+                }),
+                Loader.newEl("option", {
+                  attrsList: { value: "medium" },
+                  text: "Medium",
+                }),
+                Loader.newEl("option", {
+                  attrsList: { value: "high" },
+                  text: "High",
+                }),
+              ],
+            }),
+            Loader.newEl("span"),
+          ],
+        }),
+      ],
+    });
+
+    const formListItemDescription = Loader.newEl("p", {
+      classList: "form__field",
+      children: [
+        Loader.newEl("label", {
+          attrsList: { for: "list-item-description" },
+          text: "Item Description:",
+        }),
+        Loader.newEl("span", {
+          children: [
+            Loader.newEl("textarea", {
+              attrsList: {
+                id: "list-item-duedate",
+                name: "list_item_duedate",
+                rows: "8",
+                text: "A new item that I have to complete, yay...",
+              },
+            }),
+            Loader.newEl("span"),
+          ],
+        }),
+      ],
+    });
+
+    const addTodoFormElements = Loader.loadElements(
+      formListItemName,
+      formListItemDueDate,
+      formListItemPriority,
+      formListItemDescription,
+    );
+
+    for (const el of addTodoFormElements) {
+      dialogForm.appendChild(el);
+    }
+
+    UIControl.openDialogBox();
+  }
+}
+
 class UIController {
+  constructor() {
+    const themeToggleButton = document.querySelector(".theme-button");
+    const sidebarToggleButton = document.querySelector(".sidebar-button");
+    const projectAddButton = document.querySelector(".projects__add-button");
+
+    this.toggleThemeControl = new toggleTheme();
+    this.toggleSidebarControl = new toggleSidebar();
+    this.addProjectControl = new addProject();
+    this.addTodoListControl = new addTodoList();
+    this.addTodoListItemControl = new addTodoListItem();
+
+    const bindTogglerWithClass = (togglerClassObj) => {
+      return togglerClassObj.action.bind(togglerClassObj);
+    };
+
+    const elementHandlerPairs = [
+      [themeToggleButton, bindTogglerWithClass(this.toggleThemeControl)],
+      [sidebarToggleButton, bindTogglerWithClass(this.toggleSidebarControl)],
+      [projectAddButton, bindTogglerWithClass(this.addProjectControl)],
+    ];
+
+    for (const [element, handler] of elementHandlerPairs) {
+      element.addEventListener("click", () => {
+        this.invoke(handler);
+      });
+    }
+  }
+
   #currDialog;
 
   #setCurrentProjectTitle(projectName, projectColor) {
@@ -152,14 +582,12 @@ class UIController {
         ".todo__add-item-button",
       );
 
-      todoListButtonEl.addEventListener("click", addTodoListItemControl.action);
-
       // logic to select button and add event listener etc fuck
 
-      // projectListElement.addEventListener("click", () => {
-      //   ProjectController.getProjectEventHandler(proj.projectName)();
-      //   this.reloadPage();
-      // });
+      todoListButtonEl.addEventListener(
+        "click",
+        this.addTodoListItemControl.action,
+      );
 
       console.log(todoList);
 
@@ -210,6 +638,13 @@ class UIController {
       this.#setCurrentProjectTitle(
         selectedProject.projectName,
         selectedProject.projectColor,
+      );
+
+      const addTodoListButton = document.querySelector(".header__add-todo");
+
+      addTodoListButton.addEventListener(
+        "click",
+        this.addTodoListControl.action,
       );
 
       const projectTodoListsElArray = this.#setProjectTodoLists(
@@ -344,404 +779,3 @@ class UIController {
 const UIControl = new UIController();
 
 export default UIControl;
-
-// class handlers for toggle
-
-class elementBase {
-  action() {
-    LogController.errLog(this, "toggle() method not implemented");
-  }
-
-  handleTryCreateRes(createRes, errorListElement) {
-    if (createRes.errorExists) {
-      for (const res of createRes.res) {
-        res.input.setCustomValidity(res.errMsg);
-        const newErrorListItem = Loader.loadElements(
-          Loader.newEl("li", {
-            classList: "errors__item",
-            children: [Loader.newEl("span")],
-            text: res.errMsg,
-          }),
-        ).pop();
-        errorListElement.appendChild(newErrorListItem);
-      }
-    } else {
-      UIControl.closeDialogBox();
-    }
-  }
-
-  getErrorListAndClearedFormValidity(...fieldElements) {
-    for (const el of fieldElements) {
-      el.setCustomValidity("");
-    }
-
-    const errorListElement = document.querySelector(".dialog__errors");
-
-    while (errorListElement.firstChild) {
-      errorListElement.removeChild(errorListElement.lastChild);
-    }
-
-    return errorListElement;
-  }
-}
-
-export class toggleTheme extends elementBase {
-  constructor() {
-    super();
-  }
-
-  action() {
-    const attributeName = "data-theme";
-    const rootElement = document.documentElement;
-
-    const currentTheme = rootElement.getAttribute(attributeName);
-    const newTheme = currentTheme === "light" ? "dark" : "light";
-
-    rootElement.setAttribute(attributeName, newTheme);
-
-    // StorageController.setItem(attributeName, newTheme);
-
-    LogController.log(this, `Toggling theme to ${newTheme}`);
-  }
-}
-
-export class toggleSidebar extends elementBase {
-  constructor() {
-    super();
-  }
-
-  action() {
-    const sidebarElement = document.querySelector("#sidebar");
-    const sidebarCloseClass = "sidebar--close";
-
-    if (sidebarElement.classList.contains(sidebarCloseClass)) {
-      // open
-      sidebarElement.classList.remove(sidebarCloseClass);
-    } else {
-      // close
-      sidebarElement.classList.add(sidebarCloseClass);
-    }
-  }
-}
-
-export class addProject extends elementBase {
-  constructor() {
-    super();
-  }
-
-  #submit() {
-    const dialogForm = document.querySelector(".dialog__form");
-    const projectName = dialogForm.querySelector("#project-name");
-    const projectColor = dialogForm.querySelector("#project-color");
-
-    console.log(dialogForm);
-    console.log(projectName);
-    console.log(projectColor);
-
-    const errorListElement = this.getErrorListAndClearedFormValidity(
-      projectName,
-      projectColor,
-    );
-
-    if (!dialogForm.reportValidity()) return;
-
-    const createProjectRes = ProjectController.tryCreateProject(
-      projectName,
-      projectColor,
-    );
-
-    this.handleTryCreateRes(createProjectRes, errorListElement);
-
-    UIControl.reloadPage();
-  }
-
-  action() {
-    const dialogForm = UIControl.getDialogBoxForm(
-      "Add Project",
-      this.#submit.bind(this),
-    );
-
-    const addProjectFormElements = Loader.loadElements(
-      Loader.newEl("p", {
-        classList: "form__field",
-        children: [
-          Loader.newEl("label", {
-            attrsList: { for: "project-name" },
-            text: "Project Name:",
-          }),
-          Loader.newEl("span", {
-            children: [
-              Loader.newEl("input", {
-                attrsList: {
-                  type: "text",
-                  id: "project-name",
-                  name: "project_name",
-                  minlength: "3",
-                  maxlength: "20",
-                  value: "New Project",
-                  required: "",
-                },
-              }),
-              Loader.newEl("span"),
-            ],
-          }),
-        ],
-      }),
-      Loader.newEl("p", {
-        classList: "form__field",
-        children: [
-          Loader.newEl("label", {
-            attrsList: { for: "project-color" },
-            text: "Project Color",
-          }),
-          Loader.newEl("span", {
-            children: [
-              Loader.newEl("input", {
-                attrsList: {
-                  type: "color",
-                  id: "project-color",
-                  name: "project_color",
-                  list: "project-color-presets",
-                  value: CSSPropertyController.requestProperty("--red-color"),
-                },
-              }),
-              Loader.newEl("span"),
-            ],
-          }),
-        ],
-      }),
-    );
-
-    for (const el of addProjectFormElements) {
-      dialogForm.appendChild(el);
-    }
-
-    UIControl.openDialogBox(this.#submit.bind(this));
-  }
-}
-
-export class addTodoList extends elementBase {
-  constructor() {
-    super();
-  }
-
-  // submit handler for dialog
-  #submit(thisProject) {
-    const dialogForm = document.querySelector(".dialog__form");
-
-    const listName = dialogForm.querySelector("#list-name");
-
-    const errorListElement = this.getErrorListAndClearedFormValidity(listName);
-
-    if (!dialogForm.reportValidity()) return;
-
-    const createTodoListRes = thisProject.tryCreateProject(listName);
-
-    this.handleTryCreateRes(createTodoListRes, errorListElement);
-
-    UIControl.reloadPage();
-  }
-
-  action() {
-    const dialogForm = UIControl.getDialogBoxForm("Add Todo List");
-
-    const addTodoFormElements = Loader.loadElements(
-      Loader.newEl("p", {
-        classList: "form__field",
-        children: [
-          Loader.newEl("label", {
-            attrsList: { for: "list-name" },
-            text: "List Name:",
-          }),
-          Loader.newEl("span", {
-            children: [
-              Loader.newEl("input", {
-                attrsList: {
-                  type: "text",
-                  id: "list-name",
-                  name: "list_name",
-                  minlength: "3",
-                  maxlength: "20",
-                  value: "New List",
-                  required: "",
-                },
-              }),
-              Loader.newEl("span"),
-            ],
-          }),
-        ],
-      }),
-    );
-
-    for (const el of addTodoFormElements) {
-      dialogForm.appendChild(el);
-    }
-
-    UIControl.openDialogBox();
-  }
-}
-
-class addTodoListItem extends elementBase {
-  constructor() {
-    super();
-  }
-
-  #submit(thisTodoList) {
-    const dialogForm = document.querySelector(".dialog__form");
-
-    const itemName = dialogForm.querySelector("#list-item-name");
-    const itemDueDate = dialogForm.querySelector("#list-item-duedate");
-    const itemDescription = dialogForm.querySelector("#list-item-description");
-
-    const errorListElement = this.getErrorListAndClearedFormValidity(
-      itemName,
-      itemDueDate,
-      itemDescription,
-    );
-
-    if (!dialogForm.reportValidity()) return;
-
-    const createTodoItemRes = thisTodoList.tryCreateTodoItem(
-      itemName,
-      itemDueDate,
-      itemDescription,
-    );
-
-    this.handleTryCreateRes(createTodoItemRes, errorListElement);
-
-    UIControl.reloadPage();
-  }
-
-  action() {
-    const dialogForm = UIControl.getDialogBoxForm("Add List Item");
-
-    const formListItemName = Loader.newEl("p", {
-      classList: "form__field",
-      children: [
-        Loader.newEl("label", {
-          attrsList: { for: "list-item-name" },
-          text: "List Item Name:",
-        }),
-        Loader.newEl("span", {
-          children: [
-            Loader.newEl("input", {
-              attrsList: {
-                type: "text",
-                id: "list-item-name",
-                name: "list_item_name",
-                minlength: "3",
-                maxlength: "20",
-                value: "New List Item",
-                required: "",
-              },
-            }),
-            Loader.newEl("span"),
-          ],
-        }),
-      ],
-    });
-
-    const formListItemDueDate = Loader.newEl("p", {
-      classList: "form__field",
-      children: [
-        Loader.newEl("label", {
-          attrsList: { for: "list-item-duedate" },
-          text: "Item Due Date:",
-        }),
-        Loader.newEl("span", {
-          children: [
-            Loader.newEl("input", {
-              attrsList: {
-                type: "date",
-                id: "list-item-duedate",
-                name: "list_item_duedate",
-                value: new Date(),
-                required: "",
-              },
-            }),
-            Loader.newEl("span"),
-          ],
-        }),
-      ],
-    });
-
-    const formListItemPriority = Loader.newEl("p", {
-      classList: "form__field",
-      children: [
-        Loader.newEl("label", {
-          attrsList: { for: "list-item-priority" },
-          text: "Item Priority:",
-        }),
-        Loader.newEl("span", {
-          children: [
-            Loader.newEl("select", {
-              attrsList: {
-                id: "list-item-priority",
-                name: "list_item_priority",
-                required: "",
-              },
-              children: [
-                Loader.newEl("option", {
-                  attrsList: { value: "" },
-                  text: "Select priority",
-                }),
-                Loader.newEl("option", {
-                  attrsList: { value: "low" },
-                  text: "Low",
-                }),
-                Loader.newEl("option", {
-                  attrsList: { value: "medium" },
-                  text: "Medium",
-                }),
-                Loader.newEl("option", {
-                  attrsList: { value: "high" },
-                  text: "High",
-                }),
-              ],
-            }),
-            Loader.newEl("span"),
-          ],
-        }),
-      ],
-    });
-
-    const formListItemDescription = Loader.newEl("p", {
-      classList: "form__field",
-      children: [
-        Loader.newEl("label", {
-          attrsList: { for: "list-item-description" },
-          text: "Item Description:",
-        }),
-        Loader.newEl("span", {
-          children: [
-            Loader.newEl("textarea", {
-              attrsList: {
-                id: "list-item-duedate",
-                name: "list_item_duedate",
-                rows: "8",
-                text: "A new item that I have to complete, yay...",
-              },
-            }),
-            Loader.newEl("span"),
-          ],
-        }),
-      ],
-    });
-
-    const addTodoFormElements = Loader.loadElements(
-      formListItemName,
-      formListItemDueDate,
-      formListItemPriority,
-      formListItemDescription,
-    );
-
-    for (const el of addTodoFormElements) {
-      dialogForm.appendChild(el);
-    }
-
-    UIControl.openDialogBox();
-  }
-}
-
-// internally used only
-const addTodoListItemControl = new addTodoListItem();
