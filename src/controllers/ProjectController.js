@@ -382,7 +382,7 @@ class TodoList {
 class ListItem {
   constructor(name, dueDate, description, priorityLevel) {
     this.#name = name;
-    this.#dueDate = dueDate;
+    this.#dueDate = new Date(dueDate);
     this.#description = description;
     this.#priorityLevel = priorityLevel;
   }

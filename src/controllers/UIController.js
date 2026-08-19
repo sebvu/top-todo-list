@@ -2,6 +2,7 @@ import LogController from "./LogController.js";
 import Loader from "../helpers/elLoader.js";
 import ProjectController from "./ProjectController.js";
 import CSSPropertyController from "./CSSPropertyController.js";
+import { format } from "date-fns";
 
 // class handlers for toggle
 
@@ -570,7 +571,7 @@ class UIController {
                               Loader.newEl("time", {
                                 classList: ["_text", "_text-bold"],
                                 attrsList: { datetime: listItem.dueDate },
-                                text: listItem.dueDate, // need to format with date-fns
+                                text: format(listItem.dueDate, "MM/dd/yyyy"), // need to format with date-fns
                               }),
                             ],
                           }),
