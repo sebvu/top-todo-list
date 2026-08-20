@@ -115,7 +115,7 @@ class addProject extends elementBase {
   }
 
   action() {
-    const dialogForm = UIControl.getDialogBoxForm(
+    const dialogForm = UIControl.getDialogBoxAddForm(
       "Add Project",
       addProject.submit,
     );
@@ -206,7 +206,7 @@ class addTodoList extends elementBase {
   }
 
   action() {
-    const dialogForm = UIControl.getDialogBoxForm("Add Todo List");
+    const dialogForm = UIControl.getDialogBoxAddForm("Add Todo List");
 
     const addTodoFormElements = Loader.loadElements(
       Loader.newEl("p", {
@@ -282,7 +282,7 @@ class addTodoListItem extends elementBase {
   }
 
   action(listItemName) {
-    const dialogForm = UIControl.getDialogBoxForm("Add List Item");
+    const dialogForm = UIControl.getDialogBoxAddForm("Add List Item");
     const listItemObj = ProjectController.getTodoListObj(
       ProjectController.getCurrentProject().name,
       listItemName,
@@ -418,6 +418,25 @@ class addTodoListItem extends elementBase {
   }
 }
 
+class openTodoListItem extends elementBase {
+  constructor() {
+    super();
+  }
+
+  action(listItemName, todoListName) {
+    const dialogForm = UIControl.getDialogBoxPreviewForm(listItemName);
+    const todoListObj = ProjectController.getTodoListObj(
+      ProjectController.getCurrentProject().name,
+      todoListName,
+    );
+    const listItemObj = todoListObj.getListItemByName(listItemName);
+
+    console.log(listItemObj);
+
+    UIControl.openDialogBox();
+  }
+}
+
 class UIController {
   constructor() {
     const themeToggleButton = document.querySelector(".theme-button");
@@ -430,6 +449,7 @@ class UIController {
     this.addProjectControl = new addProject();
     this.addTodoListControl = new addTodoList();
     this.addTodoListItemControl = new addTodoListItem();
+    this.openTodoListItemControl = new openTodoListItem();
 
     const bindTogglerWithClass = (togglerClassObj) => {
       return togglerClassObj.action.bind(togglerClassObj);
@@ -593,17 +613,28 @@ class UIController {
       });
 
       const newLoadedTodoListEl = Loader.loadElements(newTodoListEl).pop();
+
+      // make add button functional
       const todoListAddItemButtonEl = newLoadedTodoListEl.querySelector(
         ".todo__add-item-button",
       );
-
-      // logic to select button and add event listener etc fuck
-
       todoListAddItemButtonEl.addEventListener("click", () => {
         this.addTodoListItemControl.action(todoList.name);
       });
 
-      console.log(todoList);
+      // TODO: Add an openable dialog for each list item
+
+      const listItemEls = newLoadedTodoListEl.querySelectorAll(".todo__item");
+      const listItemName =
+        newLoadedTodoListEl.querySelector(".todo__name").textContent;
+
+      for (const el of listItemEls) {
+        const elItemName = el.querySelector(".item__name").textContent;
+
+        el.addEventListener("click", () => {
+          this.openTodoListItemControl.action(elItemName, listItemName);
+        });
+      }
 
       projectTodoListsElArray.push(newLoadedTodoListEl);
     }
@@ -671,29 +702,138 @@ class UIController {
   }
 
   // will take in a submit handler future update
-  openDialogBox(submitHandler) {
-    const submitButton = Loader.loadElements(
-      Loader.newEl("button", {
-        classList: "form__submit-button",
-        attrsList: { submit: "" },
-        text: "Submit",
-      }),
-    ).pop();
+  openDialogBox(submitHandler = undefined) {
+    // NOTE: works for all types of dialog box opener classes
+    if (submitHandler === undefined) {
+      document.body.append(this.#currDialog);
 
-    submitButton.addEventListener("click", submitHandler);
+      this.#currDialog.showModal();
+    } else {
+      const submitButton = Loader.loadElements(
+        Loader.newEl("button", {
+          classList: "form__submit-button",
+          attrsList: { submit: "" },
+          text: "Submit",
+        }),
+      ).pop();
 
-    this.#currDialog.querySelector(".form").appendChild(submitButton);
+      submitButton.addEventListener("click", submitHandler);
 
-    document.body.append(this.#currDialog);
+      this.#currDialog.querySelector(".form").appendChild(submitButton);
 
-    this.#currDialog.showModal();
+      document.body.append(this.#currDialog);
+
+      this.#currDialog.showModal();
+    }
   }
 
   closeDialogBox() {
     this.#currDialog.close();
   }
 
-  getDialogBoxForm(headerText = "N/A") {
+  // getDialogBoxDeleteForm(itemObject = "N/A") {
+  //   Loader.newEl("dialog", {
+  //     id: "dialog",
+  //     classList: "--context-xs",
+  //     attrsList: { popover: "" },
+  //     children: [
+  //       Loader.newEl("button", {
+  //         classList: "dialog__exit-button",
+  //         children: [
+  //           Loader.newEl("svg", {
+  //             classList: "dialog__exit-button-icon",
+  //             isNS: true,
+  //             attrsList: { viewBox: "0 0 24 24" },
+  //             children: [
+  //               Loader.newEl("path", {
+  //                 isNS: true,
+  //                 attrsList: {
+  //                   d: "M9,7L11,12L9,17H11L12,14.5L13,17H15L13,12L15,7H13L12,9.5L11,7H9Z",
+  //                 },
+  //               }),
+  //             ],
+  //           }),
+  //         ],
+  //       }),
+  //     ],
+  //   });
+  // }
+
+  getDialogBoxPreviewForm(headerText = "N/A") {
+    const dialogContainer = Loader.loadElements(
+      Loader.newEl("dialog", {
+        id: "dialog",
+        classList: "--context-xs",
+        attrsList: { popover: "" },
+        children: [
+          Loader.newEl("button", {
+            classList: "dialog__exit-button",
+            children: [
+              Loader.newEl("svg", {
+                classList: "dialog__exit-button-icon",
+                isNS: true,
+                attrsList: { viewBox: "0 0 24 24" },
+                children: [
+                  Loader.newEl("path", {
+                    isNS: true,
+                    attrsList: {
+                      d: "M9,7L11,12L9,17H11L12,14.5L13,17H15L13,12L15,7H13L12,9.5L11,7H9Z",
+                    },
+                  }),
+                ],
+              }),
+            ],
+          }),
+          Loader.newEl("hgroup", {
+            classList: ["dialog__header", "header", "--context-sm"],
+            children: [
+              Loader.newEl("h1", {
+                classList: [
+                  "header__title",
+                  "_text",
+                  "_text--header-font",
+                  "--context-md",
+                ],
+                text: headerText,
+              }),
+            ],
+          }),
+          Loader.newEl("hr", { classList: "form__hr" }),
+          Loader.newEl("section", {
+            classList: "dialog__main-section",
+          }),
+        ],
+      }),
+    ).pop();
+
+    const dialogExitButton = dialogContainer.querySelector(
+      ".dialog__exit-button",
+    );
+
+    // close dialog normally w/exit button
+    dialogExitButton.addEventListener("click", () => {
+      console.log("close invoked");
+      dialogContainer.close();
+    });
+
+    // ensure element is removed from DOM
+    dialogContainer.addEventListener("close", () => {
+      setTimeout(() => {
+        dialogContainer.remove();
+      }, 400);
+    });
+
+    // update new 'open dialog' reference
+    this.#currDialog = dialogContainer;
+
+    const dialogContainerSection = dialogContainer.querySelector(
+      ".dialog__main-section",
+    );
+
+    return dialogContainerSection;
+  }
+
+  getDialogBoxAddForm(headerText = "N/A") {
     const dialogContainer = Loader.loadElements(
       Loader.newEl("dialog", {
         id: "dialog",

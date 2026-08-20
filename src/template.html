@@ -322,85 +322,70 @@
         >
       </p>
     </footer>
-    <!--     <dialog id="dialog" class="--context-xs" popover> -->
-    <!--       <button class="dialog__exit-button"> -->
-    <!--         <svg -->
-    <!--           class="dialog__exit-button-icon" -->
-    <!--           xmlns="http://www.w3.org/2000/svg" -->
-    <!--           viewBox="0 0 24 24" -->
-    <!--         > -->
-    <!--           <path -->
-    <!--             d="M9,7L11,12L9,17H11L12,14.5L13,17H15L13,12L15,7H13L12,9.5L11,7H9Z" -->
-    <!--           /> -->
-    <!--         </svg> -->
-    <!--       </button> -->
-    <!--       <hgroup class="dialog__header header --context-sm"> -->
-    <!--         <h1 class="header__title | _text _text--header-font --context-md"> -->
-    <!--           Add List Item -->
-    <!--         </h1> -->
-    <!--         <h2 class="header__subtext _text --context-xs"> -->
-    <!--           Fill all required (<span> * </span>) fields. -->
-    <!--         </h2> -->
-    <!--       </hgroup> -->
-    <!--       <hr class="form__hr" /> -->
-    <!--       <form -->
-    <!--         class="dialog__form form _text --context-xs" -->
-    <!--         action="" -->
-    <!--         method="post" -->
-    <!--       > -->
-    <!--         <p class="form__field"> -->
-    <!--           <label for="list-item-name">List Item Name:</label> -->
-    <!--           <span> -->
-    <!--             <input -->
-    <!--               type="text" -->
-    <!--               id="list-item-name" -->
-    <!--               name="list_item_name" -->
-    <!--               minlength="3" -->
-    <!--               maxlength="20" -->
-    <!--               value="New List Item" -->
-    <!--               required -->
-    <!--             /> -->
-    <!--             <span></span> -->
-    <!--           </span> -->
-    <!--         </p> -->
-    <!--         <p class="form__field"> -->
-    <!--           <label for="list-item-duedate">Item Due Date:</label> -->
-    <!--           <span> -->
-    <!--             <input -->
-    <!--               type="date" -->
-    <!--               id="list-item-duedate" -->
-    <!--               name="list_item_duedate" -->
-    <!--               required -->
-    <!--             /> -->
-    <!--             <span></span> -->
-    <!--           </span> -->
-    <!--         </p> -->
-    <!--         <p class="form__field"> -->
-    <!--           <label for="list-item-priority">Item Priority:</label> -->
-    <!--           <span> -->
-    <!--             <select id="list-item-priority" name="item_list_priority" required> -->
-    <!--               <option value="">Select Priority</option> -->
-    <!--               <option value="low">Low</option> -->
-    <!--               <option value="medium">Medium</option> -->
-    <!--               <option value="high">High</option> -->
-    <!--             </select> -->
-    <!--             <span></span> -->
-    <!--           </span> -->
-    <!--         </p> -->
-    <!--         <p class="form__field"> -->
-    <!--           <label for="list-item-description">Item Description:</label> -->
-    <!--           <span> -->
-    <!--             <textarea -->
-    <!--               id="list-item-description" -->
-    <!--               name="list_item_description" -->
-    <!--               rows="8" -->
-    <!--             > -->
-    <!-- A new item that I have to complete, yay.. </textarea> -->
-    <!--             <span></span> -->
-    <!--           </span> -->
-    <!--         </p> -->
-    <!--         <button class="form__submit-button" submit>Submit</button> -->
-    <!--       </form> -->
-    <!--     </dialog> -->
+
+    <dialog id="dialog" class="--context-xs" popover>
+      <button class="dialog__exit-button">
+        <svg
+          class="dialog__exit-button-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+        >
+          <path
+            d="M9,7L11,12L9,17H11L12,14.5L13,17H15L13,12L15,7H13L12,9.5L11,7H9Z"
+          />
+        </svg>
+      </button>
+      <hgroup class="dialog__header header header--vertical --context-sm">
+        <label class="header__switch-container">
+          <input type="checkbox" />
+          <span class="header__slider"></span>
+        </label>
+        <h1 class="header__title | _text _text--header-font --context-md">
+          README
+        </h1>
+      </hgroup>
+      <hr class="form__hr" />
+      <section class="dialog__main-section">
+        <p class="main-section__duedate _text _text--header-font">
+          Due Date: MM/dd/yy
+        </p>
+        <p class="main-section__description _text">
+          Lorem Ipsum is simply dummy text of the printing and typesetting
+          industry. Lorem Ipsum has been the industry's standard dummy text ever
+          since 1966, when designers at Letraset and James Mosley, the librarian
+          at St Bride Printing Library in London, took a 1914 Cicero translation
+          and scrambled it to make dummy text for Letraset's Body Type sheets.
+          It has survived not only many decades, but also the leap into
+          electronic typesetting, remaining essentially unchanged. It was
+          popularised thanks to these sheets and more recently with desktop
+          publishing software like Aldus PageMaker and Microsoft Word including
+          versions of Lorem Ipsum.
+        </p>
+      </section>
+    </dialog>
+
+    <!-- TODO: do the delete shit-->
+    <!-- -context-xs" popover> -->
+    <!--   <button class="dialog__exit-button"> -->
+    <!--     <svg -->
+    <!--       class="dialog__exit-button-icon" -->
+    <!--       xmlns="http://www.w3.org/2000/svg" -->
+    <!--       viewBox="0 0 24 24" -->
+    <!--     > -->
+    <!--       <path -->
+    <!--         d="M9,7L11,12L9,17H11L12,14.5L13,17H15L13,12L15,7H13L12,9.5L11,7H9Z" -->
+    <!--       /> -->
+    <!--     </svg> -->
+    <!--   </button> -->
+    <!--   <hgroup class="dialog__header header --context-sm"> -->
+    <!--     <h1 class="header__title | _text _text--header-font --context-md"> -->
+    <!--       Delete Todo List Project -->
+    <!--     </h1> -->
+    <!--     <h2 class="header__subtext _text --context-xs"> -->
+    <!--       Are you sure you want to delete "Todo List Project" project? -->
+    <!--     </h2> -->
+    <!--   </hgroup> -->
+    <!--   <button></button> -->
+    <!-- </dialog> -->
   </body>
 </html>
