@@ -43,6 +43,7 @@ function main() {
     "12/08/2030",
     "This is sorted lower due to the date",
     "high",
+    true,
   );
 
   priorityLevelTodoList.tryCreateListItem(
@@ -87,6 +88,7 @@ function main() {
     "12/05/9999",
     "This project is long overdue, I thoroughly enjoyed every aspect of it! Switch the themes, create your own projects, add todo list, list items, etc.. Delete everything! BREAK IT! This project is definitely breakable. Enjoy!",
     "high",
+    true,
   );
 
   UIController.reloadPage();

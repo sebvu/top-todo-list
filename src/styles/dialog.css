@@ -139,6 +139,12 @@
       border-radius: 0.5rem;
     }
 
+    & input[type="checkbox"] {
+      aspect-ratio: 1 / 1;
+      height: calc(var(--size) * 2);
+      width: auto;
+    }
+
     & input:user-invalid,
     & select:user-invalid {
       box-shadow: 0 0 4px var(--red-color);

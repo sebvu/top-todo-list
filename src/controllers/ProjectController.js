@@ -19,7 +19,9 @@ const verifyInput = (verifyPairs) => {
 // elements could either be submitted via dialog or through command line,
 // this is just a resolver so it's always a FUCKING STRING
 const resolveString = (element) => {
-  return typeof element === "string" ? element : element.value;
+  return typeof element === "string" || typeof element === "boolean"
+    ? element
+    : element.value;
 };
 
 class ProjectController {
@@ -265,8 +267,14 @@ class TodoList {
     );
   }
 
-  #createListItem(name, dueDate, description, priorityLevel) {
-    const newListItem = new ListItem(name, dueDate, description, priorityLevel);
+  #createListItem(name, dueDate, description, priorityLevel, isChecked) {
+    const newListItem = new ListItem(
+      name,
+      dueDate,
+      description,
+      priorityLevel,
+      isChecked,
+    );
     this.#listItemArray.push(newListItem);
 
     // sort decreasing by priority level, due date then name
@@ -295,7 +303,13 @@ class TodoList {
     return this.#listItemArray;
   }
 
-  tryCreateListItem(name, dueDate, description, priorityLevel) {
+  tryCreateListItem(
+    name,
+    dueDate,
+    description,
+    priorityLevel,
+    isChecked = false,
+  ) {
     const verifyPairs = [
       {
         input: name,
@@ -324,6 +338,7 @@ class TodoList {
         resolveString(dueDate),
         resolveString(description),
         resolveString(priorityLevel),
+        resolveString(isChecked),
       );
       return verifyInputResult;
     }
@@ -349,17 +364,19 @@ class TodoList {
 }
 
 class ListItem {
-  constructor(name, dueDate, description, priorityLevel) {
+  constructor(name, dueDate, description, priorityLevel, isChecked = false) {
     this.#name = name;
     this.#dueDate = dueDate;
     this.#description = description;
     this.#priorityLevel = priorityLevel;
+    this.#isChecked = isChecked;
   }
 
   #name;
   #dueDate;
   #description;
   #priorityLevel;
+  #isChecked;
 
   get name() {
     return this.#name;
@@ -416,5 +433,13 @@ class ListItem {
       this,
       `${oldPriorityLevel} ListItem priority level changed to ${this.#description}`,
     );
+  }
+
+  get isChecked() {
+    return this.#isChecked;
+  }
+
+  toggleChecked() {
+    this.#isChecked = this.#isChecked === true ? false : true;
   }
 }

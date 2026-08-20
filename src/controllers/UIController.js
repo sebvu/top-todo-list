@@ -256,12 +256,14 @@ class addTodoListItem extends elementBase {
 
     const itemName = dialogForm.querySelector("#list-item-name");
     const itemDueDate = dialogForm.querySelector("#list-item-duedate");
+    const itemIsChecked = dialogForm.querySelector("#item-list-ischecked");
     const itemDescription = dialogForm.querySelector("#list-item-description");
     const itemPriorityLevel = dialogForm.querySelector("#list-item-priority");
 
     const errorListElement = addTodoListItem.getErrorListAndClearedFormValidity(
       itemName,
       itemDueDate,
+      itemIsChecked,
       itemDescription,
       itemPriorityLevel,
     );
@@ -274,6 +276,7 @@ class addTodoListItem extends elementBase {
         itemDueDate,
         itemDescription,
         itemPriorityLevel,
+        itemIsChecked,
       );
 
     addTodoListItem.handleTryCreateRes(createTodoItemRes, errorListElement);
@@ -332,6 +335,28 @@ class addTodoListItem extends elementBase {
                 name: "list_item_duedate",
                 value: new Date(),
                 required: "",
+              },
+            }),
+            Loader.newEl("span"),
+          ],
+        }),
+      ],
+    });
+
+    const formListItemIsChecked = Loader.newEl("p", {
+      classList: "form__field",
+      children: [
+        Loader.newEl("label", {
+          attrsList: { for: "item-list-ischecked" },
+          text: "Item Is Checked:",
+        }),
+        Loader.newEl("span", {
+          children: [
+            Loader.newEl("input", {
+              attrsList: {
+                id: "item-list-ischecked",
+                name: "item_list_ischecked",
+                type: "checkbox",
               },
             }),
             Loader.newEl("span"),
@@ -406,6 +431,7 @@ class addTodoListItem extends elementBase {
     const addTodoFormElements = Loader.loadElements(
       formListItemName,
       formListItemDueDate,
+      formListItemIsChecked,
       formListItemPriority,
       formListItemDescription,
     );
@@ -424,7 +450,8 @@ class openTodoListItem extends elementBase {
   }
 
   action(listItemName, todoListName) {
-    const dialogMainSection = UIControl.getDialogBoxPreviewForm(listItemName);
+    const [dialogMainSection, dialogCheckbox] =
+      UIControl.getDialogBoxPreviewForm(listItemName);
     const todoListObj = ProjectController.getTodoListObj(
       ProjectController.getCurrentProject().name,
       todoListName,
@@ -432,6 +459,11 @@ class openTodoListItem extends elementBase {
     const listItemObj = todoListObj.getListItemByName(listItemName);
 
     console.log(listItemObj);
+
+    // determine checkbox status
+    if (listItemObj.isChecked) {
+      dialogCheckbox.setAttribute("checked", "");
+    }
 
     const mainSectionContent = Loader.loadElements(
       Loader.newEl("p", {
@@ -857,7 +889,11 @@ class UIController {
       ".dialog__main-section",
     );
 
-    return dialogContainerSection;
+    const dialogCheckbox = dialogContainer.querySelector(
+      ".header__switch-container input",
+    );
+
+    return [dialogContainerSection, dialogCheckbox];
   }
 
   getDialogBoxAddForm(headerText = "N/A") {
