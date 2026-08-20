@@ -4,6 +4,12 @@ import ProjectController from "./ProjectController.js";
 import CSSPropertyController from "./CSSPropertyController.js";
 import { format } from "date-fns";
 
+// TODO: Add a 'delete handler' optional hook that will run so that we can detect changes when a checkbox is checked
+// Will run a reload page, which should VISUALLY SHOW on list item that it's checked
+// TODO: Add delete functionality on, everything. :(
+// TODO: Save data via localstorage
+// TODO: Mobile compatability
+
 // class handlers for toggle
 
 class elementBase {
@@ -668,8 +674,6 @@ class UIController {
       todoListAddItemButtonEl.addEventListener("click", () => {
         this.addTodoListItemControl.action(todoList.name);
       });
-
-      // TODO: Add an openable dialog for each list item
 
       const listItemEls = newLoadedTodoListEl.querySelectorAll(".todo__item");
       const listItemName =
