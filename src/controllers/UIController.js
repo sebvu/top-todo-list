@@ -424,7 +424,7 @@ class openTodoListItem extends elementBase {
   }
 
   action(listItemName, todoListName) {
-    const dialogForm = UIControl.getDialogBoxPreviewForm(listItemName);
+    const dialogMainSection = UIControl.getDialogBoxPreviewForm(listItemName);
     const todoListObj = ProjectController.getTodoListObj(
       ProjectController.getCurrentProject().name,
       todoListName,
@@ -432,6 +432,21 @@ class openTodoListItem extends elementBase {
     const listItemObj = todoListObj.getListItemByName(listItemName);
 
     console.log(listItemObj);
+
+    const mainSectionContent = Loader.loadElements(
+      Loader.newEl("p", {
+        classList: ["main-section__duedate", "_text", "_text--header-font"],
+        text: `Due Date: ${format(new Date(listItemObj.dueDate), "MM/dd/yyyy")}`,
+      }),
+      Loader.newEl("p", {
+        classList: ["main-section__description", "_text"],
+        text: `${listItemObj.description}`,
+      }),
+    );
+
+    for (const el of mainSectionContent) {
+      dialogMainSection.appendChild(el);
+    }
 
     UIControl.openDialogBox();
   }
@@ -785,8 +800,20 @@ class UIController {
             ],
           }),
           Loader.newEl("hgroup", {
-            classList: ["dialog__header", "header", "--context-sm"],
+            classList: [
+              "dialog__header",
+              "header",
+              "header--vertical",
+              "--context-sm",
+            ],
             children: [
+              Loader.newEl("label", {
+                classList: "header__switch-container",
+                children: [
+                  Loader.newEl("input", { attrsList: { type: "checkbox" } }),
+                  Loader.newEl("span", { classList: "header__slider" }),
+                ],
+              }),
               Loader.newEl("h1", {
                 classList: [
                   "header__title",
