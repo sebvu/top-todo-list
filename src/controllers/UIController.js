@@ -885,15 +885,15 @@ class UIController {
       ".dialog__exit-button",
     );
 
-    if (exitHook !== undefined) {
-      dialogExitButton.addEventListener("click", exitHook);
-    }
-
     // close dialog normally w/exit button
     dialogExitButton.addEventListener("click", () => {
       console.log("close invoked");
       dialogContainer.close();
     });
+
+    if (exitHook !== undefined) {
+      dialogContainer.addEventListener("close", exitHook);
+    }
 
     // ensure element is removed from DOM
     dialogContainer.addEventListener("close", () => {
