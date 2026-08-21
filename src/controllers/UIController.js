@@ -4,7 +4,7 @@ import ProjectController from "./ProjectController.js";
 import CSSPropertyController from "./CSSPropertyController.js";
 import { format } from "date-fns";
 
-// TODO: Add a 'delete handler' optional hook that will run so that we can detect changes when a checkbox is checked
+// TODO: Add a 'exit handler' optional hook that will run so that we can detect changes when a checkbox is checked
 // Will run a reload page, which should VISUALLY SHOW on list item that it's checked
 // TODO: Add delete functionality on, everything. :(
 // TODO: Save data via localstorage
@@ -456,19 +456,31 @@ class openTodoListItem extends elementBase {
   }
 
   action(listItemName, todoListName) {
-    const [dialogMainSection, dialogCheckbox] =
-      UIControl.getDialogBoxPreviewForm(listItemName);
     const todoListObj = ProjectController.getTodoListObj(
       ProjectController.getCurrentProject().name,
       todoListName,
     );
-    const listItemObj = todoListObj.getListItemByName(listItemName);
 
+    const listItemObj = todoListObj.getListItemByName(listItemName);
     console.log(listItemObj);
 
-    // determine checkbox status
+    const exitHook = () => {
+      const hookDialogCheckbox = document.querySelector(
+        ".header__switch-container input",
+      );
+
+      if (hookDialogCheckbox.checked) {
+        listItemObj.setCheck(true);
+      } else {
+        listItemObj.setCheck(false);
+      }
+    };
+
+    const [dialogMainSection, dialogCheckbox] =
+      UIControl.getDialogBoxPreviewForm(listItemName, exitHook);
+
     if (listItemObj.isChecked) {
-      dialogCheckbox.setAttribute("checked", "");
+      dialogCheckbox.checked = true;
     }
 
     const mainSectionContent = Loader.loadElements(
@@ -810,7 +822,7 @@ class UIController {
   //   });
   // }
 
-  getDialogBoxPreviewForm(headerText = "N/A") {
+  getDialogBoxPreviewForm(headerText = "N/A", exitHook = undefined) {
     const dialogContainer = Loader.loadElements(
       Loader.newEl("dialog", {
         id: "dialog",
@@ -872,6 +884,10 @@ class UIController {
     const dialogExitButton = dialogContainer.querySelector(
       ".dialog__exit-button",
     );
+
+    if (exitHook !== undefined) {
+      dialogExitButton.addEventListener("click", exitHook);
+    }
 
     // close dialog normally w/exit button
     dialogExitButton.addEventListener("click", () => {

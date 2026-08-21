@@ -439,7 +439,15 @@ class ListItem {
     return this.#isChecked;
   }
 
-  toggleChecked() {
-    this.#isChecked = this.#isChecked === true ? false : true;
+  setCheck(makeCheck) {
+    try {
+      if (makeCheck === undefined)
+        throw Error("makeCheck was undefined when trying to setting check.");
+      else if (typeof makeCheck !== "boolean")
+        throw Error(`"${makeCheck}" is NOT boolean value for setting check`);
+      this.#isChecked = makeCheck;
+    } catch (e) {
+      LogController.errLog(this, e);
+    }
   }
 }
