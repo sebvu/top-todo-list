@@ -287,6 +287,7 @@ class addTodoListItem extends elementBase {
 
     addTodoListItem.handleTryCreateRes(createTodoItemRes, errorListElement);
 
+    addTodoListItem.currentTodoListObject.sortListItems();
     UIControl.reloadPage();
   }
 
@@ -474,6 +475,8 @@ class openTodoListItem extends elementBase {
       } else {
         listItemObj.setCheck(false);
       }
+      todoListObj.sortListItems();
+      UIControl.reloadPage();
     };
 
     const [dialogMainSection, dialogCheckbox] =
@@ -577,22 +580,44 @@ class UIController {
     );
   }
 
-  #resolvePriorityClass(priorityLevel) {
-    const lowerCasePriorityLevel = priorityLevel.toLowerCase();
+  #resolveListItemClasses(listItem) {
+    const priorityLevel = listItem.priorityLevel.toLowerCase();
+    const isChecked = listItem.isChecked;
+    const listItemClassList = [];
 
-    switch (lowerCasePriorityLevel) {
+    console.log(listItem);
+
+    switch (priorityLevel) {
       case "low":
-        return "item--priority-low";
+        listItemClassList.push("item--priority-low");
+        break;
       case "medium":
-        return "item--priority-medium";
+        listItemClassList.push("item--priority-medium");
+        break;
       case "high":
-        return "item--priority-high";
+        listItemClassList.push("item--priority-high");
+        break;
       default:
-        LogController.log(
+        LogController.errLog(
           this,
-          `${lowerCasePriorityLevel} is not a registered priority level. This is a logical error, this should not happen.`,
+          `${priorityLevel} is not a registered priority level. This is a logical error, this should not happen.`,
         );
     }
+
+    switch (isChecked) {
+      case true:
+        listItemClassList.push("item--checked");
+        break;
+      case false:
+        break;
+      default:
+        LogController.errLog(
+          this,
+          `${isChecked} is not a registered 'isChecked' value, should be boolean. This is a logical error.`,
+        );
+    }
+
+    return listItemClassList;
   }
 
   #setProjectTodoLists(projectTodoLists) {
@@ -628,7 +653,7 @@ class UIController {
                   "todo__item",
                   "_text",
                   "--context-xxxs",
-                  this.#resolvePriorityClass(listItem.priorityLevel),
+                  ...this.#resolveListItemClasses(listItem),
                 ],
                 children: [
                   Loader.newEl("ul", {

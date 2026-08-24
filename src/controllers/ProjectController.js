@@ -107,6 +107,7 @@ class ProjectController {
                     dueDate: listItem.dueDate,
                     description: listItem.description,
                     priorityLevel: listItem.priorityLevel,
+                    isChecked: listItem.isChecked,
                   };
                   listItemObjects.push(listItemObject);
                 }
@@ -277,7 +278,13 @@ class TodoList {
     );
     this.#listItemArray.push(newListItem);
 
-    // sort decreasing by priority level, due date then name
+    this.sortListItems();
+
+    return newListItem;
+  }
+
+  sortListItems() {
+    // sort decreasing by priority level, is completed than date
 
     this.#listItemArray.sort((a, b) => {
       if (a.priorityLevel === b.priorityLevel) return 0;
@@ -290,13 +297,18 @@ class TodoList {
     this.#listItemArray.sort((a, b) => {
       if (a.priorityLevel !== b.priorityLevel) return 0;
 
+      return a.isChecked && !b.isChecked ? 1 : -1;
+    });
+
+    this.#listItemArray.sort((a, b) => {
+      if (a.priorityLevel !== b.priorityLevel || a.isChecked !== b.isChecked)
+        return 0;
+
       const aDate = new Date(a.dueDate);
       const bDate = new Date(b.dueDate);
 
       return aDate > bDate ? 1 : -1;
     });
-
-    return newListItem;
   }
 
   get listItemArray() {
@@ -333,12 +345,18 @@ class TodoList {
     if (verifyInputResult.errorExists === true) {
       return verifyInputResult;
     } else {
+      let isCheckedResolved = resolveString(isChecked);
+
+      if (typeof isCheckedResolved === "string") {
+        isCheckedResolved = isCheckedResolved === "on" ? true : false;
+      }
+
       verifyInputResult.res = this.#createListItem(
         resolveString(name),
         resolveString(dueDate),
         resolveString(description),
         resolveString(priorityLevel),
-        resolveString(isChecked),
+        isCheckedResolved,
       );
       return verifyInputResult;
     }

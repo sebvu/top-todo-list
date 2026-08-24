@@ -88,15 +88,38 @@
 
   .item--priority-high {
     box-shadow: inset 10px 0px 0 0 var(--maroon-color);
+
+    &.item--checked {
+      box-shadow:
+        inset 10px 0px 0 0 var(--maroon-color),
+        inset -20px 0px 10px -10px var(--green-color);
+    }
   }
 
   .item--priority-medium {
     box-shadow: inset 10px 0px 0 0 var(--yellow-color);
+
+    &.item--checked {
+      box-shadow:
+        inset 10px 0px 0 0 var(--yellow-color),
+        inset -10px 0px 0 0 green;
+    }
   }
 
   .item--priority-low {
     box-shadow: inset 10px 0px 0 0 var(--lavender-color);
+
+    &.item--checked {
+      box-shadow:
+        inset 10px 0px 0 0 var(--lavender-color),
+        inset -10px 0px 0 0 green;
+    }
   }
+
+  /* TODO: figure out style here */
+  /* .item--checked { */
+  /*   filter: drop-shadow(3px 3px 2px var(--text-color)); */
+  /* } */
 
   .item__name {
     /* framework needs adjustment if this is forced */
