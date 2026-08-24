@@ -116,11 +116,6 @@
     }
   }
 
-  /* TODO: figure out style here */
-  /* .item--checked { */
-  /*   filter: drop-shadow(3px 3px 2px var(--text-color)); */
-  /* } */
-
   .item__name {
     /* framework needs adjustment if this is forced */
     font-size: calc(var(--size) * 1.2);
