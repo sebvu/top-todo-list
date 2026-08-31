@@ -118,6 +118,9 @@
           <button class="header__add-todo | _text --context-xxs">
             Add Todo List
           </button>
+          <button class="header__delete-project | _text --context-xxs">
+            Delete Project
+          </button>
         </header>
         <main id="main" class="_text --context-sm">
           <section class="todo">
@@ -324,7 +327,8 @@
     </footer>
 
     <!-- TODO: do the delete shit-->
-    <!-- -context-xs" popover> -->
+    <!-- add a checkbox, and a submit button. will grab the parent (unless project) and run delete function via passing unique name -->
+    <!-- <dialog id="dialog" class="--context-xs" popover> -->
     <!--   <button class="dialog__exit-button"> -->
     <!--     <svg -->
     <!--       class="dialog__exit-button-icon" -->
@@ -344,7 +348,16 @@
     <!--       Are you sure you want to delete "Todo List Project" project? -->
     <!--     </h2> -->
     <!--   </hgroup> -->
-    <!--   <button></button> -->
+    <!--   <hr class="form__hr" /> -->
+    <!--   <form class="dialog__form form _text --context-xs" action method="post"> -->
+    <!--     <p class="form__field"> -->
+    <!--       <label for="delete-item">Delete? </label> -->
+    <!--       <span> -->
+    <!--         <input id="delete-item" name="delete_item" type="checkbox" /> -->
+    <!--         <span></span> -->
+    <!--       </span> -->
+    <!--     </p> -->
+    <!--   </form> -->
     <!-- </dialog> -->
   </body>
 </html>

@@ -12,7 +12,7 @@ import { format } from "date-fns";
 
 class elementBase {
   action() {
-    LogController.errLog(this, "toggle() method not implemented");
+    LogController.errLog(this, "action() method not implemented");
   }
 
   static handleTryCreateRes(createRes, errorListElement) {
@@ -87,6 +87,66 @@ class toggleSidebar extends elementBase {
   }
 }
 
+class deleteThisItem extends elementBase {
+  constructor() {
+    super();
+  }
+
+  static submit(itemName, parentObjectDeleteFunc) {
+    const deleteItemCheckbox = document.querySelector("#delete-item");
+
+    if (deleteItemCheckbox.checked) {
+      parentObjectDeleteFunc(itemName);
+      LogController.log(itemName + " is deleted");
+    }
+
+    UIControl.closeDialogBox();
+    UIControl.reloadPage();
+  }
+
+  action(itemName, typeOfItem, parentObjectDeleteFunc) {
+    const dialogForm = UIControl.getDialogBoxAddForm(
+      `Delete '${itemName}'?`,
+      `Are you sure you want to delete '${itemName}' ${typeOfItem}?`,
+    );
+
+    const addProjectFormElements = Loader.loadElements(
+      Loader.newEl("hr", { classList: "form__hr" }),
+      Loader.newEl("p", {
+        classList: "form__field",
+        children: [
+          Loader.newEl("label", {
+            attrsList: { for: "delete-item" },
+            text: "Delete?",
+          }),
+          Loader.newEl("span", {
+            children: [
+              Loader.newEl("input", {
+                attrsList: {
+                  type: "checkbox",
+                  id: "delete-item",
+                  name: "delete_item",
+                },
+              }),
+              Loader.newEl("span"),
+            ],
+          }),
+        ],
+      }),
+    );
+
+    for (const el of addProjectFormElements) {
+      dialogForm.appendChild(el);
+    }
+
+    UIControl.openDialogBox(
+      (() => {
+        deleteThisItem.submit(itemName, parentObjectDeleteFunc);
+      }).bind(this),
+    );
+  }
+}
+
 class addProject extends elementBase {
   constructor() {
     super();
@@ -119,10 +179,7 @@ class addProject extends elementBase {
   }
 
   action() {
-    const dialogForm = UIControl.getDialogBoxAddForm(
-      "Add Project",
-      addProject.submit,
-    );
+    const dialogForm = UIControl.getDialogBoxAddForm("Add Project");
 
     const addProjectFormElements = Loader.loadElements(
       Loader.newEl("p", {
@@ -513,6 +570,7 @@ class UIController {
     this.toggleThemeControl = new toggleTheme();
     this.toggleSidebarControl = new toggleSidebar();
     this.addProjectControl = new addProject();
+    this.deleteThisItemControl = new deleteThisItem();
     this.addTodoListControl = new addTodoList();
     this.addTodoListItemControl = new addTodoListItem();
     this.openTodoListItemControl = new openTodoListItem();
@@ -765,7 +823,24 @@ class UIController {
       }
     }
 
+    // TODO: add handler for no project defined, i.e. remove add todo list and delete project buttons
+    // if (selectedProject === undefined) {
+    // }
+
     if (selectedProject !== undefined) {
+      // set new delete project action for selected project
+      const deleteProjectButton = document.querySelector(
+        ".header__delete-project",
+      );
+
+      deleteProjectButton.addEventListener("click", () => {
+        this.deleteThisItemControl.action(
+          selectedProject.projectName,
+          "project",
+          ProjectController.delete.bind(ProjectController),
+        );
+      });
+
       this.#setCurrentProjectTitle(
         selectedProject.projectName,
         selectedProject.projectColor,
@@ -939,7 +1014,7 @@ class UIController {
     return [dialogContainerSection, dialogCheckbox];
   }
 
-  getDialogBoxAddForm(headerText = "N/A") {
+  getDialogBoxAddForm(headerText = "N/A", subHeaderText = undefined) {
     const dialogContainer = Loader.loadElements(
       Loader.newEl("dialog", {
         id: "dialog",
@@ -978,11 +1053,17 @@ class UIController {
               }),
               Loader.newEl("h2", {
                 classList: ["header__subtext", "_text", "--context-xs"],
-                children: [
-                  Loader.newTextNode("Fill all required ("),
-                  Loader.newEl("span", { text: " * " }),
-                  Loader.newTextNode(") fields."),
-                ],
+                children: (() => {
+                  if (subHeaderText === undefined) {
+                    return [
+                      Loader.newTextNode("Fill all required ("),
+                      Loader.newEl("span", { text: " * " }),
+                      Loader.newTextNode(") fields."),
+                    ];
+                  } else {
+                    return [Loader.newTextNode(subHeaderText)];
+                  }
+                })(),
               }),
             ],
           }),

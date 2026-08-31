@@ -51,6 +51,25 @@ class ProjectController {
     }.bind(this);
   }
 
+  // must guarantee a valid project name, will throw an error otherwise
+  delete(projectName) {
+    try {
+      const projectToDeleteIndex = this.#projectArray.findIndex(
+        (proj) => proj.name === projectName,
+      );
+
+      if (projectToDeleteIndex === -1) {
+        throw new Error(
+          `finding project index for ${projectName} to delete yielded -1 (NOT FOUND)`,
+        );
+      } else {
+        this.#projectArray.splice(projectToDeleteIndex, 1);
+      }
+    } catch (e) {
+      LogController.errLog(this, e);
+    }
+  }
+
   getCurrentProject() {
     return this.#currentProject;
   }
