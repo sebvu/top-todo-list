@@ -20,6 +20,8 @@
     border-radius: 1rem;
 
     overflow: hidden;
+
+    position: relative;
   }
 
   .todo__header {
@@ -34,6 +36,32 @@
 
   .todo__name {
     flex: auto;
+  }
+
+  .todo__delete-todo-list-button {
+    width: calc(var(--size) * 2);
+    height: auto;
+
+    background-color: #00000000;
+    border: none;
+
+    cursor: pointer;
+
+    position: absolute;
+    top: 12px;
+    right: 12px;
+
+    transition-duration: 0.2s;
+
+    & .todo__delete-todo-list-button-icon {
+      fill: var(--lavender-color);
+
+      pointer-events: none;
+    }
+
+    &:hover {
+      transform: scale(1.08);
+    }
   }
 
   .todo__add-item-button {

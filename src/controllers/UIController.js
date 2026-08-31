@@ -511,7 +511,7 @@ class openTodoListItem extends elementBase {
     super();
   }
 
-  action(listItemName, todoListName) {
+  action(listItemName, todoListName, deleteItemFunc) {
     const todoListObj = ProjectController.getTodoListObj(
       ProjectController.getCurrentProject().name,
       todoListName,
@@ -682,7 +682,6 @@ class UIController {
     const projectTodoListsElArray = [];
 
     for (const todoList of projectTodoLists) {
-      // console.log(todoList.listItems);
       const newTodoListEl = Loader.newEl("section", {
         classList: "todo",
         children: [
@@ -692,6 +691,24 @@ class UIController {
               Loader.newEl("h1", {
                 classList: ["todo__name", "_text", "_text--header-font"],
                 text: todoList.name,
+              }),
+              Loader.newEl("button", {
+                classList: "todo__delete-todo-list-button",
+                children: [
+                  Loader.newEl("svg", {
+                    classList: "todo__delete-todo-list-button-icon",
+                    isNS: true,
+                    attrsList: { viewBox: "0 0 24 24" },
+                    children: [
+                      Loader.newEl("path", {
+                        isNS: true,
+                        attrsList: {
+                          d: "M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z",
+                        },
+                      }),
+                    ],
+                  }),
+                ],
               }),
               Loader.newEl("button", {
                 classList: ["todo__add-item-button", "_text"],
@@ -776,7 +793,11 @@ class UIController {
         const elItemName = el.querySelector(".item__name").textContent;
 
         el.addEventListener("click", () => {
-          this.openTodoListItemControl.action(elItemName, listItemName);
+          this.openTodoListItemControl.action(
+            elItemName,
+            listItemName,
+            // deleteItemFunc,
+          );
         });
       }
 
@@ -946,6 +967,24 @@ class UIController {
                     isNS: true,
                     attrsList: {
                       d: "M9,7L11,12L9,17H11L12,14.5L13,17H15L13,12L15,7H13L12,9.5L11,7H9Z",
+                    },
+                  }),
+                ],
+              }),
+            ],
+          }),
+          Loader.newEl("button", {
+            classList: "dialog__delete-item-button",
+            children: [
+              Loader.newEl("svg", {
+                classList: "dialog__delete-item-button-icon",
+                isNS: true,
+                attrsList: { viewBox: "0 0 24 24" },
+                children: [
+                  Loader.newEl("path", {
+                    isNS: true,
+                    attrsList: {
+                      d: "M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z",
                     },
                   }),
                 ],

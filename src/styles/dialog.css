@@ -17,24 +17,49 @@
 
   position: fixed;
 
-  .dialog__exit-button {
-    width: calc(var(--size) * 4);
+  .dialog__exit-button,
+  .dialog__delete-item-button {
     height: auto;
+    aspect-ratio: 1 / 1;
 
     background-color: #0000;
     border: #0000;
 
-    aspect-ratio: 1 / 1;
-
     position: absolute;
-    left: 0;
-    top: 0;
+
+    transition-duration: 0.2s;
+
+    &:hover {
+      transform: scale(1.08);
+
+      cursor: pointer;
+    }
   }
 
-  .dialog__exit-button-icon {
-    fill: var(--red-color);
+  .dialog__exit-button {
+    left: 0;
+    top: 0;
 
-    pointer-events: none;
+    width: calc(var(--size) * 4);
+
+    & .dialog__exit-button-icon {
+      fill: var(--red-color);
+
+      pointer-events: none;
+    }
+  }
+
+  .dialog__delete-item-button {
+    right: 0;
+    top: 0;
+
+    width: calc(var(--size) * 3);
+
+    & .dialog__delete-item-button-icon {
+      fill: var(--lavender-color);
+
+      pointer-events: none;
+    }
   }
 
   .dialog__header {

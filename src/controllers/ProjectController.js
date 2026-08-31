@@ -206,6 +206,24 @@ class Project {
     return this.#todoListArray;
   }
 
+  delete(todoListName) {
+    try {
+      const listItemIndex = this.#todoListArray.findIndex(
+        (todoList) => todoList.name === todoListName,
+      );
+
+      if (listItemIndex === -1) {
+        throw new Error(
+          `finding todo list index for ${todoListName} to delete yielded -1 (NOT FOUND)`,
+        );
+      } else {
+        this.#todoListArray.splice(listItemIndex, 1);
+      }
+    } catch (e) {
+      LogController.errLog(this, e);
+    }
+  }
+
   tryCreateTodoList(name) {
     const verifyPairs = [
       {
@@ -300,6 +318,24 @@ class TodoList {
     this.sortListItems();
 
     return newListItem;
+  }
+
+  delete(listItemName) {
+    try {
+      const listItemIndex = this.#listItemArray.findIndex(
+        (listItem) => listItem.name === listItemName,
+      );
+
+      if (listItemIndex === -1) {
+        throw new Error(
+          `finding list item index for ${listItemName} to delete yielded -1 (NOT FOUND)`,
+        );
+      } else {
+        this.#listItemArray.splice(listItemIndex, 1);
+      }
+    } catch (e) {
+      LogController.errLog(this, e);
+    }
   }
 
   sortListItems() {
