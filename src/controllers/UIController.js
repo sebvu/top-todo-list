@@ -828,12 +828,19 @@ class UIController {
     // }
 
     if (selectedProject !== undefined) {
-      // set new delete project action for selected project
+      // HACK: cloning node to remove stacked event listeners.. fuck me
       const deleteProjectButton = document.querySelector(
         ".header__delete-project",
       );
 
-      deleteProjectButton.addEventListener("click", () => {
+      const deleteProjectClonedNode = deleteProjectButton.cloneNode(true);
+
+      deleteProjectButton.parentNode.replaceChild(
+        deleteProjectClonedNode,
+        deleteProjectButton,
+      );
+
+      deleteProjectClonedNode.addEventListener("click", () => {
         this.deleteThisItemControl.action(
           selectedProject.projectName,
           "project",
