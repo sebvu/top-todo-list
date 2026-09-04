@@ -511,6 +511,8 @@ class openTodoListItem extends elementBase {
     super();
   }
 
+  // TODO: A2: this is the function to handle the delete item func, need to implement
+  // when opening the new dialog, would need to rename the ID for this special case to avoid duplicate "dialog" ids
   action(listItemName, todoListName, deleteItemFunc) {
     const todoListObj = ProjectController.getTodoListObj(
       ProjectController.getCurrentProject().name,
@@ -804,6 +806,8 @@ class UIController {
       });
 
       // list item functionality
+      const currentTodoListRef =
+        currentProjectRef.getTodoListByName(todoListName);
       const listItemEls = newLoadedTodoListEl.querySelectorAll(".todo__item");
       const listItemName =
         newLoadedTodoListEl.querySelector(".todo__name").textContent;
@@ -811,12 +815,12 @@ class UIController {
       for (const el of listItemEls) {
         const elItemName = el.querySelector(".item__name").textContent;
 
-        // TODO: delete functionality for list items
+        // TODO: A1: this is the entrance function for deleting todo list item
         el.addEventListener("click", () => {
           this.openTodoListItemControl.action(
             elItemName,
             listItemName,
-            // deleteItemFunc,
+            currentTodoListRef.delete,
           );
         });
       }
