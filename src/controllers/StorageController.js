@@ -6,7 +6,7 @@ export default new (class StorageController {
 
   #THEME_NAME = "theme";
   #DATA_NAME = "saved_data";
-  #CURRENT_PROJECT = "saved_data";
+  #FIRST_VISIT = "first_visit";
 
   set theme(theme) {
     if (theme !== "dark" || theme !== "light") {
@@ -25,12 +25,8 @@ export default new (class StorageController {
     return currSavedTheme;
   }
 
-  set project(projectName) {
-    this.#CURRENT_PROJECT = projectName;
-  }
-
-  get project() {
-    return this.#CURRENT_PROJECT;
+  #getDummyDataJsonArray() {
+    return [];
   }
 
   saveCurrentData() {
@@ -42,5 +38,22 @@ export default new (class StorageController {
 
   getCurrentData() {
     return JSON.parse(localStorage.getItem(this.#DATA_NAME));
+  }
+
+  isPermanentVisitTrigger() {}
+
+  doPermanentVisitTrigger() {
+    const hasVisited = localStorage.getItem(this.#FIRST_VISIT);
+
+    if (hasVisited === undefined || hasVisited === false) {
+      LogController.log(
+        this,
+        "permanent visit trigger is now true, welcome to my website :)",
+      );
+
+      ProjectController.setInitialStructureJSON(this.#getDummyDataJsonArray);
+
+      // localStorage.setItem(this.#FIRST_VISIT, true);
+    }
   }
 })();

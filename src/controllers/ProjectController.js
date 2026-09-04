@@ -1,4 +1,5 @@
 import LogController from "./LogController.js";
+import StorageController from "./StorageController.js";
 
 // [...{input (element), verifier, errMsg}] an array of pairs
 // returns [{input (element), errMsg}] (only error ones)
@@ -74,6 +75,10 @@ class ProjectController {
     return this.#currentProject;
   }
 
+  removeCurrentProjectReference() {
+    this.#currentProject = undefined;
+  }
+
   getTodoListObj(projectName, todoListName) {
     try {
       if (projectName === undefined) {
@@ -103,6 +108,17 @@ class ProjectController {
       return todoListObj;
     } catch (e) {
       LogController.errLog(this, e);
+    }
+  }
+
+  setInitialStructureJSON(jsonArray) {
+    if (StorageController.isPermanentVisitTrigger()) {
+      LogController.errLog(
+        this,
+        "Permanent visit has already been triggered, this should not be called again.",
+      );
+    } else {
+      this.#projectArray = jsonArray;
     }
   }
 

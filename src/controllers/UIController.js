@@ -92,12 +92,20 @@ class deleteThisItem extends elementBase {
     super();
   }
 
-  static submit(itemName, parentObjectDeleteFunc) {
+  static submit(itemName, typeOfItem, parentObjectDeleteFunc) {
     const deleteItemCheckbox = document.querySelector("#delete-item");
 
     if (deleteItemCheckbox.checked) {
       parentObjectDeleteFunc(itemName);
       LogController.log(itemName + " is deleted");
+
+      if (typeOfItem === "project") {
+        document.querySelector("#main").setAttribute("data-project", "");
+
+        // HACK: :) this accessor is honestly really bad practice, but it's whatever
+        ProjectController.removeCurrentProjectReference();
+      }
+
       UIControl.closeDialogBox(true);
     } else {
       UIControl.closeDialogBox();
@@ -142,7 +150,7 @@ class deleteThisItem extends elementBase {
 
     UIControl.openDialogBox(
       (() => {
-        deleteThisItem.submit(itemName, parentObjectDeleteFunc);
+        deleteThisItem.submit(itemName, typeOfItem, parentObjectDeleteFunc);
       }).bind(this),
     );
   }
@@ -872,6 +880,8 @@ class UIController {
       projectsList.appendChild(projectListElement);
 
       const currentProject = ProjectController.getCurrentProject();
+      console.log("FUCK");
+      console.log("Current Project FUCK" + currentProject);
       const projectName =
         currentProject === undefined ? undefined : currentProject.name;
       if (proj.projectName === projectName) {
@@ -924,6 +934,7 @@ class UIController {
 
       LogController.log(this, `${selectedProject.projectName} project is set.`);
     } else {
+      this.#setCurrentProjectTitle("No Project Selected 🫪", "#FFF");
       LogController.log(this, "No selected project, main not populated.");
     }
   }

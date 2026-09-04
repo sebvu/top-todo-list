@@ -107,9 +107,13 @@
       transform: scale(1.08);
     }
 
-    #header:has(+ #main:empty) & {
+    #header:has(+ #main[data-project=""]) & {
       display: none;
     }
+  }
+
+  &:has(+ #main[data-project=""]) .curr-project__name {
+    content: "No Project Selected 🫪";
   }
 
   .header__add-todo {
