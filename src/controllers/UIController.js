@@ -777,6 +777,9 @@ class UIController {
 
       const newLoadedTodoListEl = Loader.loadElements(newTodoListEl).pop();
 
+      const todoListName =
+        newLoadedTodoListEl.querySelector(".todo__name").textContent;
+
       // make add button functional
       const todoListAddItemButtonEl = newLoadedTodoListEl.querySelector(
         ".todo__add-item-button",
@@ -785,6 +788,22 @@ class UIController {
         this.addTodoListItemControl.action(todoList.name);
       });
 
+      // make todo list delete button functional
+      const currentProjectRef = ProjectController.getCurrentProject();
+
+      const todoListDeleteListEl = newLoadedTodoListEl.querySelector(
+        ".todo__delete-todo-list-button",
+      );
+
+      todoListDeleteListEl.addEventListener("click", () => {
+        this.deleteThisItemControl.action(
+          todoListName,
+          "todo list",
+          currentProjectRef.delete.bind(currentProjectRef),
+        );
+      });
+
+      // list item functionality
       const listItemEls = newLoadedTodoListEl.querySelectorAll(".todo__item");
       const listItemName =
         newLoadedTodoListEl.querySelector(".todo__name").textContent;
@@ -792,6 +811,7 @@ class UIController {
       for (const el of listItemEls) {
         const elItemName = el.querySelector(".item__name").textContent;
 
+        // TODO: delete functionality for list items
         el.addEventListener("click", () => {
           this.openTodoListItemControl.action(
             elItemName,

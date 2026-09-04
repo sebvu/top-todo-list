@@ -39,7 +39,7 @@
   }
 
   .todo__delete-todo-list-button {
-    width: calc(var(--size) * 2);
+    width: calc(var(--size) * 1.5);
     height: auto;
 
     background-color: #00000000;
