@@ -3,6 +3,7 @@ import Loader from "../helpers/elLoader.js";
 import ProjectController from "./ProjectController.js";
 import CSSPropertyController from "./CSSPropertyController.js";
 import { format } from "date-fns";
+import StorageController from "./StorageController.js";
 
 // TODO: Add a 'general project view' when there's no project to be shown
 // TODO: Save data via localstorage
@@ -62,7 +63,7 @@ class toggleTheme extends elementBase {
 
     rootElement.setAttribute(attributeName, newTheme);
 
-    // StorageController.setItem(attributeName, newTheme);
+    StorageController.theme = newTheme;
 
     LogController.log(this, `Toggling theme to ${newTheme}`);
   }
@@ -166,10 +167,6 @@ class addProject extends elementBase {
     const projectName = dialogForm.querySelector("#project-name");
     const projectColor = dialogForm.querySelector("#project-color");
 
-    console.log(dialogForm);
-    console.log(projectName);
-    console.log(projectColor);
-
     const errorListElement = addProject.getErrorListAndClearedFormValidity(
       projectName,
       projectColor,
@@ -266,7 +263,6 @@ class addTodoList extends elementBase {
     if (!dialogForm.reportValidity()) return;
 
     const currProj = ProjectController.getCurrentProject();
-    console.log(currProj);
 
     const createTodoListRes = currProj.tryCreateTodoList(listName);
 
@@ -528,7 +524,6 @@ class openTodoListItem extends elementBase {
     );
 
     const listItemObj = todoListObj.getListItemByName(listItemName);
-    console.log(listItemObj);
 
     const exitHook = () => {
       const hookDialogCheckbox = document.querySelector(
@@ -657,8 +652,6 @@ class UIController {
     const isChecked = listItem.isChecked;
     const listItemClassList = [];
 
-    console.log(listItem);
-
     switch (priorityLevel) {
       case "low":
         listItemClassList.push("item--priority-low");
@@ -693,8 +686,6 @@ class UIController {
   }
 
   #setProjectTodoLists(projectTodoLists) {
-    console.log(projectTodoLists);
-
     const projectTodoListsElArray = [];
 
     for (const todoList of projectTodoLists) {
@@ -880,8 +871,6 @@ class UIController {
       projectsList.appendChild(projectListElement);
 
       const currentProject = ProjectController.getCurrentProject();
-      console.log("FUCK");
-      console.log("Current Project FUCK" + currentProject);
       const projectName =
         currentProject === undefined ? undefined : currentProject.name;
       if (proj.projectName === projectName) {
@@ -926,8 +915,6 @@ class UIController {
         selectedProject.todoLists,
       );
 
-      console.log(projectTodoListsElArray);
-
       for (const todoListEl of projectTodoListsElArray) {
         mainContainer.appendChild(todoListEl);
       }
@@ -937,6 +924,8 @@ class UIController {
       this.#setCurrentProjectTitle("No Project Selected 🫪", "#FFF");
       LogController.log(this, "No selected project, main not populated.");
     }
+    // save ALL data
+    StorageController.saveCurrentData();
   }
 
   getDeleteThisItemControl() {
@@ -1073,7 +1062,7 @@ class UIController {
 
     // close dialog normally w/exit button
     dialogExitButton.addEventListener("click", () => {
-      console.log("close invoked");
+      LogController.log("close invoked");
       dialogContainer.close();
     });
 
@@ -1178,7 +1167,7 @@ class UIController {
 
     // close dialog normally w/exit button
     dialogExitButton.addEventListener("click", () => {
-      console.log("close invoked");
+      LogController.log("close invoked");
       dialogContainer.close();
     });
 
@@ -1196,7 +1185,7 @@ class UIController {
 
     dialogContainerForm.addEventListener("submit", (e) => {
       e.preventDefault();
-      console.log("attempt submit");
+      LogController.log("attempt submit");
     });
 
     return dialogContainerForm;

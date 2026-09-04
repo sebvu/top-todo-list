@@ -9,14 +9,14 @@ export default new (class StorageController {
   #FIRST_VISIT = "first_visit";
 
   set theme(theme) {
-    if (theme !== "dark" || theme !== "light") {
+    if (theme !== "dark" && theme !== "light") {
       LogController.errLog(
         this,
-        `Attempted setting theme to a non-existant theme: "${theme}" when expecting (light|dark)(case-sensitive). Defaulting to light.`,
+        `Attempted setting theme to a non-existant theme: "${theme}" when expecting (light|dark)(case-sensitive). Defaulting to dark.`,
       );
-      theme = "light";
+      theme = "dark";
     }
-    localStorage.setItem(this.#THEME_NAME, newTheme);
+    localStorage.setItem(this.#THEME_NAME, theme);
   }
 
   get theme() {
@@ -257,14 +257,12 @@ export default new (class StorageController {
     );
   }
 
-  getCurrentData() {
+  getCurrentDataJson() {
     return JSON.parse(localStorage.getItem(this.#DATA_NAME));
   }
 
   doPermanentVisitTrigger() {
     const hasVisited = localStorage.getItem(this.#FIRST_VISIT);
-
-    console.log(hasVisited);
 
     if (
       hasVisited === undefined ||
@@ -278,7 +276,7 @@ export default new (class StorageController {
 
       this.#setDummyData();
 
-      // localStorage.setItem(this.#FIRST_VISIT, true);
+      localStorage.setItem(this.#FIRST_VISIT, true);
     } else {
       LogController.log(this, "skipping permanent visit trigger");
     }

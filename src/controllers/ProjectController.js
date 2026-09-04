@@ -1,5 +1,4 @@
 import LogController from "./LogController.js";
-import StorageController from "./StorageController.js";
 
 // [...{input (element), verifier, errMsg}] an array of pairs
 // returns [{input (element), errMsg}] (only error ones)
@@ -108,6 +107,31 @@ class ProjectController {
       return todoListObj;
     } catch (e) {
       LogController.errLog(this, e);
+    }
+  }
+
+  setProjectArrayWithJSON(jsonArray) {
+    if (jsonArray !== null) {
+      for (const proj of jsonArray) {
+        const projectObject = this.#createProject(
+          proj.projectName,
+          proj.projectColor,
+        );
+
+        for (const todoLists of proj.todoLists) {
+          const todoList = projectObject.tryCreateTodoList(todoLists.name).res;
+
+          for (const todoListItem of todoLists.listItems) {
+            todoList.tryCreateListItem(
+              todoListItem.name,
+              todoListItem.dueDate,
+              todoListItem.description,
+              todoListItem.priorityLevel,
+              todoListItem.isChecked,
+            );
+          }
+        }
+      }
     }
   }
 
