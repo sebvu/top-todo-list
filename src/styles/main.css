@@ -38,6 +38,11 @@
     flex: auto;
   }
 
+  .todo__buttons {
+    display: flex;
+    gap: 0.5rem;
+  }
+
   .todo__delete-todo-list-button {
     width: calc(var(--size) * 1.5);
     height: auto;
@@ -46,10 +51,6 @@
     border: none;
 
     cursor: pointer;
-
-    position: absolute;
-    top: 12px;
-    right: 12px;
 
     transition-duration: 0.2s;
 
