@@ -98,9 +98,10 @@ class deleteThisItem extends elementBase {
     if (deleteItemCheckbox.checked) {
       parentObjectDeleteFunc(itemName);
       LogController.log(itemName + " is deleted");
+      UIControl.closeDialogBox(true);
+    } else {
+      UIControl.closeDialogBox();
     }
-
-    UIControl.closeDialogBox();
     UIControl.reloadPage();
   }
 
@@ -513,7 +514,7 @@ class openTodoListItem extends elementBase {
 
   // TODO: A2: this is the function to handle the delete item func, need to implement
   // when opening the new dialog, would need to rename the ID for this special case to avoid duplicate "dialog" ids
-  action(listItemName, todoListName, deleteItemFunc) {
+  action(listItemName, todoListName, deleteFunc) {
     const todoListObj = ProjectController.getTodoListObj(
       ProjectController.getCurrentProject().name,
       todoListName,
@@ -537,7 +538,13 @@ class openTodoListItem extends elementBase {
     };
 
     const [dialogMainSection, dialogCheckbox] =
-      UIControl.getDialogBoxPreviewForm(listItemName, exitHook);
+      UIControl.getDialogBoxPreviewForm(listItemName, exitHook, () => {
+        UIControl.getDeleteThisItemControl().action(
+          listItemName,
+          "todo list item",
+          deleteFunc,
+        );
+      });
 
     if (listItemObj.isChecked) {
       dialogCheckbox.checked = true;
@@ -820,7 +827,7 @@ class UIController {
           this.openTodoListItemControl.action(
             elItemName,
             listItemName,
-            currentTodoListRef.delete,
+            currentTodoListRef.delete.bind(currentTodoListRef),
           );
         });
       }
@@ -914,6 +921,10 @@ class UIController {
     }
   }
 
+  getDeleteThisItemControl() {
+    return this.deleteThisItemControl;
+  }
+
   // will take in a submit handler future update
   openDialogBox(submitHandler = undefined) {
     // NOTE: works for all types of dialog box opener classes
@@ -940,8 +951,18 @@ class UIController {
     }
   }
 
-  closeDialogBox() {
-    this.#currDialog.close();
+  // HACK: this is not a great solution, but if there are multiple dialog id instances, propogate delete
+  closeDialogBox(propogate = false) {
+    if (propogate === false) {
+      this.#currDialog.close();
+    } else {
+      const allDialogEls = Array.from(document.querySelectorAll("#dialog"));
+
+      while (allDialogEls.length > 0) {
+        allDialogEls[allDialogEls.length - 1].close();
+        allDialogEls.pop();
+      }
+    }
   }
 
   // getDialogBoxDeleteForm(itemObject = "N/A") {
@@ -972,7 +993,11 @@ class UIController {
   //   });
   // }
 
-  getDialogBoxPreviewForm(headerText = "N/A", exitHook = undefined) {
+  getDialogBoxPreviewForm(
+    headerText = "N/A",
+    exitHook = undefined,
+    deleteFunc = undefined,
+  ) {
     const dialogContainer = Loader.loadElements(
       Loader.newEl("dialog", {
         id: "dialog",
@@ -1052,6 +1077,9 @@ class UIController {
     const dialogExitButton = dialogContainer.querySelector(
       ".dialog__exit-button",
     );
+    const dialogDeleteItemButton = dialogContainer.querySelector(
+      ".dialog__delete-item-button",
+    );
 
     // close dialog normally w/exit button
     dialogExitButton.addEventListener("click", () => {
@@ -1061,6 +1089,11 @@ class UIController {
 
     if (exitHook !== undefined) {
       dialogContainer.addEventListener("close", exitHook);
+    }
+
+    // add functionality for deleteFunc
+    if (deleteFunc !== undefined) {
+      dialogDeleteItemButton.addEventListener("click", deleteFunc);
     }
 
     // ensure element is removed from DOM
