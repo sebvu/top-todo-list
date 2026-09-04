@@ -876,6 +876,9 @@ class UIController {
         currentProject === undefined ? undefined : currentProject.name;
       if (proj.projectName === projectName) {
         selectedProject = proj;
+        document
+          .querySelector("#main")
+          .setAttribute("data-project", projectName);
       }
     }
 
