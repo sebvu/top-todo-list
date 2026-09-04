@@ -131,7 +131,7 @@
     &.item--checked {
       box-shadow:
         inset 10px 0px 0 0 var(--yellow-color),
-        inset -10px 0px 0 0 green;
+        inset -20px 0px 10px -10px var(--green-color);
     }
   }
 
@@ -141,7 +141,7 @@
     &.item--checked {
       box-shadow:
         inset 10px 0px 0 0 var(--lavender-color),
-        inset -10px 0px 0 0 green;
+        inset -20px 0px 10px -10px var(--green-color);
     }
   }
 

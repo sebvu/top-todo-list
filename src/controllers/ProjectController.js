@@ -111,17 +111,6 @@ class ProjectController {
     }
   }
 
-  setInitialStructureJSON(jsonArray) {
-    if (StorageController.isPermanentVisitTrigger()) {
-      LogController.errLog(
-        this,
-        "Permanent visit has already been triggered, this should not be called again.",
-      );
-    } else {
-      this.#projectArray = jsonArray;
-    }
-  }
-
   getStructureJSON() {
     let projectJSON = [];
 
