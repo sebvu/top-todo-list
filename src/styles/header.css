@@ -106,6 +106,10 @@
     &:hover {
       transform: scale(1.08);
     }
+
+    #header:has(+ #main:empty) & {
+      display: none;
+    }
   }
 
   .header__add-todo {
