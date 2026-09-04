@@ -4,7 +4,7 @@ import ProjectController from "./ProjectController.js";
 import CSSPropertyController from "./CSSPropertyController.js";
 import { format } from "date-fns";
 
-// TODO: Add delete functionality on, everything. :(
+// TODO: Add a 'general project view' when there's no project to be shown
 // TODO: Save data via localstorage
 // TODO: Mobile compatability
 
@@ -512,8 +512,7 @@ class openTodoListItem extends elementBase {
     super();
   }
 
-  // TODO: A2: this is the function to handle the delete item func, need to implement
-  // when opening the new dialog, would need to rename the ID for this special case to avoid duplicate "dialog" ids
+  // delete func action for list items
   action(listItemName, todoListName, deleteFunc) {
     const todoListObj = ProjectController.getTodoListObj(
       ProjectController.getCurrentProject().name,
@@ -822,7 +821,7 @@ class UIController {
       for (const el of listItemEls) {
         const elItemName = el.querySelector(".item__name").textContent;
 
-        // TODO: A1: this is the entrance function for deleting todo list item
+        // delete functionality entrance for todo list items
         el.addEventListener("click", () => {
           this.openTodoListItemControl.action(
             elItemName,
@@ -964,34 +963,6 @@ class UIController {
       }
     }
   }
-
-  // getDialogBoxDeleteForm(itemObject = "N/A") {
-  //   Loader.newEl("dialog", {
-  //     id: "dialog",
-  //     classList: "--context-xs",
-  //     attrsList: { popover: "" },
-  //     children: [
-  //       Loader.newEl("button", {
-  //         classList: "dialog__exit-button",
-  //         children: [
-  //           Loader.newEl("svg", {
-  //             classList: "dialog__exit-button-icon",
-  //             isNS: true,
-  //             attrsList: { viewBox: "0 0 24 24" },
-  //             children: [
-  //               Loader.newEl("path", {
-  //                 isNS: true,
-  //                 attrsList: {
-  //                   d: "M9,7L11,12L9,17H11L12,14.5L13,17H15L13,12L15,7H13L12,9.5L11,7H9Z",
-  //                 },
-  //               }),
-  //             ],
-  //           }),
-  //         ],
-  //       }),
-  //     ],
-  //   });
-  // }
 
   getDialogBoxPreviewForm(
     headerText = "N/A",
